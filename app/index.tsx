@@ -1,19 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
+import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
 export default function Home() {
   return (
     <Container>
-      <StatusBar style="auto" />
       <Text>This is the HomePage</Text>
+      <Link href="/login">
+        <Text>Login</Text>
+      </Link>
     </Container>
   );
 }
 
 const Container = styled.View`
   flex: 1;
-  background-color: red;
+  background-color: #fff;
   align-items: center;
   justify-content: center;
 `;
