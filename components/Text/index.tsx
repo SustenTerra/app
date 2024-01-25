@@ -3,7 +3,7 @@ import { StyleProp, TextStyle } from 'react-native';
 import { Container } from './styles';
 
 interface TextProps {
-  children: string;
+  children?: string | string[];
   style?: StyleProp<TextStyle>;
 }
 
