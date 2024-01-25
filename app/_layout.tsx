@@ -1,20 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { Slot } from 'expo-router';
 import { useCustomFont } from '@/hooks/custom-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback } from 'react';
 import styled from 'styled-components/native';
 
-SplashScreen.preventAutoHideAsync();
-
 export default function Layout() {
-  const { fontsLoaded, fontError } = useCustomFont();
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded || fontError) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, fontError]);
+  const { fontsLoaded, fontError, onLayoutRootView } = useCustomFont();
 
   if (!fontsLoaded) {
     if (fontError) {
