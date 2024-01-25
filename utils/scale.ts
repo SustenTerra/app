@@ -1,12 +1,13 @@
 import { Dimensions, Platform } from 'react-native';
 
+const isWeb = Platform.OS === 'web';
 const dimensions = Dimensions.get('window');
 
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
-const width = Platform.OS === 'web' ? guidelineBaseWidth : dimensions.width;
-const height = Platform.OS === 'web' ? guidelineBaseHeight : dimensions.height;
+const width = isWeb ? guidelineBaseWidth : dimensions.width;
+const height = isWeb ? guidelineBaseHeight : dimensions.height;
 
 export const horizontalScale = (size: number) =>
   (width / guidelineBaseWidth) * size;
