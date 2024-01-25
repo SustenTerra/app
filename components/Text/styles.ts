@@ -15,7 +15,8 @@ export type FontWeightOptions = 'bold' | 'regular' | 'light';
 export type FontColorOptions =
   | 'primary'
   | 'secondary'
-  | 'regular'
+  | 'dark'
+  | 'textBody'
   | 'light'
   | string;
 
@@ -45,4 +46,13 @@ export const Container = styled.Text<ContainerProps>`
   font-family: ${(props) => fontWeights[props.fontWeight]};
   font-size: ${(props) =>
     typeof props.size === 'number' ? props.size : fontSizes[props.size]}px;
+  color: ${(props) => {
+    const colorsMap = new Map(Object.entries(props.theme.colors));
+
+    if (colorsMap.has(props.color)) {
+      return colorsMap.get(props.color);
+    }
+
+    return props.color;
+  }};
 `;

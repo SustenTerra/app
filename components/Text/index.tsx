@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 
 import {
@@ -8,7 +9,7 @@ import {
 } from './styles';
 
 interface TextProps {
-  children?: string | string[];
+  children?: ReactNode;
   weight?: FontWeightOptions;
   size?: FontSizeOptions;
   color?: FontColorOptions;
@@ -19,7 +20,7 @@ function Text({
   children,
   size = 'p',
   weight = 'regular',
-  color = 'regular',
+  color = 'dark',
   ...props
 }: TextProps) {
   return (
