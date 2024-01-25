@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Slot } from 'expo-router';
-import { useCustomFont } from '../hooks/custom-font';
+import { useCustomFont } from '@/hooks/custom-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 import styled from 'styled-components/native';
