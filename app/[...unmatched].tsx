@@ -16,7 +16,7 @@ export default function Unmatched() {
 
   return (
     <Container onLayout={redirectToHome}>
-      <Text>Redirecionando para a página inicial...</Text>
+      <Text>Essa página não existe...</Text>
     </Container>
   );
 }
