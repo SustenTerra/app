@@ -7,10 +7,11 @@ export default function Home() {
   return (
     <Container>
       <Text weight="regular" size="h1" color="primary">
-        Explore as possibilidades que a{' '}
+        Explore as possibilidades que a
         <Text weight="bold" size="h1" color="primary">
-          Geotinta
-        </Text>{' '}
+          {' '}
+          Geotinta{' '}
+        </Text>
         pode te oferecer
       </Text>
     </Container>
@@ -19,7 +20,7 @@ export default function Home() {
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   justify-content: center;
   padding: ${moderateScale(20)}px;
