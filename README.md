@@ -1,12 +1,4 @@
-<div style="width: 100%; display: flex; align-items: center; justify-content: center;">
-  <img 
-    style="margin-right: 10px; border-radius: 50px;"
-    width="100px" 
-    alt="SustenTinta" 
-    src="./assets/icon.png" 
-  />
-  <h1>SustenTinta</h1>
-</div>
+# SustenTinta Mobile APP
 
 ---
 
