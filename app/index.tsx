@@ -5,7 +5,9 @@ import Text from '@/components/Text';
 export default function Home() {
   return (
     <Container>
-      <Text>Home</Text>
+      <Text weight="bold" size="h1">
+        Home
+      </Text>
     </Container>
   );
 }

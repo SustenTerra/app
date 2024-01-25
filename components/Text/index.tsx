@@ -2,35 +2,28 @@ import { StyleProp, TextStyle } from 'react-native';
 
 import {
   Container,
-  FontColorSchemeOptions,
-  FontTypeOptions,
+  FontColorOptions,
+  FontSizeOptions,
   FontWeightOptions,
 } from './styles';
 
 interface TextProps {
   children?: string | string[];
-  type?: FontTypeOptions;
   weight?: FontWeightOptions;
-  colorScheme?: FontColorSchemeOptions;
-  size?: number;
-  color?: string;
+  size?: FontSizeOptions;
+  color?: FontColorOptions;
   style?: StyleProp<TextStyle>;
 }
 
 function Text({
   children,
-  type = 'p',
+  size = 'p',
   weight = 'regular',
-  colorScheme = 'regular',
+  color = 'regular',
   ...props
 }: TextProps) {
   return (
-    <Container
-      fontType={type}
-      fontWeight={weight}
-      colorScheme={colorScheme}
-      {...props}
-    >
+    <Container size={size} fontWeight={weight} color={color} {...props}>
       {children}
     </Container>
   );
