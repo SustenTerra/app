@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 export default function Home() {
   return (
     <Container>
-      <Text>This is the HomePage</Text>
+      <Title>This is the HomePage</Title>
       <Link href="/login">
         <Text>Login</Text>
       </Link>
@@ -18,4 +18,10 @@ const Container = styled.View`
   background-color: #fff;
   align-items: center;
   justify-content: center;
+`;
+
+const Title = styled.Text`
+  font-family: 'InriaSans_400Regular';
+  font-size: 24px;
+  text-align: center;
 `;
