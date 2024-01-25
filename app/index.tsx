@@ -1,11 +1,12 @@
 import { Link } from 'expo-router';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
+
+import Text from '@/components/Text';
 
 export default function Home() {
   return (
     <Container>
-      <Title>This is the HomePage</Title>
+      <Text>This is the HomePage</Text>
       <Link href="/login">
         <Text>Login</Text>
       </Link>
@@ -18,10 +19,4 @@ const Container = styled.View`
   background-color: #fff;
   align-items: center;
   justify-content: center;
-`;
-
-const Title = styled.Text`
-  font-family: 'InriaSans_400Regular';
-  font-size: 24px;
-  text-align: center;
 `;
