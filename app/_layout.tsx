@@ -28,7 +28,7 @@ export default function Layout() {
 
 const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   justify-content: center;
 `;
