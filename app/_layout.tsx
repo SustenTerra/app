@@ -1,7 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import { Slot } from 'expo-router';
-import { useCustomFont } from '@/hooks/custom-font';
+import { StatusBar } from 'expo-status-bar';
 import styled from 'styled-components/native';
+
+import { useCustomFont } from '@/hooks/custom-font';
 
 export default function Layout() {
   const { fontsLoaded, fontError, onLayoutRootView } = useCustomFont();

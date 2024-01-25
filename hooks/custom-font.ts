@@ -1,4 +1,3 @@
-import * as SplashScreen from 'expo-splash-screen';
 import {
   useFonts,
   InriaSans_300Light,
@@ -8,12 +7,13 @@ import {
   InriaSans_700Bold,
   InriaSans_700Bold_Italic,
 } from '@expo-google-fonts/inria-sans';
+import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
 export function useCustomFont() {
-  let [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     InriaSans_300Light,
     InriaSans_300Light_Italic,
     InriaSans_400Regular,
