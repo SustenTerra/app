@@ -4,10 +4,6 @@ import { Container } from './styles';
 
 interface TextProps {
   children: string;
-  type?: 'body' | 'title' | 'subtitle' | 'caption' | 'button';
-  size?: string;
-  weight?: string;
-  align?: string;
   style?: StyleProp<TextStyle>;
 }
 

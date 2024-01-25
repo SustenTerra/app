@@ -1,14 +1,11 @@
-import { Link } from 'expo-router';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
+
+import Text from '@/components/Text';
 
 export default function Login() {
   return (
     <Container>
-      <Text>This is the LoginPage</Text>
-      <Link href="/signup">
-        <Text>SignUp</Text>
-      </Link>
+      <Text>Login</Text>
     </Container>
   );
 }

@@ -2,10 +2,10 @@ import styled from 'styled-components/native';
 
 import Text from '@/components/Text';
 
-export default function Home() {
+export default function Profile() {
   return (
     <Container>
-      <Text>Home</Text>
+      <Text>Profile</Text>
     </Container>
   );
 }

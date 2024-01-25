@@ -1,14 +1,11 @@
-import { Link } from 'expo-router';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function SignUp() {
+import Text from '@/components/Text';
+
+export default function Posts() {
   return (
     <Container>
-      <Text>This is the SignUpPage</Text>
-      <Link href="/">
-        <Text>Home</Text>
-      </Link>
+      <Text>Posts</Text>
     </Container>
   );
 }

@@ -1,11 +1,15 @@
+import { useLocalSearchParams } from 'expo-router';
 import styled from 'styled-components/native';
 
 import Text from '@/components/Text';
 
-export default function Home() {
+export default function ShowContent() {
+  const { contentId } = useLocalSearchParams();
+
   return (
     <Container>
-      <Text>Home</Text>
+      <Text>ShowContent</Text>
+      <Text>{String(contentId)}</Text>
     </Container>
   );
 }
