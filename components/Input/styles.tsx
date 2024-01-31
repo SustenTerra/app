@@ -14,6 +14,6 @@ export const Container = styled.View`
 
 export const TextInput = styled.TextInput`
     border: none;
-    width: 100%;
+    flex: 1;
     font-size: ${moderateScale(20)}px;
 `;
