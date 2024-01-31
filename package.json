@@ -9,11 +9,13 @@
     "web": "expo start --web",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "generate-client": "openapi --input https://sustentinta.up.railway.app/openapi.json --output ./api -c axios --name AppClient"
   },
   "dependencies": {
     "@expo-google-fonts/inria-sans": "^0.2.3",
     "@expo/webpack-config": "~19.0.1",
+    "axios": "^1.6.7",
     "expo": "^50.0.4",
     "expo-constants": "~15.4.5",
     "expo-font": "~11.10.2",
@@ -37,6 +39,7 @@
     "@types/styled-components-react-native": "^5.2.5",
     "eslint": "^8.56.0",
     "eslint-config-universe": "^12.0.0",
+    "openapi-typescript-codegen": "^0.27.0",
     "prettier": "^3.2.4",
     "typescript": "^5.1.3"
   },
