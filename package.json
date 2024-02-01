@@ -55,7 +55,9 @@
   },
   "private": true,
   "lint-staged": {
-    "*": "prettier --write",
-    "*.ts": "eslint --fix"
+    "*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
