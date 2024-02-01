@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Fix git
+        run: git config --unset-all http.https://github.com/.extraheader
+
       - name: Pushes to deploy repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
