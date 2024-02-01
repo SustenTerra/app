@@ -29,9 +29,6 @@
       "bundler": "metro",
       "output": "single"
     },
-    "experiments": {
-      "baseUrl": "/sustentinta"
-    },
     "plugins": [
       "expo-router",
       "expo-font",
