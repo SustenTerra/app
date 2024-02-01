@@ -12,7 +12,8 @@
     "lint:fix": "eslint --fix .",
     "lint-staged": "lint-staged --config lint-staged.js",
     "husky-install": "husky install",
-    "generate-client": "openapi --input https://sustentinta.up.railway.app/openapi.json --output ./api -c axios --name AppClient"
+    "generate-client": "openapi --input https://sustentinta.up.railway.app/openapi.json --output ./api -c axios --name AppClient",
+    "prepare": "husky"
   },
   "dependencies": {
     "@expo-google-fonts/inria-sans": "^0.2.3",
