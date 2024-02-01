@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "lint-staged": "lint-staged --config lint-staged.js",
+    "lint-staged": "lint-staged",
     "husky-install": "husky install",
     "generate-client": "openapi --input https://sustentinta.up.railway.app/openapi.json --output ./api -c axios --name AppClient",
     "prepare": "husky"
@@ -53,5 +53,9 @@
   "overrides": {
     "react-refresh": "~0.14.0"
   },
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*": "prettier --write",
+    "*.ts": "eslint --fix"
+  }
 }
