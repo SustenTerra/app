@@ -9,7 +9,6 @@ interface InputProps {
   iconName: IconNameOptions;
   placeholder: string;
   value: string;
-
   onChange: (text: string) => void;
   style?: StyleProp<TextStyle>;
 }
