@@ -1,11 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { ReactNode } from 'react';
-import {
-  NativeSyntheticEvent,
-  StyleProp,
-  TextInputChangeEventData,
-  TextStyle,
-} from 'react-native';
+import { StyleProp, TextStyle } from 'react-native';
 
 import { Container, TextInput } from './styles';
 
