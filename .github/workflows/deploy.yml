@@ -21,8 +21,23 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build for web
-        run: npm run web-build
+      # - name: Build for web
+      #   run: npm run web-build
+
+      name: Gen dummy page
+        run: |
+          mkdir dist
+          cat > dist/index.html <<EOL
+          <!doctype html>
+          <html>
+            <head>
+              <title>GitHub Pages deployed!</title>
+            </head>
+            <body>
+              <p>GitHub Pages with <strong>${{ github.sha }}</strong> commit ID has been deployed through <a href="https://github.com/marketplace/actions/github-pages">GitHub Pages action</a> successfully.</p>
+            </body>
+          </html>
+          EOL
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v4
