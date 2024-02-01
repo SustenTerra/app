@@ -5,18 +5,18 @@ on:
     branches: [main]
 
 jobs:
-  check-build:
+  push-to-repository:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Pushes to Deploy Repository
-        uses: tech-thinker/push-to-repo@main
+
+      - name: Pushes to deploy repository
+        uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
         with:
-          user-name: 'github-actions[bot]'
-          user-email: github-actions[bot]@users.noreply.github.com
           source-directory: './'
           destination-github-username: 'davigsousa'
           destination-repository-name: 'sustentinta'
+          user-email: davi.gomes.sousa@ccc.ufcg.edu.br
           target-branch: main
