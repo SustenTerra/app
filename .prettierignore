@@ -1,0 +1,8 @@
+/.expo
+node_modules
+/api
+.eslintignore
+.prettierignore
+/.husky
+.env
+.env.example

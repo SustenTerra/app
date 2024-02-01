@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from 'styled-components/native';
 
 import { useCustomFont } from '@/hooks/customFont';
 import theme from '@/styles/theme';
+import { webOnlyCSS } from '@/utils/platform';
 
 export default function Layout() {
   const { fontsLoaded, fontError, onLayoutRootView } = useCustomFont();
@@ -20,15 +21,30 @@ export default function Layout() {
     <ThemeProvider theme={theme}>
       <Container onLayout={onLayoutRootView}>
         <StatusBar style="auto" />
-        <Slot />
+
+        <ChildrenContainer>
+          <Slot />
+        </ChildrenContainer>
       </Container>
     </ThemeProvider>
   );
 }
 
 const Container = styled.View`
+  display: flex;
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
   align-items: center;
   justify-content: center;
+`;
+
+const ChildrenContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  ${webOnlyCSS`
+    width: 100%;
+    max-width: 500px;
+  `}
 `;
