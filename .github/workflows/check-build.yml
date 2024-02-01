@@ -11,9 +11,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 20.x
-      - name: format
+      - name: Install dependencies
+        run: npm install
+      - name: Format with Prettier
         run: npm run format
-      - name: lint
+      - name: Lint with ESLint
         run: npm run lint
-      - name: build
+      - name: Build for web
         run: npm run web-build --if-present
