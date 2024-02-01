@@ -30,7 +30,7 @@
       "output": "single"
     },
     "experiments": {
-      "baseUrl": "/app"
+      "baseUrl": "/sustentinta"
     },
     "plugins": [
       "expo-router",
