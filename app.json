@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,8 +26,13 @@
     },
     "web": {
       "favicon": "./assets/icon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "single"
     },
-    "plugins": ["expo-router", "expo-font", "expo-secure-store"]
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store"
+    ]
   }
 }
