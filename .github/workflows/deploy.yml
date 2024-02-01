@@ -1,0 +1,22 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  check-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pushes to Deploy Repository
+        uses: tech-thinker/push-to-repo@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GIT_PAT_TOKEN }}
+        with:
+          user-name: 'github-actions[bot]'
+          user-email: github-actions[bot]@users.noreply.github.com
+          source-directory: './'
+          destination-github-username: 'davigsousa'
+          destination-repository-name: 'sustentinta'
+          target-branch: main
