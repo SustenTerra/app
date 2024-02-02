@@ -5,7 +5,7 @@ import { horizontalScale, moderateScale } from '@/utils/scale';
 export const Container = styled.View`
     padding: ${moderateScale(20)}px;
     flex-direction: row;
-    background-color: white;
+    background-color: ${(props) => props.theme.colors.light};
     border-radius: ${moderateScale(20)}px;
     width: 100%;
     align-items: center;
