@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { Image, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -9,6 +10,12 @@ import theme from '@/styles/theme';
 import { verticalScale, moderateScale } from '@/utils/scale';
 
 export default function Home() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
+
   return (
     <Container>
       <Background source={require('assets/terra.png')}>
@@ -34,7 +41,7 @@ export default function Home() {
           <Button
             color="secondary"
             onPress={() => {
-              router.replace('/login');
+              router.push('/login');
             }}
           >
             <Feather name="shopping-bag" size={24} color={theme.colors.light} />
