@@ -54,7 +54,10 @@ export default function Login() {
             <Feather
               name="arrow-left"
               size={24}
-              onPress={() => router.back()}
+              onPress={() => {
+                if (router.canGoBack()) router.back();
+                else router.replace('/');
+              }}
             />
             Iniciar sessão
           </Text>
@@ -88,7 +91,7 @@ export default function Login() {
 }
 
 const LogoContainer = styled.View`
-  height: ${verticalScale(180)}px;
+  height: ${verticalScale(150)}px;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -96,13 +99,14 @@ const LogoContainer = styled.View`
 
 const TextContainer = styled.View`
   background-color: ${(props) => props.theme.colors.background};
-  height: ${verticalScale(600)}px;
+  min-height: ${verticalScale(450)}px;
   padding: ${moderateScale(20)}px;
   gap: ${verticalScale(15)}px;
 `;
 
 const Background = styled(ImageBackground)`
-  flex: 1;
+  width: 100%;
+  height: 100%;
 `;
 
 const Container = styled.ScrollView`
