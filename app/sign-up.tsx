@@ -5,6 +5,7 @@ import { Image, ImageBackground } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
+import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
@@ -63,17 +64,12 @@ export default function SignUp() {
           />
         </LogoContainer>
         <TextContainer>
-          <Text weight="regular" size="h1" color="primary">
-            <Feather
-              name="arrow-left"
-              size={24}
-              onPress={() => {
-                if (router.canGoBack()) router.back();
-                else router.replace('/');
-              }}
-            />
-            Criar uma conta
-          </Text>
+          <HeaderWrapper>
+            <BackButton />
+            <Text weight="regular" size="h1" color="primary">
+              Criar uma conta
+            </Text>
+          </HeaderWrapper>
           <Text color="primary">
             Entre os seus dados para poder realizar login no app, acessar o
             marketplace e salvar suas ações.
@@ -144,4 +140,9 @@ const Background = styled(ImageBackground)`
 
 const Container = styled.ScrollView`
   flex: 1;
+`;
+
+const HeaderWrapper = styled.View`
+  align-items: center;
+  flex-direction: row;
 `;
