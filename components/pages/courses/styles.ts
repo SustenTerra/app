@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-import { moderateScale, verticalScale } from '@/utils/scale';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export const Container = styled.View`
   flex: 1;
@@ -51,5 +51,9 @@ export const SearchWrapper = styled.View`
 
 export const Content = styled.View`
   flex: 1;
-  padding: ${moderateScale(20)}px;
+`;
+
+export const TitleContainer = styled.View`
+  padding: ${verticalScale(20)}px ${horizontalScale(20)}px
+    ${verticalScale(10)}px ${horizontalScale(20)}px;
 `;

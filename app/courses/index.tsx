@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import BackButton from '@/components/BackButton';
+import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
 import {
@@ -11,12 +12,24 @@ import {
   HeaderBackground,
   HeaderWrapper,
   SearchWrapper,
+  TitleContainer,
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
 
+const CATEGORIES = [
+  'Todos',
+  'Tintas',
+  'Obras de Arte',
+  'Serviços',
+  'Tintas2',
+  'Obras de Arte2',
+  'Serviços2',
+];
+
 export default function CoursesHome() {
   const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   return (
     <Container>
@@ -56,7 +69,15 @@ export default function CoursesHome() {
       </TopWrapper>
 
       <Content>
-        <Text>CoursesHome</Text>
+        <TitleContainer>
+          <Text size="h5">Iniciar um novo curso</Text>
+        </TitleContainer>
+
+        <CategoryList
+          categories={CATEGORIES}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+        />
       </Content>
     </Container>
   );
