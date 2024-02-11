@@ -1,11 +1,15 @@
 import Feather from '@expo/vector-icons/Feather';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Image, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
+import { ApiError } from '@/api';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
+import { onLogin } from '@/services/authStorage';
+import { client } from '@/services/client';
 import theme from '@/styles/theme';
 import { verticalScale, moderateScale } from '@/utils/scale';
 
@@ -43,7 +47,23 @@ export default function Login() {
             hideText
             onChange={(val) => setPassword(val)}
           />
-          <Button color="secondary">
+          <Button
+            color="secondary"
+            onPress={async () => {
+              try {
+                const res = await client.sessions.makeLoginSessionsPost({
+                  email,
+                  password,
+                });
+                await onLogin(res.token, res.user);
+                router.push('/');
+              } catch (err) {
+                if (err instanceof ApiError) {
+                  console.log(err.body.detail[0].msg);
+                }
+              }
+            }}
+          >
             <Feather name="log-in" size={24} color={theme.colors.light} />
             <Text color="light" size={20}>
               Login

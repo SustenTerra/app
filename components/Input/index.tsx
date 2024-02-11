@@ -23,7 +23,7 @@ function Input({
   hideText = false,
   ...props
 }: InputProps) {
-  const [showInput, setShowInput] = useState(false);
+  const [showInput, setShowInput] = useState(!hideText);
 
   return (
     <Container {...props}>
