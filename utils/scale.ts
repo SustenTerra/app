@@ -6,8 +6,8 @@ const dimensions = Dimensions.get('window');
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
-const width = isWeb ? guidelineBaseWidth : dimensions.width;
-const height = isWeb ? guidelineBaseHeight : dimensions.height;
+export const width = isWeb ? guidelineBaseWidth : dimensions.width;
+export const height = isWeb ? guidelineBaseHeight : dimensions.height;
 
 export const horizontalScale = (size: number) =>
   (width / guidelineBaseWidth) * size;

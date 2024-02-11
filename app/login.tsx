@@ -28,6 +28,11 @@ export default function Login() {
         </LogoContainer>
         <TextContainer>
           <Text weight="regular" size="h1" color="primary">
+            <Feather
+              name="arrow-left"
+              size={24}
+              onPress={() => router.back()}
+            />
             Iniciar sessão
           </Text>
           <Text color="primary">

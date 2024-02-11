@@ -11,7 +11,7 @@ interface ContainerProps {
 export const StyledButton = styled.TouchableOpacity<ContainerProps>`
   width: 100%;
   padding: ${moderateScale(16)}px;
-  border-radius: 50%;
+  border-radius: ${moderateScale(32)}px;
   color: ${(props) => props.theme.colors.light};
   background-color: ${(props) => {
     const colorsMap = new Map(Object.entries(props.theme.colors));
