@@ -34,7 +34,7 @@ export default function Login() {
         password,
       });
       await onLogin(res.token, res.user);
-      router.push('/');
+      router.replace('/posts');
     } catch (err) {
       showErrors(err);
     }
