@@ -1,10 +1,10 @@
-# SustenTinta Mobile APP
+# SustenTerra Mobile APP
 
 ---
 
 ## 📖 About
 
-Sustentinta APP has two main big features:
+Sustenterra APP has two main big features:
 
 #### Marketplace
 
@@ -31,7 +31,7 @@ Sustentinta APP has two main big features:
 
 ## Prototype (Figma)
 
-- [SustenTinta](https://www.figma.com/file/cjkTmiEUa069NheF0v9xir/Sustentinta?type=design&node-id=0%3A1&mode=design&t=OiPyFuZyNS0t3z5k-1)
+- [SustenTerra](https://www.figma.com/file/cjkTmiEUa069NheF0v9xir/Sustentinta?type=design&node-id=0%3A1&mode=design&t=OiPyFuZyNS0t3z5k-1)
 
 #### Screenshots
 
