@@ -1,6 +1,7 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import styled, { ThemeProvider } from 'styled-components/native';
 
 import { useCustomFont } from '@/hooks/customFont';
@@ -20,15 +21,17 @@ export default function Layout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <ActionSheetProvider>
-        <Container onLayout={onLayoutRootView}>
-          <StatusBar style="auto" />
+      <AlertNotificationRoot>
+        <ActionSheetProvider>
+          <Container onLayout={onLayoutRootView}>
+            <StatusBar style="auto" />
 
-          <ChildrenContainer>
-            <Slot />
-          </ChildrenContainer>
-        </Container>
-      </ActionSheetProvider>
+            <ChildrenContainer>
+              <Slot />
+            </ChildrenContainer>
+          </Container>
+        </ActionSheetProvider>
+      </AlertNotificationRoot>
     </ThemeProvider>
   );
 }

@@ -4,21 +4,10 @@ import styled from 'styled-components/native';
 
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { useActionSheet } from '@/hooks/actionSheet';
 import theme from '@/styles/theme';
 import { verticalScale, moderateScale } from '@/utils/scale';
 
 export default function Home() {
-  const actionSheet = useActionSheet({
-    title: 'Escolha uma opção',
-    message: 'O que você deseja fazer?',
-    actions: ['Anunciar produto', 'Opção 2'],
-    actionsCallbacks: [
-      () => console.log('Anunciar produto'),
-      () => console.log('Comprar tinta'),
-    ],
-  });
-
   return (
     <Container>
       <Background source={require('assets/terra.png')}>
@@ -38,7 +27,7 @@ export default function Home() {
             Esse é um aplicativo em que você pode anunciar os seus produtos
             criados de maneira ecológica, comprar tinta ou aprender a fazê-la.
           </Text>
-          <Button color="secondary" onPress={actionSheet.show}>
+          <Button color="secondary">
             <Feather name="shopping-bag" size={24} color={theme.colors.light} />
             <Text color="light" size={20}>
               Ver anúncios locais
