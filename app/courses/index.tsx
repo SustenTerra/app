@@ -1,8 +1,13 @@
-import styled from 'styled-components/native';
-
 import BackButton from '@/components/BackButton';
 import Text from '@/components/Text';
-import { moderateScale, verticalScale } from '@/utils/scale';
+import {
+  Container,
+  ContentBackground,
+  DescriptionWrapper,
+  HeaderBackground,
+  HeaderWrapper,
+  TransparentBackground,
+} from '@/components/pages/courses/styles';
 
 export default function CoursesHome() {
   return (
@@ -34,34 +39,3 @@ export default function CoursesHome() {
     </Container>
   );
 }
-
-const Container = styled.View`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.background};
-`;
-
-const TransparentBackground = styled.SafeAreaView`
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-`;
-
-const ContentBackground = styled.View`
-  height: 100%;
-  width: 100%;
-  padding: ${moderateScale(20)}px;
-`;
-
-const HeaderBackground = styled.ImageBackground`
-  width: 100%;
-  height: ${verticalScale(230)}px;
-`;
-
-const DescriptionWrapper = styled.View`
-  margin-top: ${verticalScale(10)}px;
-`;
-
-const HeaderWrapper = styled.View`
-  align-items: center;
-  flex-direction: row;
-`;
