@@ -1,6 +1,7 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import FlashMessage from 'react-native-flash-message';
 import styled, { ThemeProvider } from 'styled-components/native';
 
 import { useCustomFont } from '@/hooks/customFont';
@@ -29,6 +30,8 @@ export default function Layout() {
           </ChildrenContainer>
         </Container>
       </ActionSheetProvider>
+
+      <FlashMessage position="top" />
     </ThemeProvider>
   );
 }
