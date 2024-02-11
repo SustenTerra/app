@@ -1,3 +1,4 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import styled, { ThemeProvider } from 'styled-components/native';
@@ -19,13 +20,15 @@ export default function Layout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container onLayout={onLayoutRootView}>
-        <StatusBar style="auto" />
+      <ActionSheetProvider>
+        <Container onLayout={onLayoutRootView}>
+          <StatusBar style="auto" />
 
-        <ChildrenContainer>
-          <Slot />
-        </ChildrenContainer>
-      </Container>
+          <ChildrenContainer>
+            <Slot />
+          </ChildrenContainer>
+        </Container>
+      </ActionSheetProvider>
     </ThemeProvider>
   );
 }
