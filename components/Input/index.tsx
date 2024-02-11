@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useState } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import { useRef, useState } from 'react';
+import { StyleProp, TextStyle, TextInput as RNTextInput } from 'react-native';
+import { useTheme } from 'styled-components/native';
 
 import { Container, TextInput } from './styles';
 
@@ -23,16 +24,21 @@ function Input({
   hideText = false,
   ...props
 }: InputProps) {
+  const theme = useTheme();
+
+  const inputRef = useRef<RNTextInput>(null);
   const [showInput, setShowInput] = useState(!hideText);
 
   return (
-    <Container {...props}>
+    <Container {...props} onPress={() => inputRef.current?.focus()}>
       {iconName && <Feather name={iconName} size={24} />}
       <TextInput
+        ref={inputRef}
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}
         secureTextEntry={!showInput}
+        placeholderTextColor={theme.colors.textBody}
       />
       {hideText && (
         <Feather

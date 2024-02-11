@@ -1,15 +1,22 @@
+import { useState } from 'react';
+
 import BackButton from '@/components/BackButton';
+import Input from '@/components/Input';
 import Text from '@/components/Text';
 import {
   Container,
+  Content,
   ContentBackground,
   DescriptionWrapper,
   HeaderBackground,
   HeaderWrapper,
+  SearchWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
 
 export default function CoursesHome() {
+  const [search, setSearch] = useState('');
+
   return (
     <Container>
       <HeaderBackground
@@ -33,9 +40,21 @@ export default function CoursesHome() {
               </Text>
             </DescriptionWrapper>
           </ContentBackground>
+
+          <SearchWrapper>
+            <Input
+              iconName="search"
+              placeholder="Buscar cursos"
+              value={search}
+              onChange={setSearch}
+            />
+          </SearchWrapper>
         </TransparentBackground>
       </HeaderBackground>
-      <Text>CoursesHome</Text>
+
+      <Content>
+        <Text>CoursesHome</Text>
+      </Content>
     </Container>
   );
 }

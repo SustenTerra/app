@@ -32,3 +32,18 @@ export const HeaderWrapper = styled.View`
   align-items: center;
   flex-direction: row;
 `;
+
+export const SearchWrapper = styled.View`
+  width: 80%;
+
+  position: absolute;
+  bottom: -28px;
+  left: 10%;
+  z-index: 1;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+  padding: ${moderateScale(20)}px;
+  padding-top: ${moderateScale(40)}px;
+`;
