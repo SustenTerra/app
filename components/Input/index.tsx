@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import { useState } from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 
 import { Container, TextInput } from './styles';
@@ -10,6 +11,7 @@ interface InputProps {
   placeholder: string;
   value: string;
   onChange: (text: string) => void;
+  hideText?: boolean;
   style?: StyleProp<TextStyle>;
 }
 
@@ -18,8 +20,11 @@ function Input({
   placeholder,
   value,
   onChange,
+  hideText = false,
   ...props
 }: InputProps) {
+  const [showInput, setShowInput] = useState(false);
+
   return (
     <Container {...props}>
       {iconName && <Feather name={iconName} size={24} />}
@@ -27,7 +32,15 @@ function Input({
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}
+        secureTextEntry={!showInput}
       />
+      {hideText && (
+        <Feather
+          name={showInput ? 'eye-off' : 'eye'}
+          size={24}
+          onPress={() => setShowInput(!showInput)}
+        />
+      )}
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import { router } from 'expo-router';
 import { Image, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -12,7 +13,10 @@ export default function Home() {
     <Container>
       <Background source={require('assets/terra.png')}>
         <LogoContainer>
-          <Image source={require('assets/white_logo.png')} />
+          <Image
+            style={{ width: 100, height: 100 }}
+            source={require('assets/white_logo.png')}
+          />
         </LogoContainer>
         <TextContainer>
           <Text weight="regular" size="h1" color="primary">
@@ -27,7 +31,12 @@ export default function Home() {
             Esse é um aplicativo em que você pode anunciar os seus produtos
             criados de maneira ecológica, comprar tinta ou aprender a fazê-la.
           </Text>
-          <Button color="secondary">
+          <Button
+            color="secondary"
+            onPress={() => {
+              router.replace('/login');
+            }}
+          >
             <Feather name="shopping-bag" size={24} color={theme.colors.light} />
             <Text color="light" size={20}>
               Ver anúncios locais
