@@ -7,6 +7,13 @@ export const Container = styled.View`
   background-color: ${(props) => props.theme.colors.background};
 `;
 
+export const TopWrapper = styled.View`
+  height: ${verticalScale(260)}px;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+`;
+
 export const TransparentBackground = styled.SafeAreaView`
   height: 100%;
   width: 100%;
@@ -37,7 +44,7 @@ export const SearchWrapper = styled.View`
   width: 80%;
 
   position: absolute;
-  bottom: -28px;
+  bottom: ${verticalScale(5)}px;
   left: 10%;
   z-index: 1;
 `;
@@ -45,5 +52,4 @@ export const SearchWrapper = styled.View`
 export const Content = styled.View`
   flex: 1;
   padding: ${moderateScale(20)}px;
-  padding-top: ${moderateScale(40)}px;
 `;
