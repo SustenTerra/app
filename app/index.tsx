@@ -1,6 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router, useNavigation } from 'expo-router';
-import { useEffect } from 'react';
+import { router } from 'expo-router';
 import { Image, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -10,12 +9,6 @@ import theme from '@/styles/theme';
 import { verticalScale, moderateScale } from '@/utils/scale';
 
 export default function Home() {
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
-
   return (
     <Container>
       <Background resizeMode="cover" source={require('assets/terra.png')}>
