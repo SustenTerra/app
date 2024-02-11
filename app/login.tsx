@@ -5,6 +5,7 @@ import { Image, ImageBackground } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
+import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
@@ -51,11 +52,7 @@ export default function Login() {
         </LogoContainer>
         <TextContainer>
           <Text weight="regular" size="h1" color="primary">
-            <Feather
-              name="arrow-left"
-              size={24}
-              onPress={() => router.back()}
-            />
+            <BackButton />
             Iniciar sessão
           </Text>
           <Text color="primary">
