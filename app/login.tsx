@@ -6,6 +6,7 @@ import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
 import Button from '@/components/Button';
+import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
 import { onLogin } from '@/services/authStorage';
@@ -84,6 +85,7 @@ export default function Login() {
               Login
             </Text>
           </Button>
+          <HelpLink screen="login" />
         </TextContainer>
       </Background>
     </Container>
