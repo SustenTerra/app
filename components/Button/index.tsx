@@ -1,22 +1,15 @@
 import { ReactNode } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import { StyleProp, TextStyle, TouchableOpacityProps } from 'react-native';
 
-import {
-  StyledButton,
-  ColorOptions
-} from './styles';
+import { StyledButton, ColorOptions } from './styles';
 
-interface ButtonProps {
+interface CustomButtonProps extends TouchableOpacityProps {
   children?: ReactNode;
   color?: ColorOptions;
   style?: StyleProp<TextStyle>;
 }
 
-function Button({
-  children,
-  color = 'dark',
-  ...props
-}: ButtonProps) {
+function Button({ children, color = 'dark', ...props }: CustomButtonProps) {
   return (
     <StyledButton color={color} {...props}>
       {children}

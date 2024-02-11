@@ -18,7 +18,7 @@ export function useActionSheet({
   const { showActionSheetWithOptions } = useNativeActionSheet();
 
   const options = [...actions, 'Cancelar'];
-  const cancelButtonIndex = actions.length - 1;
+  const cancelButtonIndex = options.length - 1;
 
   const show = () => {
     showActionSheetWithOptions(
