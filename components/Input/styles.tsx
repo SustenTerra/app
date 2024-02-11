@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+import { webOnlyCSS } from '@/utils/platform';
 import { horizontalScale, moderateScale } from '@/utils/scale';
 
 export const Container = styled.View`
@@ -16,4 +17,8 @@ export const TextInput = styled.TextInput`
   border: none;
   flex: 1;
   font-size: ${moderateScale(20)}px;
+
+  ${webOnlyCSS`
+    outline: none;
+  `}
 `;
