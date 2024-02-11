@@ -11,7 +11,7 @@ import { verticalScale, moderateScale } from '@/utils/scale';
 export default function Home() {
   return (
     <Container>
-      <Background source={require('assets/terra.png')}>
+      <Background resizeMode="cover" source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
             style={{ width: 100, height: 100 }}
@@ -55,7 +55,7 @@ export default function Home() {
 }
 
 const LogoContainer = styled.View`
-  height: 55%;
+  height: ${verticalScale(300)}px;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -63,16 +63,17 @@ const LogoContainer = styled.View`
 
 const TextContainer = styled.View`
   background-color: ${(props) => props.theme.colors.light};
-  flex: 45%;
+  min-height: ${verticalScale(450)}px;
+  flex: 1;
   padding: ${moderateScale(20)}px;
   gap: ${verticalScale(15)}px;
 `;
 
 const Background = styled(ImageBackground)`
-  flex: 1;
+  width: 100%;
+  height: 100%;
 `;
 
 const Container = styled.View`
-  width: 100%;
-  height: 100%;
+  flex: 1;
 `;
