@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
+import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
 import { onLogin } from '@/services/authStorage';
@@ -81,6 +82,7 @@ export default function Login() {
               Login
             </Text>
           </Button>
+          <HelpLink screen="login" />
         </TextContainer>
       </Background>
     </Container>
@@ -88,7 +90,7 @@ export default function Login() {
 }
 
 const LogoContainer = styled.View`
-  height: ${verticalScale(180)}px;
+  height: ${verticalScale(150)}px;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -96,7 +98,7 @@ const LogoContainer = styled.View`
 
 const TextContainer = styled.View`
   background-color: ${(props) => props.theme.colors.background};
-  height: ${verticalScale(600)}px;
+  min-height: ${verticalScale(450)}px;
   padding: ${moderateScale(20)}px;
   gap: ${verticalScale(15)}px;
 `;
