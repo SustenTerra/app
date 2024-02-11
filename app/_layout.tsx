@@ -53,8 +53,6 @@ const Container = styled.ScrollView`
 const ChildrenContainer = styled.View`
   width: 100%;
   height: ${height}px;
-  align-items: center;
-  justify-content: center;
 
   ${webOnlyCSS`
     width: 100%;

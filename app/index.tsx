@@ -42,7 +42,12 @@ export default function Home() {
               Ver anúncios locais
             </Text>
           </Button>
-          <Button color="primary">
+          <Button
+            color="primary"
+            onPress={() => {
+              router.push('/courses');
+            }}
+          >
             <Feather name="book-open" size={24} color={theme.colors.light} />
             <Text color="light" size={20}>
               Aprender mais

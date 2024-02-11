@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Image, ImageBackground } from 'react-native';
+import { Image } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
@@ -51,10 +51,13 @@ export default function Login() {
           />
         </LogoContainer>
         <TextContainer>
-          <Text weight="regular" size="h1" color="primary">
+          <HeaderWrapper>
             <BackButton />
-            Iniciar sessão
-          </Text>
+            <Text weight="regular" size="h1" color="primary">
+              Iniciar sessão
+            </Text>
+          </HeaderWrapper>
+
           <Text color="primary">
             Entre com os seus dados para realizar login no app, acessar o
             marketplace e salvar suas ações.
@@ -98,10 +101,15 @@ const TextContainer = styled.View`
   gap: ${verticalScale(15)}px;
 `;
 
-const Background = styled(ImageBackground)`
+const Background = styled.ImageBackground`
   flex: 1;
 `;
 
 const Container = styled.ScrollView`
   flex: 1;
+`;
+
+const HeaderWrapper = styled.View`
+  align-items: center;
+  flex-direction: row;
 `;
