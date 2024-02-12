@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
+import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
 import EmptyList from '@/components/EmptyList';
 import Input from '@/components/Input';
@@ -22,6 +23,7 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 
@@ -33,6 +35,7 @@ interface GetCoursesPayload {
 }
 
 export default function CoursesHome() {
+  const auth = useAuth();
   const params = useLocalSearchParams<{
     search: string;
     category: string;
@@ -103,6 +106,8 @@ export default function CoursesHome() {
     title = `Pesquisando por "${params.search}"`;
   }
 
+  const shouldShowByDefault = !params.search;
+
   return (
     <Container>
       <TopWrapper>
@@ -145,11 +150,19 @@ export default function CoursesHome() {
       </TopWrapper>
 
       <Content>
+        {shouldShowByDefault && !auth.loading && !auth.user && (
+          <Banner
+            href="/login"
+            title="Quer acompanhar seu progresso?"
+            description="Clique aqui e acesse sua conta!"
+          />
+        )}
+
         <TitleContainer>
           <Text size="h5">{title}</Text>
         </TitleContainer>
 
-        {!params.search && (
+        {shouldShowByDefault && (
           <CategoryList
             categories={categories}
             value={selectedCategory}
