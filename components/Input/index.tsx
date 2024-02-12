@@ -39,6 +39,7 @@ function Input({
         onChangeText={onChange}
         secureTextEntry={!showInput}
         placeholderTextColor={theme.colors.textBody}
+        onEndEditing={() => console.log('oii')}
       />
       {hideText && (
         <Feather
