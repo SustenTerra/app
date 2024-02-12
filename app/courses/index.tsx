@@ -5,6 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
 import CategoryList from '@/components/CategoryList';
+import EmptyList from '@/components/EmptyList';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import Text from '@/components/Text';
@@ -165,6 +166,8 @@ export default function CoursesHome() {
           viewCourses.map((course) => (
             <CourseSummary key={course.id} course={course} />
           ))}
+
+        {!loadingCourses && viewCourses.length === 0 && <EmptyList />}
       </Content>
     </Container>
   );
