@@ -5,6 +5,7 @@
 export type CourseListView = {
     id: number;
     name: string;
+    image_url: string;
     author_name: string;
     category_name: string;
     chapters_count: number;

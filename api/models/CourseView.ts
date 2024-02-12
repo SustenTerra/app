@@ -7,6 +7,7 @@ import type { CourseChapterView } from './CourseChapterView';
 export type CourseView = {
     id: number;
     name: string;
+    image_url: string;
     author_name: string;
     description: string;
     created_at: string;
