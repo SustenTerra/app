@@ -77,13 +77,19 @@ export default function CoursesHome() {
     getCoursesDebounced({});
   }, [params.search, params.category]);
 
+  let title = 'Iniciar um novo curso';
+  if (params.search) {
+    title = `Pesquisando por "${params.search}"`;
+  }
+
   return (
     <Container>
       <TopWrapper>
         <SearchWrapper>
           <Input
+            useSecondaryColors
             iconName="search"
-            placeholder="Buscar cursos"
+            placeholder="Buscar por cursos..."
             value={searchText}
             onChange={(text) => {
               setSearchText(text);
@@ -119,17 +125,19 @@ export default function CoursesHome() {
 
       <Content>
         <TitleContainer>
-          <Text size="h5">Iniciar um novo curso</Text>
+          <Text size="h5">{title}</Text>
         </TitleContainer>
 
-        <CategoryList
-          categories={CATEGORIES}
-          value={selectedCategory}
-          onChange={(value) => {
-            setSelectedCategory(value);
-            router.setParams({ category: CATEGORIES[value] });
-          }}
-        />
+        {!params.search && (
+          <CategoryList
+            categories={CATEGORIES}
+            value={selectedCategory}
+            onChange={(value) => {
+              setSelectedCategory(value);
+              router.setParams({ category: CATEGORIES[value] });
+            }}
+          />
+        )}
 
         {viewCourses.map((course) => (
           <CourseSummary key={course.id} course={course} />

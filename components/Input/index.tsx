@@ -13,6 +13,7 @@ interface InputProps {
   value: string;
   onChange: (text: string) => void;
   hideText?: boolean;
+  useSecondaryColors?: boolean;
   style?: StyleProp<TextStyle>;
 }
 
@@ -22,6 +23,7 @@ function Input({
   value,
   onChange,
   hideText = false,
+  useSecondaryColors = false,
   ...props
 }: InputProps) {
   const theme = useTheme();
@@ -31,14 +33,24 @@ function Input({
 
   return (
     <Container {...props} onPress={() => inputRef.current?.focus()}>
-      {iconName && <Feather name={iconName} size={24} />}
+      {iconName && (
+        <Feather
+          name={iconName}
+          size={24}
+          color={
+            useSecondaryColors ? theme.colors.secondary : theme.colors.dark
+          }
+        />
+      )}
       <TextInput
         ref={inputRef}
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}
         secureTextEntry={!showInput}
-        placeholderTextColor={theme.colors.textBody}
+        placeholderTextColor={
+          useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
+        }
         onEndEditing={() => console.log('oii')}
       />
       {hideText && (
