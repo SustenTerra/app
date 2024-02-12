@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 
+import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
@@ -16,6 +18,8 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
 
 const CATEGORIES = [
   'Todos',
@@ -27,9 +31,48 @@ const CATEGORIES = [
   'Serviços2',
 ];
 
+interface GetCoursesPayload {
+  search?: string;
+  category?: string;
+}
+
 export default function CoursesHome() {
-  const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const params = useLocalSearchParams<{
+    search: string;
+    category: string;
+  }>();
+
+  const [searchText, setSearchText] = useState(params.search || '');
+  const [selectedCategory, setSelectedCategory] = useState(
+    CATEGORIES.indexOf(params.category || 'Todos'),
+  );
+  const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
+
+  const getCourses = async ({ search, category }: GetCoursesPayload) => {
+    try {
+      const courses = await client.courses.listAllCoursesCoursesGet(
+        category,
+        search,
+      );
+      setViewCourses(courses);
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
+  useEffect(() => {
+    if (params.search) {
+      getCourses({ search: params.search });
+      return;
+    }
+
+    if (params.category && params.category !== 'Todos') {
+      getCourses({ category: params.category });
+      return;
+    }
+
+    getCourses({});
+  }, [params.search, params.category]);
 
   return (
     <Container>
@@ -38,8 +81,11 @@ export default function CoursesHome() {
           <Input
             iconName="search"
             placeholder="Buscar cursos"
-            value={search}
-            onChange={setSearch}
+            value={searchText}
+            onChange={(text) => {
+              setSearchText(text);
+              router.setParams({ search: text });
+            }}
           />
         </SearchWrapper>
 
@@ -76,8 +122,15 @@ export default function CoursesHome() {
         <CategoryList
           categories={CATEGORIES}
           value={selectedCategory}
-          onChange={setSelectedCategory}
+          onChange={(value) => {
+            setSelectedCategory(value);
+            router.setParams({ category: CATEGORIES[value] });
+          }}
         />
+
+        {viewCourses.map((course) => (
+          <Text key={course.id}>{course.name}</Text>
+        ))}
       </Content>
     </Container>
   );
