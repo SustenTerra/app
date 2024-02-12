@@ -159,13 +159,12 @@ export default function CoursesHome() {
           />
         )}
 
-        {loadingCourses ? (
-          <Loading />
-        ) : (
+        {loadingCourses && <Loading />}
+
+        {!loadingCourses &&
           viewCourses.map((course) => (
             <CourseSummary key={course.id} course={course} />
-          ))
-        )}
+          ))}
       </Content>
     </Container>
   );
