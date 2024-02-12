@@ -34,7 +34,7 @@ export default function Home() {
           <Button
             color="secondary"
             onPress={() => {
-              router.push('/login');
+              router.push('/posts');
             }}
           >
             <Feather name="shopping-bag" size={24} color={theme.colors.light} />
