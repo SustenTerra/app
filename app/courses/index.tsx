@@ -1,11 +1,12 @@
 import debounce from 'awesome-debounce-promise';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
+import Loading from '@/components/Loading';
 import Text from '@/components/Text';
 import { CourseSummary } from '@/components/pages/courses';
 import {
@@ -42,6 +43,7 @@ export default function CoursesHome() {
   const [selectedCategory, setSelectedCategory] = useState(
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
+  const [loadingCourses, setLoadingCourses] = useState(false);
   const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
 
   const getCategories = async () => {
@@ -57,6 +59,7 @@ export default function CoursesHome() {
 
   const getCourses = async ({ search, category }: GetCoursesPayload) => {
     try {
+      setLoadingCourses(true);
       const courses = await client.courses.listAllCoursesCoursesGet(
         category,
         search,
@@ -64,6 +67,8 @@ export default function CoursesHome() {
       setViewCourses(courses);
     } catch (error) {
       showErrors(error);
+    } finally {
+      setLoadingCourses(false);
     }
   };
   const getCoursesDebounced = useCallback(debounce(getCourses, 500), []);
@@ -75,7 +80,7 @@ export default function CoursesHome() {
     }
 
     if (params.category && params.category !== 'Todos') {
-      getCoursesDebounced({ category: params.category });
+      getCourses({ category: params.category });
       return;
     }
 
@@ -85,6 +90,12 @@ export default function CoursesHome() {
   useEffect(() => {
     getCategories();
   }, []);
+
+  useLayoutEffect(() => {
+    if (params.category) {
+      setSelectedCategory(categories.indexOf(params.category));
+    }
+  }, [categories, params.category]);
 
   let title = 'Iniciar um novo curso';
   if (params.search) {
@@ -148,9 +159,13 @@ export default function CoursesHome() {
           />
         )}
 
-        {viewCourses.map((course) => (
-          <CourseSummary key={course.id} course={course} />
-        ))}
+        {loadingCourses ? (
+          <Loading />
+        ) : (
+          viewCourses.map((course) => (
+            <CourseSummary key={course.id} course={course} />
+          ))
+        )}
       </Content>
     </Container>
   );
