@@ -20,6 +20,7 @@
     "@expo-google-fonts/inria-sans": "^0.2.3",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/webpack-config": "~19.0.1",
+    "awesome-debounce-promise": "^2.1.0",
     "axios": "^1.6.7",
     "expo": "~50.0.6",
     "expo-constants": "~15.4.5",

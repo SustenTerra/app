@@ -1,5 +1,6 @@
+import debounce from 'awesome-debounce-promise';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -59,19 +60,20 @@ export default function CoursesHome() {
       showErrors(error);
     }
   };
+  const getCoursesDebounced = useCallback(debounce(getCourses, 500), []);
 
   useEffect(() => {
     if (params.search) {
-      getCourses({ search: params.search });
+      getCoursesDebounced({ search: params.search });
       return;
     }
 
     if (params.category && params.category !== 'Todos') {
-      getCourses({ category: params.category });
+      getCoursesDebounced({ category: params.category });
       return;
     }
 
-    getCourses({});
+    getCoursesDebounced({});
   }, [params.search, params.category]);
 
   return (
