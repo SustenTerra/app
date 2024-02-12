@@ -24,7 +24,7 @@ export default function Login() {
     if (!email || !password) {
       showMessage({
         type: 'warning',
-        message: 'Erro',
+        message: 'Atenção!',
         description: 'Preencha todos os campos!',
       });
       return;
