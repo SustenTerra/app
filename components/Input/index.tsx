@@ -51,7 +51,6 @@ function Input({
         placeholderTextColor={
           useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
         }
-        onEndEditing={() => console.log('oii')}
       />
       {hideText && (
         <Feather
