@@ -7,6 +7,7 @@ import BackButton from '@/components/BackButton';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
+import { CourseSummary } from '@/components/pages/courses';
 import {
   Container,
   Content,
@@ -131,7 +132,7 @@ export default function CoursesHome() {
         />
 
         {viewCourses.map((course) => (
-          <Text key={course.id}>{course.name}</Text>
+          <CourseSummary key={course.id} course={course} />
         ))}
       </Content>
     </Container>

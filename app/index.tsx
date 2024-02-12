@@ -20,10 +20,10 @@ export default function Home() {
         </LogoContainer>
         <TextContainer>
           <Text weight="regular" size="h1" color="primary">
-            Explore as possibilidades que a
+            Explore as possibilidades que o
             <Text weight="bold" size="h1" color="primary">
               {' '}
-              Geotinta{' '}
+              Solo{' '}
             </Text>
             pode te oferecer
           </Text>
