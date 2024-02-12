@@ -29,6 +29,7 @@ export default function Layout() {
             alignItems: 'center',
             justifyContent: 'center',
           }}
+          alwaysBounceVertical={false}
         >
           <StatusBar style="auto" />
 

@@ -1,11 +1,13 @@
+import debounce from 'awesome-debounce-promise';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import Text from '@/components/Text';
+import { CourseSummary } from '@/components/pages/courses';
 import {
   Container,
   Content,
@@ -59,19 +61,20 @@ export default function CoursesHome() {
       showErrors(error);
     }
   };
+  const getCoursesDebounced = useCallback(debounce(getCourses, 500), []);
 
   useEffect(() => {
     if (params.search) {
-      getCourses({ search: params.search });
+      getCoursesDebounced({ search: params.search });
       return;
     }
 
     if (params.category && params.category !== 'Todos') {
-      getCourses({ category: params.category });
+      getCoursesDebounced({ category: params.category });
       return;
     }
 
-    getCourses({});
+    getCoursesDebounced({});
   }, [params.search, params.category]);
 
   return (
@@ -129,7 +132,7 @@ export default function CoursesHome() {
         />
 
         {viewCourses.map((course) => (
-          <Text key={course.id}>{course.name}</Text>
+          <CourseSummary key={course.id} course={course} />
         ))}
       </Content>
     </Container>
