@@ -1,18 +1,36 @@
-import styled from 'styled-components/native';
+import { useState } from 'react';
+import { Image } from 'react-native';
 
+import Input from '@/components/Input';
 import Text from '@/components/Text';
+import {
+  Container,
+  Header,
+  SearchWrapper,
+} from '@/components/pages/posts/styles';
 
 export default function Posts() {
+  const [search, setSearch] = useState('');
+
   return (
     <Container>
-      <Text>Posts</Text>
+      <Header>
+        <Image
+          style={{ width: 50, height: 50 }}
+          source={require('assets/adaptive-icon.png')}
+        />
+        <Text size="h1" color="primary" weight="bold">
+          SustenTerra
+        </Text>
+      </Header>
+      <SearchWrapper>
+        <Input
+          iconName="search"
+          placeholder="Pesquisar por produto, categoria..."
+          value={search}
+          onChange={setSearch}
+        />
+      </SearchWrapper>
     </Container>
   );
 }
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-  justify-content: center;
-`;
