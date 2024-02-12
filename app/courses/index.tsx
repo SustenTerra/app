@@ -23,15 +23,7 @@ import {
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 
-const CATEGORIES = [
-  'Todos',
-  'Tintas',
-  'Obras de Arte',
-  'Serviços',
-  'Tintas2',
-  'Obras de Arte2',
-  'Serviços2',
-];
+const DEFAULT_CATEGORIES = ['Todos'];
 
 interface GetCoursesPayload {
   search?: string;
@@ -44,11 +36,24 @@ export default function CoursesHome() {
     category: string;
   }>();
 
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+
   const [searchText, setSearchText] = useState(params.search || '');
   const [selectedCategory, setSelectedCategory] = useState(
-    CATEGORIES.indexOf(params.category || 'Todos'),
+    categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
   const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
+
+  const getCategories = async () => {
+    try {
+      const categoriesResponse =
+        await client.courseCategories.listAllCourseCategoriesCourseCategoriesGet();
+      const names = categoriesResponse.map((category) => category.name);
+      setCategories([DEFAULT_CATEGORIES[0], ...names]);
+    } catch (error) {
+      showErrors(error);
+    }
+  };
 
   const getCourses = async ({ search, category }: GetCoursesPayload) => {
     try {
@@ -76,6 +81,10 @@ export default function CoursesHome() {
 
     getCoursesDebounced({});
   }, [params.search, params.category]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   let title = 'Iniciar um novo curso';
   if (params.search) {
@@ -130,11 +139,11 @@ export default function CoursesHome() {
 
         {!params.search && (
           <CategoryList
-            categories={CATEGORIES}
+            categories={categories}
             value={selectedCategory}
             onChange={(value) => {
               setSelectedCategory(value);
-              router.setParams({ category: CATEGORIES[value] });
+              router.setParams({ category: categories[value] });
             }}
           />
         )}
