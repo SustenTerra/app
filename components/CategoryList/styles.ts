@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+import { webOnlyCSS } from '@/utils/platform';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export const Container = styled.View`
@@ -8,6 +9,10 @@ export const Container = styled.View`
   gap: ${horizontalScale(10)}px;
   overflow-x: scroll;
   padding: ${verticalScale(10)}px ${horizontalScale(20)}px;
+
+  ${webOnlyCSS`
+    scrollbar-width: none;
+  `}
 `;
 
 interface ButtonProps {
