@@ -7,6 +7,7 @@ interface Props {
 function ScrollablePage({ children }: Props) {
   return (
     <Container
+      alwaysBounceVertical={false}
       contentContainerStyle={{
         width: '100%',
         minHeight: '100%',
