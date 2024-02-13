@@ -9,10 +9,14 @@ export const TopWrapper = styled.View`
   z-index: 0;
 `;
 
-export const TransparentBackground = styled.SafeAreaView`
+interface TransparentProps {
+  darker?: boolean;
+}
+
+export const TransparentBackground = styled.SafeAreaView<TransparentProps>`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, ${(props) => (props.darker ? '0.8' : '0.4')});
 `;
 
 export const ContentBackground = styled.View`
@@ -27,6 +31,8 @@ export const HeaderBackground = styled.ImageBackground`
 `;
 
 export const DescriptionWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
   margin-top: ${verticalScale(10)}px;
 `;
 

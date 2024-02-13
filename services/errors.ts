@@ -15,14 +15,18 @@ const errorPatterns = [
 export function showErrors(error: unknown) {
   let detail = DEFAULT_ERROR_MESSAGE;
   if (error instanceof ApiError) {
-    detail =
+    const foundDetail =
       error.body.detail && error.body.detail.length > 0
         ? error.body.detail[0].msg
         : detail;
+
+    if (foundDetail) {
+      detail = foundDetail;
+    }
   }
 
   for (const pattern of errorPatterns) {
-    if (detail.includes(pattern.pattern)) {
+    if (detail && detail.includes(pattern.pattern)) {
       detail = pattern.message;
       break;
     }
