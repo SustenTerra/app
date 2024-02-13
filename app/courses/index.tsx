@@ -9,6 +9,7 @@ import CategoryList from '@/components/CategoryList';
 import EmptyList from '@/components/EmptyList';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
+import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { CourseSummary } from '@/components/pages/courses';
 import {
@@ -109,7 +110,7 @@ export default function CoursesHome() {
   const shouldShowByDefault = !params.search;
 
   return (
-    <Container>
+    <ScrollablePage>
       <TopWrapper>
         <SearchWrapper>
           <Input
@@ -182,6 +183,6 @@ export default function CoursesHome() {
 
         {!loadingCourses && viewCourses.length === 0 && <EmptyList />}
       </Content>
-    </Container>
+    </ScrollablePage>
   );
 }

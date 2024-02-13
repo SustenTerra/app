@@ -4,13 +4,14 @@ import { Image, ImageBackground } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '@/components/Button';
+import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import theme from '@/styles/theme';
 import { verticalScale, moderateScale } from '@/utils/scale';
 
 export default function Home() {
   return (
-    <Container>
+    <ScrollablePage>
       <Background resizeMode="cover" source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
@@ -55,7 +56,7 @@ export default function Home() {
           </Button>
         </TextContainer>
       </Background>
-    </Container>
+    </ScrollablePage>
   );
 }
 
@@ -77,8 +78,4 @@ const TextContainer = styled.View`
 const Background = styled(ImageBackground)`
   width: 100%;
   height: 100%;
-`;
-
-const Container = styled.View`
-  flex: 1;
 `;
