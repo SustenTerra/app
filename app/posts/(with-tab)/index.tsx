@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 
 import { PostView } from '@/api';
+import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import PostCard from '@/components/PostCard';
@@ -92,7 +93,11 @@ export default function Posts() {
             onChangeText={setSearch}
           />
         </SearchWrapper>
-
+        <Banner
+          title="Deseja aprender a criar produtos tão incríveis quanto esses?"
+          description="Clique aqui e saiba como!"
+          href="/courses"
+        />
         <CategoryList
           categories={CATEGORIES}
           value={selectedCategory}
@@ -103,7 +108,7 @@ export default function Posts() {
         />
         <PostsContainer>
           {viewPosts.map((post) => (
-            <PostCard {...post} />
+            <PostCard key={post.id} {...post} />
           ))}
         </PostsContainer>
       </Container>
