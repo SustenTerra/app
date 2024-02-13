@@ -114,6 +114,7 @@ export default function CoursesHome() {
         <SearchWrapper>
           <Input
             useSecondaryColors
+            clearable
             iconName="search"
             placeholder="Buscar por cursos..."
             value={searchText}

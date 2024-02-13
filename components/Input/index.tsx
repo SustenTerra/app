@@ -14,6 +14,7 @@ interface InputProps {
   onChange: (text: string) => void;
   hideText?: boolean;
   useSecondaryColors?: boolean;
+  clearable?: boolean;
   style?: StyleProp<TextStyle>;
 }
 
@@ -24,6 +25,7 @@ function Input({
   onChange,
   hideText = false,
   useSecondaryColors = false,
+  clearable = false,
   ...props
 }: InputProps) {
   const theme = useTheme();
@@ -31,17 +33,14 @@ function Input({
   const inputRef = useRef<RNTextInput>(null);
   const [showInput, setShowInput] = useState(!hideText);
 
+  const iconColor = useSecondaryColors
+    ? theme.colors.secondary
+    : theme.colors.dark;
+
   return (
     <Container {...props} onPress={() => inputRef.current?.focus()}>
-      {iconName && (
-        <Feather
-          name={iconName}
-          size={24}
-          color={
-            useSecondaryColors ? theme.colors.secondary : theme.colors.dark
-          }
-        />
-      )}
+      {iconName && <Feather name={iconName} size={24} color={iconColor} />}
+
       <TextInput
         ref={inputRef}
         placeholder={placeholder}
@@ -52,11 +51,22 @@ function Input({
           useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
         }
       />
+
       {hideText && (
         <Feather
           name={showInput ? 'eye-off' : 'eye'}
           size={24}
           onPress={() => setShowInput(!showInput)}
+          color={iconColor}
+        />
+      )}
+
+      {!hideText && clearable && value.length > 0 && (
+        <Feather
+          name="delete"
+          size={24}
+          onPress={() => onChange('')}
+          color={iconColor}
         />
       )}
     </Container>
