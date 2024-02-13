@@ -1,4 +1,4 @@
-import { showMessage } from 'react-native-flash-message';
+import { showMessage } from './messages';
 
 import { ApiError } from '@/api';
 
@@ -34,7 +34,7 @@ export function showErrors(error: unknown) {
 
   showMessage({
     type: 'danger',
-    message: 'Erro',
-    description: detail,
+    title: 'Erro',
+    message: detail,
   });
 }

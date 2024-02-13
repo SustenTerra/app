@@ -6,11 +6,10 @@ import styled, { useTheme } from 'styled-components/native';
 
 import { CourseView } from '@/api';
 import BackButton from '@/components/BackButton';
-import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import { CourseAccordion } from '@/components/pages/courses';
+import { CourseAccordion, NextContent } from '@/components/pages/courses';
 import {
   ContentBackground,
   DescriptionWrapper,
@@ -113,13 +112,7 @@ export default function ShowCourse() {
             {course.description}
           </Text>
 
-          <Button style={{ marginTop: verticalScale(20) }} color="secondary">
-            <Feather name="play" size={24} color={theme.colors.light} />
-
-            <Text color="light" size="h6">
-              Continuar curso
-            </Text>
-          </Button>
+          <NextContent course={course} />
 
           <CourseAccordion course={course} />
         </ContentContainer>

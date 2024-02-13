@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTheme } from 'styled-components/native';
 
@@ -16,8 +16,10 @@ import {
 } from './styles';
 
 import { CourseChapterView, CourseListView, CourseView } from '@/api';
+import Button from '@/components/Button';
 import Text from '@/components/Text';
-import { moderateScale } from '@/utils/scale';
+import { showMessage } from '@/services/messages';
+import { moderateScale, verticalScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
   course: CourseListView;
@@ -134,5 +136,51 @@ export function CourseAccordion({ course }: CourseAccordionProps) {
         />
       ))}
     </>
+  );
+}
+
+interface NextContentProps {
+  course: CourseView;
+}
+
+export function NextContent({ course }: NextContentProps) {
+  const router = useRouter();
+  const theme = useTheme();
+
+  const goToNextContent = () => {
+    const nextChapter = course.course_chapters.find((chapter) =>
+      chapter.chapter_contents.find((content) => !content.was_viewed),
+    );
+
+    if (nextChapter) {
+      const nextContent = nextChapter.chapter_contents.find(
+        (content) => !content.was_viewed,
+      );
+
+      if (nextContent) {
+        router.push(`/courses/${course.id}/contents/${nextContent.id}`);
+        return;
+      }
+
+      showMessage({
+        type: 'success',
+        title: 'Parabéns!',
+        message: 'Você finalizou o curso!',
+      });
+    }
+  };
+
+  return (
+    <Button
+      onPress={goToNextContent}
+      style={{ marginTop: verticalScale(20) }}
+      color="secondary"
+    >
+      <Feather name="play" size={24} color={theme.colors.light} />
+
+      <Text color="light" size="h6">
+        Continuar curso
+      </Text>
+    </Button>
   );
 }

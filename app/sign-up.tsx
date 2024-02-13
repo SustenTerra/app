@@ -3,7 +3,6 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Image } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
 import BackButton from '@/components/BackButton';
@@ -14,6 +13,7 @@ import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import theme from '@/styles/theme';
 import { verticalScale, moderateScale, height } from '@/utils/scale';
 
@@ -28,8 +28,8 @@ export default function SignUp() {
     if (!email || !password || !phone || !password || !passwordConfirmation) {
       showMessage({
         type: 'warning',
-        message: 'Erro',
-        description: 'Preencha todos os campos!',
+        title: 'Erro',
+        message: 'Preencha todos os campos!',
       });
       return;
     }
@@ -37,8 +37,8 @@ export default function SignUp() {
     if (password !== passwordConfirmation) {
       showMessage({
         type: 'warning',
-        message: 'Erro',
-        description: 'Senhas não correspondem',
+        title: 'Erro',
+        message: 'Senhas não correspondem',
       });
       return;
     }
