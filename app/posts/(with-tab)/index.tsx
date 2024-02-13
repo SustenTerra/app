@@ -89,7 +89,7 @@ export default function Posts() {
             iconName="search"
             placeholder="Pesquisar por produto, categoria..."
             value={search}
-            onChange={setSearch}
+            onChangeText={setSearch}
           />
         </SearchWrapper>
 

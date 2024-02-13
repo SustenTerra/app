@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Image, ImageBackground } from 'react-native';
+import { Image } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
@@ -80,33 +80,33 @@ export default function SignUp() {
           iconName="user"
           placeholder="Nome Completo"
           value={name}
-          onChange={(val) => setName(val)}
+          onChangeText={setName}
         />
         <Input
           iconName="mail"
           placeholder="Email"
           value={email}
-          onChange={(val) => setEmail(val)}
+          onChangeText={setEmail}
         />
         <Input
           iconName="message-circle"
           placeholder="Whatsapp para contato"
           value={phone}
-          onChange={(val) => setPhone(val)}
+          onChangeText={setPhone}
         />
         <Input
           iconName="lock"
           placeholder="Senha"
           value={password}
           hideText
-          onChange={(val) => setPassword(val)}
+          onChangeText={setPassword}
         />
         <Input
           iconName="lock"
           placeholder="Repetir a senha"
           value={passwordConfirmation}
           hideText
-          onChange={(val) => setPasswordConfirmation(val)}
+          onChangeText={setPasswordConfirmation}
         />
         <Button color="secondary" onPress={handleSignUp}>
           <Feather name="log-in" size={24} color={theme.colors.light} />

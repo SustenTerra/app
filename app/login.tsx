@@ -69,15 +69,18 @@ export default function Login() {
         <Input
           iconName="mail"
           placeholder="Email"
+          keyboardType="email-address"
+          inputMode="email"
+          autoCapitalize="none"
           value={email}
-          onChange={(val) => setEmail(val)}
+          onChangeText={setEmail}
         />
         <Input
           iconName="lock"
           placeholder="Senha"
           value={password}
           hideText
-          onChange={(val) => setPassword(val)}
+          onChangeText={setPassword}
         />
         <Button color="secondary" onPress={handleLogin}>
           <Feather name="log-in" size={24} color={theme.colors.light} />

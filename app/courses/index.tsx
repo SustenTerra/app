@@ -118,7 +118,7 @@ export default function CoursesHome() {
             iconName="search"
             placeholder="Buscar por cursos..."
             value={searchText}
-            onChange={(text) => {
+            onChangeText={(text) => {
               setSearchText(text);
               router.setParams({ search: text });
             }}
