@@ -113,10 +113,20 @@ export const CourseContentWrapper = styled.TouchableOpacity`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.light};
   border-radius: ${moderateScale(100)}px;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   height: ${verticalScale(50)}px;
-  padding-left: ${horizontalScale(20)}px;
+  padding: 0 ${horizontalScale(20)}px;
   margin-top: ${verticalScale(10)}px;
+
+  flex-direction: row;
 `;
 
-export const CourseContentTitle = styled(Text)``;
+export const TitleWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const CourseContentTitle = styled(Text)`
+  margin-left: ${horizontalScale(10)}px;
+`;

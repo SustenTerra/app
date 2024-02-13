@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 import { useTheme } from 'styled-components/native';
 
 import {
@@ -11,6 +12,7 @@ import {
   CourseChapterTitle,
   CourseContentWrapper,
   CourseContentTitle,
+  TitleWrapper,
 } from './styles';
 
 import { CourseChapterView, CourseListView, CourseView } from '@/api';
@@ -59,24 +61,21 @@ export function CourseSummary({ course, onPress }: CourseSummaryProps) {
 interface CourseChapterContentsProps {
   courseId: number;
   chapter: CourseChapterView;
-  onToggle?: () => void;
-  active?: boolean;
 }
 
 export function CourseChapterContents({
   courseId,
   chapter,
-  active,
-  onToggle,
 }: CourseChapterContentsProps) {
   const theme = useTheme();
-  const chapterIndex = chapter.index + 1;
+  const [active, setActive] = useState(false);
 
+  const chapterIndex = chapter.index + 1;
   const icon = active ? 'chevron-down' : 'chevron-right';
 
   return (
     <>
-      <CourseChapterContainer onPress={onToggle}>
+      <CourseChapterContainer onPress={() => setActive(!active)}>
         <Feather
           name={icon}
           size={moderateScale(30)}
@@ -88,17 +87,34 @@ export function CourseChapterContents({
         </CourseChapterTitle>
       </CourseChapterContainer>
 
-      {chapter.chapter_contents.map((content) => (
-        <Link
-          key={content.id}
-          href={`/courses/${courseId}/contents/${content.id}`}
-          asChild
-        >
-          <CourseContentWrapper>
-            <CourseContentTitle>{content.name}</CourseContentTitle>
-          </CourseContentWrapper>
-        </Link>
-      ))}
+      {active &&
+        chapter.chapter_contents.map((content) => (
+          <Link
+            key={content.id}
+            href={`/courses/${courseId}/contents/${content.id}`}
+            asChild
+          >
+            <CourseContentWrapper>
+              <TitleWrapper>
+                <Feather
+                  name="play-circle"
+                  size={moderateScale(20)}
+                  color={theme.colors.dark}
+                />
+
+                <CourseContentTitle>{content.name}</CourseContentTitle>
+              </TitleWrapper>
+
+              {content.was_viewed && (
+                <Feather
+                  name="check-circle"
+                  size={moderateScale(20)}
+                  color={theme.colors.success}
+                />
+              )}
+            </CourseContentWrapper>
+          </Link>
+        ))}
     </>
   );
 }
