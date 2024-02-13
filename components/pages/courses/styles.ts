@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
   background-color: ${(props) => props.theme.colors.background};
 `;
@@ -38,6 +38,7 @@ export const DescriptionWrapper = styled.View`
 export const HeaderWrapper = styled.View`
   align-items: center;
   flex-direction: row;
+  padding-top: ${verticalScale(20)}px;
 `;
 
 export const SearchWrapper = styled.View`
@@ -51,6 +52,7 @@ export const SearchWrapper = styled.View`
 
 export const Content = styled.View`
   flex: 1;
+  padding-bottom: ${verticalScale(20)}px;
 `;
 
 export const TitleContainer = styled.View`

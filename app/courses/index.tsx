@@ -47,7 +47,7 @@ export default function CoursesHome() {
   const [selectedCategory, setSelectedCategory] = useState(
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
-  const [loadingCourses, setLoadingCourses] = useState(false);
+  const [loadingCourses, setLoadingCourses] = useState(true);
   const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
 
   const getCategories = async () => {

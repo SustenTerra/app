@@ -1,13 +1,11 @@
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { Slot } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import FlashMessage from 'react-native-flash-message';
 import styled, { ThemeProvider } from 'styled-components/native';
 
 import { useCustomFont } from '@/hooks/customFont';
 import theme from '@/styles/theme';
 import { webOnlyCSS } from '@/utils/platform';
-import { height } from '@/utils/scale';
 
 export default function Layout() {
   const { fontsLoaded, fontError, onLayoutRootView } = useCustomFont();
@@ -23,19 +21,8 @@ export default function Layout() {
   return (
     <ThemeProvider theme={theme}>
       <ActionSheetProvider>
-        <Container
-          onLayout={onLayoutRootView}
-          contentContainerStyle={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          alwaysBounceVertical={false}
-        >
-          <StatusBar style="auto" />
-
-          <ChildrenContainer>
-            <Slot />
-          </ChildrenContainer>
+        <Container onLayout={onLayoutRootView}>
+          <Slot />
         </Container>
       </ActionSheetProvider>
 
@@ -44,16 +31,12 @@ export default function Layout() {
   );
 }
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   display: flex;
-  width: 100%;
-  height: ${height}px;
+  flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
-`;
 
-const ChildrenContainer = styled.View`
-  width: 100%;
-  height: ${height}px;
+  align-self: center;
 
   ${webOnlyCSS`
     width: 100%;
