@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Image } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -45,6 +46,8 @@ export default function Login() {
 
   return (
     <ScrollablePage>
+      <StatusBar style="light" />
+
       <Background source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
@@ -78,6 +81,7 @@ export default function Login() {
         <Input
           iconName="lock"
           placeholder="Senha"
+          autoCapitalize="none"
           value={password}
           hideText
           onChangeText={setPassword}

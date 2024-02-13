@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Image } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -57,6 +58,8 @@ export default function SignUp() {
 
   return (
     <ScrollablePage>
+      <StatusBar style="light" />
+
       <Background source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
@@ -81,10 +84,14 @@ export default function SignUp() {
           placeholder="Nome Completo"
           value={name}
           onChangeText={setName}
+          autoCapitalize="words"
         />
         <Input
           iconName="mail"
           placeholder="Email"
+          keyboardType="email-address"
+          inputMode="email"
+          autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
         />
@@ -92,11 +99,14 @@ export default function SignUp() {
           iconName="message-circle"
           placeholder="Whatsapp para contato"
           value={phone}
+          keyboardType="phone-pad"
+          inputMode="tel"
           onChangeText={setPhone}
         />
         <Input
           iconName="lock"
           placeholder="Senha"
+          autoCapitalize="none"
           value={password}
           hideText
           onChangeText={setPassword}
@@ -104,6 +114,7 @@ export default function SignUp() {
         <Input
           iconName="lock"
           placeholder="Repetir a senha"
+          autoCapitalize="none"
           value={passwordConfirmation}
           hideText
           onChangeText={setPasswordConfirmation}

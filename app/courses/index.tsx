@@ -117,6 +117,8 @@ export default function CoursesHome() {
             clearable
             iconName="search"
             placeholder="Buscar por cursos..."
+            inputMode="search"
+            keyboardType="web-search"
             value={searchText}
             onChangeText={(text) => {
               setSearchText(text);

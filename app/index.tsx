@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { Image } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -12,6 +13,8 @@ import { verticalScale, moderateScale, height } from '@/utils/scale';
 export default function Home() {
   return (
     <ScrollablePage>
+      <StatusBar style="light" />
+
       <Background
         resizeMethod="scale"
         resizeMode="cover"
