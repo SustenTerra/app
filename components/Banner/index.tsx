@@ -14,7 +14,7 @@ interface BannerProps {
 
 function Banner({ title, description, href }: BannerProps) {
   return (
-    <Link href={href}>
+    <Link href={href} asChild>
       <Wrapper>
         <Background
           source={require('assets/terra.png')}
