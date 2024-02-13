@@ -22,7 +22,7 @@ export function CourseSummary({ course }: CourseSummaryProps) {
   return (
     <CourseViewWrapper>
       <CourseViewBackground
-        defaultSource={require('assets/courses.png')}
+        defaultSource={require('assets/gray.png')}
         source={{ uri: course.image_url }}
         resizeMode="cover"
         imageStyle={{ borderRadius: moderateScale(25), width: '100%' }}
