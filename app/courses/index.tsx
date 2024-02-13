@@ -128,6 +128,7 @@ export default function CoursesHome() {
         </SearchWrapper>
 
         <HeaderBackground
+          defaultSource={require('assets/gray.png')}
           source={require('assets/courses.png')}
           resizeMode="cover"
         >
