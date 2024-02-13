@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+import Text from '@/components/Text';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export const TopWrapper = styled.View`
@@ -89,3 +90,33 @@ export const AuthorWrapper = styled.View`
   align-items: center;
   margin-top: ${verticalScale(5)}px;
 `;
+
+export const CourseChapterContainer = styled.TouchableOpacity`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.light};
+  border-radius: ${moderateScale(100)}px;
+  align-items: center;
+  height: ${verticalScale(50)}px;
+  padding-left: ${horizontalScale(20)}px;
+  margin-top: ${verticalScale(25)}px;
+
+  flex-direction: row;
+`;
+
+export const CourseChapterTitle = styled(Text)`
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.secondary};
+  margin-left: ${horizontalScale(10)}px;
+`;
+
+export const CourseContentWrapper = styled.TouchableOpacity`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.light};
+  border-radius: ${moderateScale(100)}px;
+  justify-content: center;
+  height: ${verticalScale(50)}px;
+  padding-left: ${horizontalScale(20)}px;
+  margin-top: ${verticalScale(10)}px;
+`;
+
+export const CourseContentTitle = styled(Text)``;

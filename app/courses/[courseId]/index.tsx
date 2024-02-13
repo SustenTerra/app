@@ -10,6 +10,7 @@ import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
+import { CourseAccordion } from '@/components/pages/courses';
 import {
   ContentBackground,
   DescriptionWrapper,
@@ -119,6 +120,8 @@ export default function ShowCourse() {
               Continuar curso
             </Text>
           </Button>
+
+          <CourseAccordion course={course} />
         </ContentContainer>
       )}
     </ScrollablePage>
@@ -127,5 +130,6 @@ export default function ShowCourse() {
 
 const ContentContainer = styled.View`
   width: 100%;
-  padding: 0 ${verticalScale(20)}px;
+  padding: 0 ${verticalScale(20)}px ${verticalScale(30)}px
+    ${horizontalScale(20)}px;
 `;
