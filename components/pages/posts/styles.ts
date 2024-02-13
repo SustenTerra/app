@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${(props) => props.theme.colors.background};
   align-items: center;

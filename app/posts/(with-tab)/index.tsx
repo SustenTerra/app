@@ -6,6 +6,7 @@ import { PostView } from '@/api';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import PostCard from '@/components/PostCard';
+import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import {
   Container,
@@ -72,38 +73,40 @@ export default function Posts() {
   }, [params.search, params.category]);
 
   return (
-    <Container>
-      <Header>
-        <Image
-          style={{ width: 50, height: 50 }}
-          source={require('assets/adaptive-icon.png')}
-        />
-        <Text size="h1" color="primary" weight="bold">
-          SustenTerra
-        </Text>
-      </Header>
-      <SearchWrapper>
-        <Input
-          iconName="search"
-          placeholder="Pesquisar por produto, categoria..."
-          value={search}
-          onChange={setSearch}
-        />
-      </SearchWrapper>
+    <ScrollablePage>
+      <Container>
+        <Header>
+          <Image
+            style={{ width: 50, height: 50 }}
+            source={require('assets/adaptive-icon.png')}
+          />
+          <Text size="h1" color="primary" weight="bold">
+            SustenTerra
+          </Text>
+        </Header>
+        <SearchWrapper>
+          <Input
+            iconName="search"
+            placeholder="Pesquisar por produto, categoria..."
+            value={search}
+            onChange={setSearch}
+          />
+        </SearchWrapper>
 
-      <CategoryList
-        categories={CATEGORIES}
-        value={selectedCategory}
-        onChange={(value) => {
-          setSelectedCategory(value);
-          router.setParams({ category: CATEGORIES[value] });
-        }}
-      />
-      <PostsContainer>
-        {viewPosts.map((post) => (
-          <PostCard {...post} />
-        ))}
-      </PostsContainer>
-    </Container>
+        <CategoryList
+          categories={CATEGORIES}
+          value={selectedCategory}
+          onChange={(value) => {
+            setSelectedCategory(value);
+            router.setParams({ category: CATEGORIES[value] });
+          }}
+        />
+        <PostsContainer>
+          {viewPosts.map((post) => (
+            <PostCard {...post} />
+          ))}
+        </PostsContainer>
+      </Container>
+    </ScrollablePage>
   );
 }

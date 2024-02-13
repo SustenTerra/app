@@ -2,11 +2,6 @@ import styled from 'styled-components/native';
 
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
-export const Container = styled.ScrollView`
-  flex: 1;
-  background-color: ${(props) => props.theme.colors.background};
-`;
-
 export const TopWrapper = styled.View`
   height: ${verticalScale(260)}px;
   width: 100%;

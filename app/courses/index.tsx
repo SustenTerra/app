@@ -13,7 +13,6 @@ import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { CourseSummary } from '@/components/pages/courses';
 import {
-  Container,
   Content,
   ContentBackground,
   DescriptionWrapper,
