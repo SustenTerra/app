@@ -9,11 +9,12 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
+import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import theme from '@/styles/theme';
-import { verticalScale, moderateScale } from '@/utils/scale';
+import { verticalScale, moderateScale, height } from '@/utils/scale';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -55,7 +56,7 @@ export default function SignUp() {
   };
 
   return (
-    <Container>
+    <ScrollablePage>
       <Background source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
@@ -63,64 +64,64 @@ export default function SignUp() {
             style={{ width: 100, height: 100 }}
           />
         </LogoContainer>
-        <TextContainer>
-          <HeaderWrapper>
-            <BackButton />
-            <Text weight="regular" size="h1" color="primary">
-              Criar uma conta
-            </Text>
-          </HeaderWrapper>
-          <Text color="primary">
-            Entre os seus dados para poder realizar login no app, acessar o
-            marketplace e salvar suas ações.
-          </Text>
-          <Input
-            iconName="user"
-            placeholder="Nome Completo"
-            value={name}
-            onChange={(val) => setName(val)}
-          />
-          <Input
-            iconName="mail"
-            placeholder="Email"
-            value={email}
-            onChange={(val) => setEmail(val)}
-          />
-          <Input
-            iconName="message-circle"
-            placeholder="Whatsapp para contato"
-            value={phone}
-            onChange={(val) => setPhone(val)}
-          />
-          <Input
-            iconName="lock"
-            placeholder="Senha"
-            value={password}
-            hideText
-            onChange={(val) => setPassword(val)}
-          />
-          <Input
-            iconName="lock"
-            placeholder="Repetir a senha"
-            value={passwordConfirmation}
-            hideText
-            onChange={(val) => setPasswordConfirmation(val)}
-          />
-          <Button color="secondary" onPress={handleSignUp}>
-            <Feather name="log-in" size={24} color={theme.colors.light} />
-            <Text color="light" size={20}>
-              Cadastrar
-            </Text>
-          </Button>
-          <HelpLink screen="signup" />
-        </TextContainer>
       </Background>
-    </Container>
+      <TextContainer>
+        <HeaderWrapper>
+          <BackButton />
+          <Text weight="regular" size="h1" color="primary">
+            Criar uma conta
+          </Text>
+        </HeaderWrapper>
+        <Text color="primary">
+          Entre os seus dados para poder realizar login no app, acessar o
+          marketplace e salvar suas ações.
+        </Text>
+        <Input
+          iconName="user"
+          placeholder="Nome Completo"
+          value={name}
+          onChange={(val) => setName(val)}
+        />
+        <Input
+          iconName="mail"
+          placeholder="Email"
+          value={email}
+          onChange={(val) => setEmail(val)}
+        />
+        <Input
+          iconName="message-circle"
+          placeholder="Whatsapp para contato"
+          value={phone}
+          onChange={(val) => setPhone(val)}
+        />
+        <Input
+          iconName="lock"
+          placeholder="Senha"
+          value={password}
+          hideText
+          onChange={(val) => setPassword(val)}
+        />
+        <Input
+          iconName="lock"
+          placeholder="Repetir a senha"
+          value={passwordConfirmation}
+          hideText
+          onChange={(val) => setPasswordConfirmation(val)}
+        />
+        <Button color="secondary" onPress={handleSignUp}>
+          <Feather name="log-in" size={24} color={theme.colors.light} />
+          <Text color="light" size={20}>
+            Cadastrar
+          </Text>
+        </Button>
+        <HelpLink screen="signup" />
+      </TextContainer>
+    </ScrollablePage>
   );
 }
 
 const LogoContainer = styled.View`
-  height: ${verticalScale(150)}px;
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -133,13 +134,9 @@ const TextContainer = styled.View`
   gap: ${verticalScale(15)}px;
 `;
 
-const Background = styled(ImageBackground)`
+const Background = styled.ImageBackground`
   width: 100%;
-  height: 100%;
-`;
-
-const Container = styled.ScrollView`
-  flex: 1;
+  height: ${height * 0.2}px;
 `;
 
 const HeaderWrapper = styled.View`

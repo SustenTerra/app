@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
-import { Image, ImageBackground } from 'react-native';
+import { Image } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '@/components/Button';
@@ -79,7 +79,7 @@ const TextContainer = styled.View`
   gap: ${verticalScale(25)}px;
 `;
 
-const Background = styled(ImageBackground)`
+const Background = styled.ImageBackground`
   width: 100%;
   height: ${height * 0.4}px;
 `;

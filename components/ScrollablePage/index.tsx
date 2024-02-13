@@ -7,6 +7,7 @@ interface Props {
 function ScrollablePage({ children }: Props) {
   return (
     <Container
+      automaticallyAdjustKeyboardInsets
       alwaysBounceVertical={false}
       contentContainerStyle={{
         width: '100%',

@@ -9,12 +9,13 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
+import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { onLogin } from '@/services/authStorage';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import theme from '@/styles/theme';
-import { verticalScale, moderateScale } from '@/utils/scale';
+import { verticalScale, moderateScale, height } from '@/utils/scale';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -43,7 +44,7 @@ export default function Login() {
   };
 
   return (
-    <Container>
+    <ScrollablePage>
       <Background source={require('assets/terra.png')}>
         <LogoContainer>
           <Image
@@ -51,46 +52,47 @@ export default function Login() {
             style={{ width: 100, height: 100 }}
           />
         </LogoContainer>
-        <TextContainer>
-          <HeaderWrapper>
-            <BackButton />
-            <Text weight="regular" size="h1" color="primary">
-              Iniciar sessão
-            </Text>
-          </HeaderWrapper>
-
-          <Text color="primary">
-            Entre com os seus dados para realizar login no app, acessar o
-            marketplace e salvar suas ações.
-          </Text>
-          <Input
-            iconName="mail"
-            placeholder="Email"
-            value={email}
-            onChange={(val) => setEmail(val)}
-          />
-          <Input
-            iconName="lock"
-            placeholder="Senha"
-            value={password}
-            hideText
-            onChange={(val) => setPassword(val)}
-          />
-          <Button color="secondary" onPress={handleLogin}>
-            <Feather name="log-in" size={24} color={theme.colors.light} />
-            <Text color="light" size={20}>
-              Login
-            </Text>
-          </Button>
-          <HelpLink screen="login" />
-        </TextContainer>
       </Background>
-    </Container>
+
+      <TextContainer>
+        <HeaderWrapper>
+          <BackButton />
+          <Text weight="regular" size="h1" color="primary">
+            Iniciar sessão
+          </Text>
+        </HeaderWrapper>
+
+        <Text color="primary">
+          Entre com os seus dados para realizar login no app, acessar o
+          marketplace e salvar suas ações.
+        </Text>
+        <Input
+          iconName="mail"
+          placeholder="Email"
+          value={email}
+          onChange={(val) => setEmail(val)}
+        />
+        <Input
+          iconName="lock"
+          placeholder="Senha"
+          value={password}
+          hideText
+          onChange={(val) => setPassword(val)}
+        />
+        <Button color="secondary" onPress={handleLogin}>
+          <Feather name="log-in" size={24} color={theme.colors.light} />
+          <Text color="light" size={20}>
+            Login
+          </Text>
+        </Button>
+        <HelpLink screen="login" />
+      </TextContainer>
+    </ScrollablePage>
   );
 }
 
 const LogoContainer = styled.View`
-  height: ${verticalScale(150)}px;
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -100,15 +102,12 @@ const TextContainer = styled.View`
   background-color: ${(props) => props.theme.colors.background};
   min-height: ${verticalScale(450)}px;
   padding: ${moderateScale(20)}px;
-  gap: ${verticalScale(15)}px;
+  gap: ${verticalScale(20)}px;
 `;
 
 const Background = styled.ImageBackground`
-  flex: 1;
-`;
-
-const Container = styled.ScrollView`
-  flex: 1;
+  width: 100%;
+  height: ${height * 0.2}px;
 `;
 
 const HeaderWrapper = styled.View`
