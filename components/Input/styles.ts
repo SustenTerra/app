@@ -16,7 +16,7 @@ export const Container = styled.Pressable`
 export const TextInput = styled.TextInput`
   border: none;
   flex: 1;
-  font-size: ${moderateScale(20)}px;
+  font-size: ${moderateScale(16)}px;
   height: 100%;
 
   ${webOnlyCSS`
