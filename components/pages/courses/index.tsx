@@ -14,13 +14,14 @@ import { moderateScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
   course: CourseListView;
+  onPress: () => void;
 }
 
-export function CourseSummary({ course }: CourseSummaryProps) {
+export function CourseSummary({ course, onPress }: CourseSummaryProps) {
   const theme = useTheme();
 
   return (
-    <CourseViewWrapper>
+    <CourseViewWrapper onPress={onPress}>
       <CourseViewBackground
         defaultSource={require('assets/gray.png')}
         source={{ uri: course.image_url }}

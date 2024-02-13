@@ -1,5 +1,5 @@
 import debounce from 'awesome-debounce-promise';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
@@ -23,6 +23,7 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
@@ -35,7 +36,17 @@ interface GetCoursesPayload {
 }
 
 export default function CoursesHome() {
+  const router = useRouter();
   const auth = useAuth();
+  const actionSheet = useActionSheet({
+    title: 'Atenção!',
+    message: 'Você precisa estar logado para acessar um curso.',
+    actions: ['Realizar login', 'Criar conta'],
+    actionsCallbacks: [
+      () => router.navigate('/login'),
+      () => router.navigate('/sign-up'),
+    ],
+  });
   const params = useLocalSearchParams<{
     search: string;
     category: string;
@@ -49,6 +60,15 @@ export default function CoursesHome() {
   );
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
+
+  const onCoursePress = (course: CourseListView) => {
+    if (!auth.user) {
+      actionSheet.show();
+      return;
+    }
+
+    router.navigate(`/courses/${course.id}`);
+  };
 
   const getCategories = async () => {
     try {
@@ -181,7 +201,11 @@ export default function CoursesHome() {
 
         {!loadingCourses &&
           viewCourses.map((course) => (
-            <CourseSummary key={course.id} course={course} />
+            <CourseSummary
+              key={course.id}
+              course={course}
+              onPress={() => onCoursePress(course)}
+            />
           ))}
 
         {!loadingCourses && viewCourses.length === 0 && <EmptyList />}
