@@ -34,6 +34,7 @@ export default function Layout() {
 const Container = styled.View`
   display: flex;
   flex: 1;
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.background};
 
   align-self: center;

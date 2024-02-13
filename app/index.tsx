@@ -7,61 +7,66 @@ import Button from '@/components/Button';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import theme from '@/styles/theme';
-import { verticalScale, moderateScale } from '@/utils/scale';
+import { verticalScale, moderateScale, height } from '@/utils/scale';
 
 export default function Home() {
   return (
     <ScrollablePage>
-      <Background resizeMode="cover" source={require('assets/terra.png')}>
+      <Background
+        resizeMethod="scale"
+        resizeMode="cover"
+        source={require('assets/terra.png')}
+      >
         <LogoContainer>
           <Image
             style={{ width: 100, height: 100 }}
             source={require('assets/white_logo.png')}
           />
         </LogoContainer>
-        <TextContainer>
-          <Text weight="regular" size="h1" color="primary">
-            Explore as possibilidades que o
-            <Text weight="bold" size="h1" color="primary">
-              {' '}
-              Solo{' '}
-            </Text>
-            pode te oferecer
-          </Text>
-          <Text color="primary">
-            Esse é um aplicativo em que você pode anunciar os seus produtos
-            criados de maneira ecológica, comprar tinta ou aprender a fazê-la.
-          </Text>
-          <Button
-            color="secondary"
-            onPress={() => {
-              router.push('/posts');
-            }}
-          >
-            <Feather name="shopping-bag" size={24} color={theme.colors.light} />
-            <Text color="light" size={20}>
-              Ver anúncios locais
-            </Text>
-          </Button>
-          <Button
-            color="primary"
-            onPress={() => {
-              router.push('/courses');
-            }}
-          >
-            <Feather name="book-open" size={24} color={theme.colors.light} />
-            <Text color="light" size={20}>
-              Aprender mais
-            </Text>
-          </Button>
-        </TextContainer>
       </Background>
+
+      <TextContainer>
+        <Text weight="regular" size="h1" color="primary">
+          Explore as possibilidades que o
+          <Text weight="bold" size="h1" color="primary">
+            {' '}
+            Solo{' '}
+          </Text>
+          pode te oferecer
+        </Text>
+        <Text color="primary">
+          Esse é um aplicativo em que você pode anunciar os seus produtos
+          criados de maneira ecológica, comprar tinta ou aprender a fazê-la.
+        </Text>
+        <Button
+          color="secondary"
+          onPress={() => {
+            router.push('/posts');
+          }}
+        >
+          <Feather name="shopping-bag" size={24} color={theme.colors.light} />
+          <Text color="light" size={20}>
+            Ver anúncios locais
+          </Text>
+        </Button>
+        <Button
+          color="primary"
+          onPress={() => {
+            router.push('/courses');
+          }}
+        >
+          <Feather name="book-open" size={24} color={theme.colors.light} />
+          <Text color="light" size={20}>
+            Aprender mais
+          </Text>
+        </Button>
+      </TextContainer>
     </ScrollablePage>
   );
 }
 
 const LogoContainer = styled.View`
-  height: ${verticalScale(300)}px;
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
   padding: ${verticalScale(20)}px;
@@ -69,13 +74,12 @@ const LogoContainer = styled.View`
 
 const TextContainer = styled.View`
   background-color: ${(props) => props.theme.colors.light};
-  min-height: ${verticalScale(450)}px;
   flex: 1;
   padding: ${moderateScale(20)}px;
-  gap: ${verticalScale(15)}px;
+  gap: ${verticalScale(25)}px;
 `;
 
 const Background = styled(ImageBackground)`
   width: 100%;
-  height: 100%;
+  height: ${height * 0.4}px;
 `;
