@@ -29,7 +29,7 @@ export function useActionSheet({
           return;
         }
 
-        if (selectedIndex && actionsCallbacks[selectedIndex]) {
+        if (selectedIndex !== undefined && actionsCallbacks[selectedIndex]) {
           actionsCallbacks[selectedIndex]();
         }
       },

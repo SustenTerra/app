@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { usePathname } from 'expo-router';
 
-import { SelectedTab, Tab, Wrapper } from './style';
+import { SelectedTab, Tab, Wrapper } from './styles';
 import Text from '../Text';
 
 type IconNameOptions = 'shopping-bag' | 'heart' | 'book-open' | 'user';

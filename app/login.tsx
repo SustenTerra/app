@@ -3,7 +3,6 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Image } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
 import styled from 'styled-components/native';
 
 import BackButton from '@/components/BackButton';
@@ -15,6 +14,7 @@ import Text from '@/components/Text';
 import { onLogin } from '@/services/authStorage';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import theme from '@/styles/theme';
 import { verticalScale, moderateScale, height } from '@/utils/scale';
 
@@ -26,8 +26,8 @@ export default function Login() {
     if (!email || !password) {
       showMessage({
         type: 'warning',
-        message: 'Atenção!',
-        description: 'Preencha todos os campos!',
+        title: 'Atenção!',
+        message: 'Preencha todos os campos!',
       });
       return;
     }
@@ -38,7 +38,7 @@ export default function Login() {
         password,
       });
       await onLogin(res.token, res.user);
-      router.replace('/posts');
+      router.replace('/');
     } catch (err) {
       showErrors(err);
     }

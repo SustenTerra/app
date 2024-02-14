@@ -3,15 +3,15 @@ import styled from 'styled-components/native';
 import { moderateScale, verticalScale } from '@/utils/scale';
 
 export const Wrapper = styled.TouchableOpacity`
-  margin-top: ${verticalScale(20)}px;
+  margin-top: ${verticalScale(10)}px;
   width: 100%;
   align-items: center;
   justify-content: center;
 `;
 
 export const Background = styled.ImageBackground`
-  width: 90%;
-  height: ${verticalScale(100)}px;
+  width: 95%;
+  height: ${verticalScale(110)}px;
   border-radius: ${moderateScale(25)}px;
 `;
 
@@ -22,7 +22,7 @@ export const Content = styled.View`
   align-items: flex-start;
   justify-content: center;
   border-radius: ${moderateScale(25)}px;
-  padding: ${moderateScale(20)}px;
+  padding: ${moderateScale(25)}px;
 `;
 
 export const ContentRow = styled.View`

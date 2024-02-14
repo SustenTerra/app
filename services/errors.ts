@@ -1,4 +1,4 @@
-import { showMessage } from 'react-native-flash-message';
+import { showMessage } from './messages';
 
 import { ApiError } from '@/api';
 
@@ -15,14 +15,18 @@ const errorPatterns = [
 export function showErrors(error: unknown) {
   let detail = DEFAULT_ERROR_MESSAGE;
   if (error instanceof ApiError) {
-    detail =
+    const foundDetail =
       error.body.detail && error.body.detail.length > 0
         ? error.body.detail[0].msg
         : detail;
+
+    if (foundDetail) {
+      detail = foundDetail;
+    }
   }
 
   for (const pattern of errorPatterns) {
-    if (detail.includes(pattern.pattern)) {
+    if (detail && detail.includes(pattern.pattern)) {
       detail = pattern.message;
       break;
     }
@@ -30,7 +34,7 @@ export function showErrors(error: unknown) {
 
   showMessage({
     type: 'danger',
-    message: 'Erro',
-    description: detail,
+    title: 'Erro',
+    message: detail,
   });
 }

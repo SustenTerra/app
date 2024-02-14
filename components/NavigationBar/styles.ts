@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import styled from 'styled-components/native';
 
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
+import { moderateScale } from '@/utils/scale';
 
 export const Wrapper = styled.SafeAreaView`
   background-color: ${(props) => props.theme.colors.secondary};

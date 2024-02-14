@@ -6,14 +6,20 @@ import { Container } from './styles';
 
 interface BackButtonProps {
   defaultRoute?: string;
+  href?: string;
   marginRight?: number;
 }
 
-function BackButton({ defaultRoute, marginRight }: BackButtonProps) {
+function BackButton({ defaultRoute, marginRight, href }: BackButtonProps) {
   const router = useRouter();
   const theme = useTheme();
 
   const handleBack = () => {
+    if (href) {
+      router.navigate(href);
+      return;
+    }
+
     if (router.canGoBack()) {
       router.back();
       return;
