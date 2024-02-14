@@ -48,6 +48,9 @@ export default function Chat() {
   const theme = useTheme();
 
   const scrollRef = useRef<ScrollView>(null);
+  const scrollToEnd = () =>
+    setTimeout(() => scrollRef.current?.scrollToEnd(), 400);
+
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [newMessage, setNewMessage] = useState('');
@@ -77,7 +80,7 @@ export default function Chat() {
     setNewMessage('');
 
     Keyboard.dismiss();
-    scrollRef.current?.scrollToEnd({ animated: true });
+    scrollToEnd();
   };
 
   useEffect(() => {
@@ -85,7 +88,7 @@ export default function Chat() {
   }, []);
 
   useLayoutEffect(() => {
-    scrollRef.current?.scrollToEnd({ animated: true });
+    scrollToEnd();
   }, [messages]);
 
   if (!loading && !auth.user) {
