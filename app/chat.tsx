@@ -15,7 +15,12 @@ import {
 } from '@/components/pages/courses/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
+import {
+  height,
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '@/utils/scale';
 
 const INITIAL_MESSAGES: Message[] = [
   {
@@ -81,7 +86,11 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <Container>
+    <Container
+      bounces={false}
+      automaticallyAdjustKeyboardInsets
+      contentContainerStyle={{ alignItems: 'center', flex: 1 }}
+    >
       <TopWrapper>
         <HeaderBackground
           defaultSource={require('assets/gray.png')}
@@ -140,6 +149,8 @@ export default function Chat() {
           onChangeText={setNewMessage}
           useFlex
           onSubmitEditing={onSendMessage}
+          returnKeyType="send"
+          returnKeyLabel="Enviar"
         />
 
         <SendButton onPress={onSendMessage}>
@@ -154,12 +165,12 @@ export default function Chat() {
   );
 }
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   flex: 1;
 `;
 
 const TopWrapper = styled.View`
-  height: ${verticalScale(120)}px;
+  height: ${height * 0.2}px;
   width: 100%;
   position: relative;
   z-index: 0;
@@ -167,7 +178,7 @@ const TopWrapper = styled.View`
 
 const HeaderBackground = styled.ImageBackground`
   width: 100%;
-  height: ${verticalScale(120)}px;
+  height: ${height * 0.2}px;
 `;
 
 const ContentViewer = styled.ScrollView`
@@ -210,12 +221,11 @@ const MessageText = styled(Text)`
   color: ${({ theme }) => theme.colors.dark};
 `;
 
-const InputContainer = styled.View`
-  width: 100%;
+const InputContainer = styled.SafeAreaView`
+  width: 90%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: ${verticalScale(10)}px ${horizontalScale(10)}px;
 `;
 
 const SendButton = styled.TouchableOpacity`
