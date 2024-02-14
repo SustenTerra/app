@@ -17,6 +17,7 @@ import {
   HorizontalScroller,
   TitleContainer,
   ScrollerWrapper,
+  FABWrapperForWeb,
 } from './styles';
 
 import { CourseChapterView, CourseListView, CourseView } from '@/api';
@@ -207,27 +208,33 @@ export function FABChat({ onPress }: FABChatProps) {
   const theme = useTheme();
 
   return (
-    <FloatingAction
-      actions={[
-        {
-          text: 'Chat',
-          icon: (
-            <Feather name="help-circle" size={30} color={theme.colors.light} />
-          ),
-          name: 'chat',
-        },
-      ]}
-      overrideWithAction
-      color={theme.colors.primary}
-      onPressItem={() => {
-        if (onPress) {
-          onPress();
-          return;
-        }
+    <FABWrapperForWeb>
+      <FloatingAction
+        actions={[
+          {
+            text: 'Chat',
+            icon: (
+              <Feather
+                name="help-circle"
+                size={30}
+                color={theme.colors.light}
+              />
+            ),
+            name: 'chat',
+          },
+        ]}
+        overrideWithAction
+        color={theme.colors.primary}
+        onPressItem={() => {
+          if (onPress) {
+            onPress();
+            return;
+          }
 
-        router.push('/chat');
-      }}
-    />
+          router.push('/chat');
+        }}
+      />
+    </FABWrapperForWeb>
   );
 }
 

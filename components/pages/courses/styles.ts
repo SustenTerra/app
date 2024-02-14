@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 import Text from '@/components/Text';
+import { webOnlyCSS } from '@/utils/platform';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export const TopWrapper = styled.View`
@@ -143,4 +144,12 @@ export const HorizontalScroller = styled.ScrollView``;
 
 export const CourseSummaryWrapper = styled.View`
   margin: ${verticalScale(10)}px 0;
+`;
+
+export const FABWrapperForWeb = styled.View`
+  ${webOnlyCSS`
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+  `}
 `;
