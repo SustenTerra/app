@@ -1,9 +1,10 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, usePathname } from 'expo-router';
-import { useTheme } from 'styled-components';
 
 import { SelectedTab, Tab, Wrapper } from './styles';
 import Text from '../Text';
+
+import { useAuth } from '@/hooks/auth';
 
 type IconNameOptions = 'shopping-bag' | 'heart' | 'book-open' | 'user';
 
@@ -38,16 +39,27 @@ const tabs: TabInfo[] = [
 
 function NavigationBar() {
   const pathname = usePathname();
-  const theme = useTheme();
+
+  const { user } = useAuth();
+
+  const goToLoginIfNotAuthenticated = (href: string) => {
+    const privateRoutes = ['/profile', '/posts/favorites'];
+    if (!user && privateRoutes.includes(href)) {
+      return '/login';
+    }
+
+    return href;
+  };
 
   return (
     <Wrapper>
       {tabs.map(({ href, iconName, title }) => {
-        const isSelected = pathname.includes(href);
+        const normalizedHref = goToLoginIfNotAuthenticated(href);
+        const isSelected = pathname.includes(normalizedHref);
 
         const TabComponent = isSelected ? SelectedTab : Tab;
         return (
-          <Link key={href} href={href} asChild>
+          <Link key={href} href={normalizedHref} asChild>
             <TabComponent>
               <Feather size={20} name={iconName} color="white" />
               <Text color="light" size={14}>
