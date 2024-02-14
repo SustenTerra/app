@@ -10,18 +10,25 @@ const errorPatterns = [
     pattern: "'[A-z0-9_.\\-]+@[A-z0-9]+\\.[A-z]+(\\.[A-z]+)*'",
     message: 'Email inválido, verifique o email informado.',
   },
+  {
+    pattern: 'Given current password do not match actual user password',
+    message: 'Email ou senha inválidos, verifique os dados informados.',
+  },
 ];
 
 export function showErrors(error: unknown) {
   let detail = DEFAULT_ERROR_MESSAGE;
   if (error instanceof ApiError) {
-    const foundDetail =
-      error.body.detail && error.body.detail.length > 0
-        ? error.body.detail[0].msg
-        : detail;
+    const foundDetail = error.body.detail;
 
     if (foundDetail) {
-      detail = foundDetail;
+      if (typeof foundDetail === 'string') {
+        detail = foundDetail;
+      }
+
+      if (Array.isArray(foundDetail) && foundDetail.length > 0) {
+        detail = foundDetail[0].msg;
+      }
     }
   }
 
@@ -34,7 +41,7 @@ export function showErrors(error: unknown) {
 
   showMessage({
     type: 'danger',
-    title: 'Erro',
+    title: 'Atenção!',
     message: detail,
   });
 }
