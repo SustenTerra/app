@@ -1,27 +1,56 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useTheme } from 'styled-components';
+import { usePathname } from 'expo-router';
 
-import { Link, Wrapper } from './style';
+import { SelectedTab, Tab, Wrapper } from './style';
+import Text from '../Text';
 
-import { moderateScale } from '@/utils/scale';
+type IconNameOptions = 'shopping-bag' | 'heart' | 'book-open' | 'user';
+
+interface TabInfo {
+  href: string;
+  title: string;
+  iconName: IconNameOptions;
+}
+
+const tabs: TabInfo[] = [
+  {
+    href: '/posts',
+    iconName: 'shopping-bag',
+    title: 'Anúncios',
+  },
+  {
+    href: '/posts/favorites',
+    iconName: 'heart',
+    title: 'Favoritos',
+  },
+  {
+    href: '/courses',
+    iconName: 'book-open',
+    title: 'Cursos',
+  },
+  {
+    href: '/profile',
+    iconName: 'user',
+    title: 'Perfil',
+  },
+];
 
 function NavigationBar() {
-  const theme = useTheme();
+  const pathname = usePathname();
 
   return (
     <Wrapper>
-      <Link href="/posts">
-        <Feather size={24} name="shopping-bag" />
-      </Link>
-      <Link href="/posts/favorites">
-        <Feather size={24} name="heart" />
-      </Link>
-      <Link href="/courses">
-        <Feather size={24} name="book-open" />
-      </Link>
-      <Link href="/posts">
-        <Feather size={24} name="user" />
-      </Link>
+      {tabs.map(({ href, iconName, title }) => {
+        const TabComponent = pathname === href ? SelectedTab : Tab;
+        return (
+          <TabComponent key={href} href={href}>
+            <Feather size={20} name={iconName} />
+            <Text color="light" size={14}>
+              {pathname === href && title}
+            </Text>
+          </TabComponent>
+        );
+      })}
     </Wrapper>
   );
 }
