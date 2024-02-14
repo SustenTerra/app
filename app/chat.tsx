@@ -233,6 +233,7 @@ const InputContainer = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: ${verticalScale(10)}px;
 `;
 
 const SendButton = styled.TouchableOpacity`
