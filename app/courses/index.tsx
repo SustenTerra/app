@@ -11,10 +11,11 @@ import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import { CourseSummary } from '@/components/pages/courses';
+import { CourseSummary, CoursesInProgress } from '@/components/pages/courses';
 import {
   Content,
   ContentBackground,
+  CourseSummaryWrapper,
   DescriptionWrapper,
   HeaderBackground,
   HeaderWrapper,
@@ -155,7 +156,7 @@ export default function CoursesHome() {
           <TransparentBackground>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton />
+                <BackButton href="/" />
                 <Text weight="regular" size="h1" color="light">
                   Cursos Disponíveis
                 </Text>
@@ -182,6 +183,10 @@ export default function CoursesHome() {
           />
         )}
 
+        {shouldShowByDefault && !auth.loading && auth.user && (
+          <CoursesInProgress />
+        )}
+
         <TitleContainer>
           <Text size="h5">{title}</Text>
         </TitleContainer>
@@ -201,11 +206,12 @@ export default function CoursesHome() {
 
         {!loadingCourses &&
           viewCourses.map((course) => (
-            <CourseSummary
-              key={course.id}
-              course={course}
-              onPress={() => onCoursePress(course)}
-            />
+            <CourseSummaryWrapper key={course.id}>
+              <CourseSummary
+                course={course}
+                onPress={() => onCoursePress(course)}
+              />
+            </CourseSummaryWrapper>
           ))}
 
         {!loadingCourses && viewCourses.length === 0 && <EmptyList />}

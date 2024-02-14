@@ -2,11 +2,15 @@ import styled from 'styled-components/native';
 
 import { verticalScale } from '@/utils/scale';
 
-export const Container = styled.View`
+interface ContainerProps {
+  height?: number;
+}
+
+export const Container = styled.View<ContainerProps>`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: ${verticalScale(200)}px;
+  height: ${(props) => props.height || verticalScale(200)}px;
 `;
 
 export const LoadingIndicator = styled.ActivityIndicator``;

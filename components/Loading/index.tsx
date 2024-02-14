@@ -5,11 +5,15 @@ import { Container, FlatContainer, LoadingIndicator } from './styles';
 import Text from '@/components/Text';
 import { verticalScale } from '@/utils/scale';
 
-function Loading() {
+interface LoadingProps {
+  height?: number;
+}
+
+function Loading({ height }: LoadingProps) {
   const theme = useTheme();
 
   return (
-    <Container>
+    <Container height={height}>
       <LoadingIndicator size="large" color={theme.colors.primary} />
       <Text style={{ marginTop: verticalScale(10) }} color="primary">
         Carregando...

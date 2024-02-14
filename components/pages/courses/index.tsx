@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FloatingAction } from 'react-native-floating-action';
 import { useTheme } from 'styled-components/native';
 
@@ -14,24 +14,36 @@ import {
   CourseContentWrapper,
   CourseContentTitle,
   TitleWrapper,
+  HorizontalScroller,
+  TitleContainer,
+  ScrollerWrapper,
 } from './styles';
 
 import { CourseChapterView, CourseListView, CourseView } from '@/api';
 import Button from '@/components/Button';
+import Loading from '@/components/Loading';
 import Text from '@/components/Text';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
+import { isWeb } from '@/utils/platform';
 import { moderateScale, verticalScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
   course: CourseListView;
+  fixedWidth?: boolean;
   onPress: () => void;
 }
 
-export function CourseSummary({ course, onPress }: CourseSummaryProps) {
+export function CourseSummary({
+  course,
+  onPress,
+  fixedWidth,
+}: CourseSummaryProps) {
   const theme = useTheme();
 
   return (
-    <CourseViewWrapper onPress={onPress}>
+    <CourseViewWrapper onPress={onPress} fixedWidth={fixedWidth}>
       <CourseViewBackground
         defaultSource={require('assets/gray.png')}
         source={{ uri: course.image_url }}
@@ -216,5 +228,53 @@ export function FABChat({ onPress }: FABChatProps) {
         router.push('/chat');
       }}
     />
+  );
+}
+
+export function CoursesInProgress() {
+  const router = useRouter();
+
+  const [courses, setCourses] = useState<CourseListView[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const getInProgressCourses = async () => {
+    setLoading(true);
+    try {
+      const response =
+        await client.courses.listAllCoursesInProgressCoursesInProgressGet();
+      setCourses(response);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getInProgressCourses();
+  }, []);
+
+  return (
+    <>
+      <TitleContainer>
+        <Text size="h5">Em andamento</Text>
+      </TitleContainer>
+
+      {loading && <Loading height={verticalScale(150)} />}
+
+      <ScrollerWrapper>
+        <HorizontalScroller horizontal showsHorizontalScrollIndicator={isWeb}>
+          {!loading &&
+            courses.map((course) => (
+              <CourseSummary
+                key={course.id}
+                course={course}
+                onPress={() => router.push(`/courses/${course.id}`)}
+                fixedWidth
+              />
+            ))}
+        </HorizontalScroller>
+      </ScrollerWrapper>
+    </>
   );
 }

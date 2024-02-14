@@ -58,13 +58,16 @@ export const Content = styled.View`
 `;
 
 export const TitleContainer = styled.View`
-  padding: ${verticalScale(20)}px ${horizontalScale(20)}px
-    ${verticalScale(10)}px ${horizontalScale(10)}px;
+  padding: ${moderateScale(10)}px;
 `;
 
-export const CourseViewWrapper = styled.TouchableOpacity`
-  margin-top: ${verticalScale(20)}px;
-  width: 100%;
+interface CourseViewWrapperProps {
+  fixedWidth?: boolean;
+}
+
+export const CourseViewWrapper = styled.TouchableOpacity<CourseViewWrapperProps>`
+  width: ${({ fixedWidth }) =>
+    fixedWidth ? `${horizontalScale(300)}px` : '100%'};
   align-items: center;
   justify-content: center;
 `;
@@ -129,4 +132,15 @@ export const TitleWrapper = styled.View`
 
 export const CourseContentTitle = styled(Text)`
   margin-left: ${horizontalScale(10)}px;
+`;
+
+export const ScrollerWrapper = styled.View`
+  width: 100%;
+  margin-bottom: ${verticalScale(10)}px;
+`;
+
+export const HorizontalScroller = styled.ScrollView``;
+
+export const CourseSummaryWrapper = styled.View`
+  margin: ${verticalScale(10)}px 0;
 `;
