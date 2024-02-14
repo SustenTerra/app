@@ -43,13 +43,15 @@ function NavigationBar() {
   return (
     <Wrapper>
       {tabs.map(({ href, iconName, title }) => {
-        const TabComponent = pathname === href ? SelectedTab : Tab;
+        const isSelected = pathname.includes(href);
+
+        const TabComponent = isSelected ? SelectedTab : Tab;
         return (
           <Link key={href} href={href} asChild>
             <TabComponent>
               <Feather size={20} name={iconName} color="white" />
               <Text color="light" size={14}>
-                {pathname === href && title}
+                {isSelected && title}
               </Text>
             </TabComponent>
           </Link>

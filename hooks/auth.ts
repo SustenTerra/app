@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { UserView } from '@/api';
-import { getUserAsync } from '@/services/authStorage';
+import { getUserAsync, onLogout } from '@/services/authStorage';
 
 export function useAuth() {
   const [user, setUser] = useState<UserView | null>(null);
@@ -13,6 +13,11 @@ export function useAuth() {
     setLoading(false);
   };
 
+  const logoutUser = async () => {
+    setUser(null);
+    await onLogout();
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -20,5 +25,6 @@ export function useAuth() {
   return {
     user,
     loading,
+    logoutUser,
   };
 }
