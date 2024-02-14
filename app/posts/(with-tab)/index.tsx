@@ -1,18 +1,15 @@
-import { Link, router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 
 import { PostView } from '@/api';
-import BackButton from '@/components/BackButton';
 import Banner from '@/components/Banner';
-import Button from '@/components/Button';
 import CategoryList from '@/components/CategoryList';
 import Input from '@/components/Input';
 import PostCard from '@/components/PostCard';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import {
-  ButtonsWrapper,
   Container,
   Header,
   PostsContainer,
@@ -20,7 +17,6 @@ import {
 } from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
-import { horizontalScale } from '@/utils/scale';
 
 const CATEGORIES = [
   'Todos',
@@ -89,16 +85,6 @@ export default function Posts() {
             SustenTerra
           </Text>
         </Header>
-        <ButtonsWrapper>
-          <BackButton />
-          <Button
-            onPress={() => router.push('/posts/new-post')}
-            color="primary"
-            style={{ width: horizontalScale(150) }}
-          >
-            <Text color="light">Criar Anúncio</Text>
-          </Button>
-        </ButtonsWrapper>
         <SearchWrapper>
           <Input
             iconName="search"

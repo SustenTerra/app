@@ -26,13 +26,6 @@ export const PostsContainer = styled.View`
   gap: ${moderateScale(10)}px;
 `;
 
-export const ButtonsWrapper = styled.View`
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 export const NewPostContainer = styled.SafeAreaView`
   margin: ${moderateScale(10)}px;
   gap: ${moderateScale(10)}px;
