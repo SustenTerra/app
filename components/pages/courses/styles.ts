@@ -59,7 +59,7 @@ export const Content = styled.View`
 
 export const TitleContainer = styled.View`
   padding: ${verticalScale(20)}px ${horizontalScale(20)}px
-    ${verticalScale(10)}px ${horizontalScale(20)}px;
+    ${verticalScale(10)}px ${horizontalScale(10)}px;
 `;
 
 export const CourseViewWrapper = styled.TouchableOpacity`
@@ -70,7 +70,7 @@ export const CourseViewWrapper = styled.TouchableOpacity`
 `;
 
 export const CourseViewBackground = styled.ImageBackground`
-  width: 90%;
+  width: 95%;
   height: ${verticalScale(150)}px;
   border-radius: ${moderateScale(25)}px;
 `;

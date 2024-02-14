@@ -17,7 +17,7 @@ export const Header = styled.View`
 `;
 
 export const SearchWrapper = styled.View`
-  width: 100%;
+  width: 95%;
 `;
 
 export const PostsContainer = styled.View`

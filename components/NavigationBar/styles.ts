@@ -1,10 +1,9 @@
 import { Link as ExpoLink } from 'expo-router';
 import styled from 'styled-components/native';
 
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
+import { moderateScale } from '@/utils/scale';
 
 export const Wrapper = styled.SafeAreaView`
-  position: fixed;
   background-color: ${(props) => props.theme.colors.secondary};
   flex-direction: row;
   justify-content: space-around;

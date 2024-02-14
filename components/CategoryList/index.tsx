@@ -1,6 +1,7 @@
 import { Button, Container, Wrapper } from './styles';
 
 import Text from '@/components/Text';
+import { horizontalScale } from '@/utils/scale';
 
 interface CategoryListProps {
   categories: string[];
@@ -15,7 +16,8 @@ function CategoryList({ categories, value, onChange }: CategoryListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 20,
+          paddingRight: horizontalScale(20),
+          paddingLeft: horizontalScale(10),
         }}
       >
         {categories.map((category, index) => (

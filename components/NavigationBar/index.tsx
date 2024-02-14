@@ -1,13 +1,8 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useTheme } from 'styled-components';
 
-import { Link, Wrapper } from './style';
-
-import { moderateScale } from '@/utils/scale';
+import { Link, Wrapper } from './styles';
 
 function NavigationBar() {
-  const theme = useTheme();
-
   return (
     <Wrapper>
       <Link href="/posts">
