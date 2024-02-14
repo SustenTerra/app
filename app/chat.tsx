@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import { Redirect } from 'expo-router';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Keyboard, ScrollView } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
@@ -13,6 +14,7 @@ import {
   HeaderWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import {
@@ -42,6 +44,7 @@ function ChatMessage({ message }: { message: Message }) {
 }
 
 export default function Chat() {
+  const auth = useAuth();
   const theme = useTheme();
 
   const scrollRef = useRef<ScrollView>(null);
@@ -84,6 +87,10 @@ export default function Chat() {
   useLayoutEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
   }, [messages]);
+
+  if (!loading && !auth.user) {
+    return <Redirect href="/login" />;
+  }
 
   return (
     <Container
