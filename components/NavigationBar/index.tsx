@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
-import { usePathname } from 'expo-router';
+import { Link, usePathname } from 'expo-router';
+import { useTheme } from 'styled-components';
 
 import { SelectedTab, Tab, Wrapper } from './styles';
 import Text from '../Text';
@@ -37,18 +38,21 @@ const tabs: TabInfo[] = [
 
 function NavigationBar() {
   const pathname = usePathname();
+  const theme = useTheme();
 
   return (
     <Wrapper>
       {tabs.map(({ href, iconName, title }) => {
         const TabComponent = pathname === href ? SelectedTab : Tab;
         return (
-          <TabComponent key={href} href={href}>
-            <Feather size={20} name={iconName} />
-            <Text color="light" size={14}>
-              {pathname === href && title}
-            </Text>
-          </TabComponent>
+          <Link key={href} href={href} asChild>
+            <TabComponent>
+              <Feather size={20} name={iconName} color="white" />
+              <Text color="light" size={14}>
+                {pathname === href && title}
+              </Text>
+            </TabComponent>
+          </Link>
         );
       })}
     </Wrapper>

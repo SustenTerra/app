@@ -10,9 +10,8 @@ export const Wrapper = styled.SafeAreaView`
   width: 100%;
 `;
 
-export const Tab = styled(Link)`
-  display: flex;
-  color: ${(props) => props.theme.colors.light};
+export const Tab = styled.TouchableOpacity`
+  flex-direction: row;
   padding: ${moderateScale(16)}px;
   margin: ${moderateScale(10)}px;
   align-items: center;
