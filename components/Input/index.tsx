@@ -13,10 +13,11 @@ import { Container, TextInput } from './styles';
 type IconNameOptions = 'user' | 'mail' | 'message-circle' | 'lock' | 'search';
 
 interface InputProps extends TextInputProps {
-  iconName: IconNameOptions;
+  iconName?: IconNameOptions;
   placeholder: string;
   hideText?: boolean;
   useSecondaryColors?: boolean;
+  useFlex?: boolean;
   clearable?: boolean;
   style?: StyleProp<TextStyle>;
 }
@@ -26,6 +27,7 @@ function Input({
   placeholder,
   hideText = false,
   useSecondaryColors = false,
+  useFlex = false,
   clearable = false,
   value,
   onChangeText,
@@ -41,7 +43,7 @@ function Input({
     : theme.colors.dark;
 
   return (
-    <Container onPress={() => inputRef.current?.focus()}>
+    <Container onPress={() => inputRef.current?.focus()} useFlex={useFlex}>
       {iconName && <Feather name={iconName} size={24} color={iconColor} />}
 
       <TextInput
