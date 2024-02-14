@@ -25,5 +25,6 @@ export const StyledButton = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: ${moderateScale(55)}px;
   gap: ${horizontalScale(6)}px;
 `;

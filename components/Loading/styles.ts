@@ -10,3 +10,9 @@ export const Container = styled.View`
 `;
 
 export const LoadingIndicator = styled.ActivityIndicator``;
+
+export const FlatContainer = styled.View`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;

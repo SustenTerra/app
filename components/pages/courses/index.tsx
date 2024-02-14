@@ -186,7 +186,11 @@ export function NextContent({ course }: NextContentProps) {
   );
 }
 
-export function FABChat() {
+interface FABChatProps {
+  onPress?: () => void;
+}
+
+export function FABChat({ onPress }: FABChatProps) {
   const router = useRouter();
   const theme = useTheme();
 
@@ -203,7 +207,14 @@ export function FABChat() {
       ]}
       overrideWithAction
       color={theme.colors.primary}
-      onPressItem={() => router.push('/chat')}
+      onPressItem={() => {
+        if (onPress) {
+          onPress();
+          return;
+        }
+
+        router.push('/chat');
+      }}
     />
   );
 }

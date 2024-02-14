@@ -1,6 +1,6 @@
 import { useTheme } from 'styled-components/native';
 
-import { Container, LoadingIndicator } from './styles';
+import { Container, FlatContainer, LoadingIndicator } from './styles';
 
 import Text from '@/components/Text';
 import { verticalScale } from '@/utils/scale';
@@ -15,6 +15,20 @@ function Loading() {
         Carregando...
       </Text>
     </Container>
+  );
+}
+
+interface HorizontalLoadingProps {
+  color?: 'primary' | 'secondary' | 'light';
+}
+
+export function HorizontalLoading({ color }: HorizontalLoadingProps) {
+  const theme = useTheme();
+
+  return (
+    <FlatContainer>
+      <LoadingIndicator size="small" color={theme.colors[color || 'primary']} />
+    </FlatContainer>
   );
 }
 

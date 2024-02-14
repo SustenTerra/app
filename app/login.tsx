@@ -9,6 +9,7 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
+import { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { onLogin } from '@/services/authStorage';
@@ -21,6 +22,7 @@ import { verticalScale, moderateScale, height } from '@/utils/scale';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -32,15 +34,24 @@ export default function Login() {
       return;
     }
 
+    setLoading(true);
     try {
       const res = await client.sessions.makeLoginSessionsPost({
         email,
         password,
       });
       await onLogin(res.token, res.user);
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso',
+        message: 'Login realizado com sucesso!',
+      });
+
       router.replace('/');
     } catch (err) {
       showErrors(err);
+      setLoading(false);
     }
   };
 
@@ -86,11 +97,17 @@ export default function Login() {
           hideText
           onChangeText={setPassword}
         />
-        <Button color="secondary" onPress={handleLogin}>
-          <Feather name="log-in" size={24} color={theme.colors.light} />
-          <Text color="light" size={20}>
-            Login
-          </Text>
+        <Button disabled={loading} color="secondary" onPress={handleLogin}>
+          {!loading && (
+            <>
+              <Feather name="log-in" size={24} color={theme.colors.light} />
+              <Text color="light" size={20}>
+                Login
+              </Text>
+            </>
+          )}
+
+          {loading && <HorizontalLoading color="light" />}
         </Button>
         <HelpLink screen="login" />
       </TextContainer>
