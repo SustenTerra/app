@@ -43,7 +43,7 @@ export default function Profile() {
     {
       icon: 'book',
       title: 'Meus cursos',
-      description: 'Veja seus cursos em andamento e disponíveis',
+      description: 'Cursos em andamento e disponíveis',
       href: '/courses',
     },
     {

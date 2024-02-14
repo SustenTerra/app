@@ -14,4 +14,11 @@ export const DataWrapper = styled.View`
   margin-left: ${horizontalScale(10)}px;
 `;
 
-export const ProfileButtonContainer = styled.TouchableOpacity``;
+export const ProfileButtonContainer = styled.TouchableOpacity`
+  width: 100%;
+  margin: ${verticalScale(10)}px 0;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding-left: ${horizontalScale(20)}px;
+`;

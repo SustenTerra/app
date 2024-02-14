@@ -64,7 +64,6 @@ export function ProfileButton({
           {description}
         </Text>
       </DataWrapper>
-      <Feather name="chevron-right" size={moderateScale(24)} />
     </ProfileButtonContainer>
   );
 
