@@ -9,6 +9,7 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import HelpLink from '@/components/HelpLink';
 import Input from '@/components/Input';
+import { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { client } from '@/services/client';
@@ -23,6 +24,7 @@ export default function SignUp() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!email || !password || !phone || !password || !passwordConfirmation) {
@@ -43,6 +45,7 @@ export default function SignUp() {
       return;
     }
 
+    setLoading(true);
     try {
       await client.users.createUserUsersPost({
         email,
@@ -50,9 +53,15 @@ export default function SignUp() {
         password,
         phone,
       });
+      showMessage({
+        type: 'success',
+        title: 'Sucesso',
+        message: 'Usuário criado com sucesso!',
+      });
       router.replace('/login');
     } catch (err) {
       showErrors(err);
+      setLoading(false);
     }
   };
 
@@ -119,11 +128,17 @@ export default function SignUp() {
           hideText
           onChangeText={setPasswordConfirmation}
         />
-        <Button color="secondary" onPress={handleSignUp}>
-          <Feather name="log-in" size={24} color={theme.colors.light} />
-          <Text color="light" size={20}>
-            Cadastrar
-          </Text>
+        <Button disabled={loading} color="secondary" onPress={handleSignUp}>
+          {!loading && (
+            <>
+              <Feather name="log-in" size={24} color={theme.colors.light} />
+              <Text color="light" size={20}>
+                Cadastrar
+              </Text>
+            </>
+          )}
+
+          {loading && <HorizontalLoading color="light" />}
         </Button>
         <HelpLink screen="signup" />
       </TextContainer>
