@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
+import { FloatingAction } from 'react-native-floating-action';
 import { useTheme } from 'styled-components/native';
 
 import {
@@ -182,5 +183,27 @@ export function NextContent({ course }: NextContentProps) {
         Continuar curso
       </Text>
     </Button>
+  );
+}
+
+export function FABChat() {
+  const router = useRouter();
+  const theme = useTheme();
+
+  return (
+    <FloatingAction
+      actions={[
+        {
+          text: 'Chat',
+          icon: (
+            <Feather name="help-circle" size={30} color={theme.colors.light} />
+          ),
+          name: 'chat',
+        },
+      ]}
+      overrideWithAction
+      color={theme.colors.primary}
+      onPressItem={() => router.push('/chat')}
+    />
   );
 }

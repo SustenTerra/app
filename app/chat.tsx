@@ -2,10 +2,10 @@ import styled from 'styled-components/native';
 
 import Text from '@/components/Text';
 
-export default function Paint() {
+export default function Chat() {
   return (
     <Container>
-      <Text>Paint</Text>
+      <Text>Chat</Text>
     </Container>
   );
 }
