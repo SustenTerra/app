@@ -131,9 +131,9 @@ export default function ShowContent() {
 
       {shouldShowContent && (
         <ContentContainer>
-          <YTVideo videoId="iee2TATGMyI" />
+          {content.video_url && <YTVideo url={content.video_url} />}
 
-          <MDViewer content={content.description} />
+          {content.description && <MDViewer content={content.description} />}
 
           <NavigationWrapper>
             {content.previous_chapter_content_id && (

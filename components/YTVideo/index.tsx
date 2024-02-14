@@ -4,10 +4,12 @@ import { isWeb } from '@/utils/platform';
 import { verticalScale } from '@/utils/scale';
 
 interface Props {
-  videoId: string;
+  url: string;
 }
 
-function YTVideo({ videoId }: Props) {
+function YTVideo({ url }: Props) {
+  const videoId = url.split('v=')[1];
+
   if (isWeb) {
     return (
       <iframe
