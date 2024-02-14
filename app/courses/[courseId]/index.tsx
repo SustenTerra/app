@@ -68,7 +68,7 @@ export default function ShowCourse() {
           <TransparentBackground darker>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton />
+                <BackButton href="/courses" />
                 <Text weight="regular" size="h6" color="light">
                   Voltar
                 </Text>
