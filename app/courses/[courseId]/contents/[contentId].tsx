@@ -1,16 +1,16 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Link, Redirect, useLocalSearchParams } from 'expo-router';
+import { Link, Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import Markdown from 'react-native-markdown-display';
 import styled, { useTheme } from 'styled-components/native';
 
 import { ChapterContentView } from '@/api';
 import BackButton from '@/components/BackButton';
-import Button from '@/components/Button';
 import Loading from '@/components/Loading';
+import MDViewer from '@/components/MDViewer';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
+import YTVideo from '@/components/YTVideo';
 import {
   ContentBackground,
   DescriptionWrapper,
@@ -22,11 +22,13 @@ import {
 import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export default function ShowContent() {
   const theme = useTheme();
   const auth = useAuth();
+  const router = useRouter();
   const { courseId, contentId } = useLocalSearchParams();
 
   const [content, setContent] = useState<ChapterContentView | null>(null);
@@ -35,6 +37,16 @@ export default function ShowContent() {
   const getContent = async () => {
     setLoading(true);
     try {
+      if (typeof contentId !== 'string') {
+        showMessage({
+          type: 'danger',
+          title: 'Erro',
+          message: 'Conteúdo não encontrado!',
+        });
+        router.replace('/courses');
+        return;
+      }
+
       const contentResponse =
         await client.chapterContents.getContentByIdChapterContentsChapterContentIdGet(
           Number(contentId),
@@ -119,7 +131,9 @@ export default function ShowContent() {
 
       {shouldShowContent && (
         <ContentContainer>
-          <Markdown>{content.description}</Markdown>
+          <YTVideo videoId="iee2TATGMyI" />
+
+          <MDViewer content={content.description} />
 
           <NavigationWrapper>
             {content.previous_chapter_content_id && (
@@ -135,7 +149,7 @@ export default function ShowContent() {
             )}
 
             <Link asChild href={nextContentHref}>
-              <NextButton color="secondary">
+              <NextButton>
                 <Text weight="bold" size="h6" color="light">
                   {nextContentLabel}
                 </Text>
@@ -168,17 +182,21 @@ const NavigationWrapper = styled.View`
 `;
 
 const PreviousButton = styled.TouchableOpacity`
-  width: ${horizontalScale(70)}px;
-  height: ${verticalScale(70)}px;
-  border-radius: ${moderateScale(70)}px;
-  align-items: center;
-  justify-content: center;
+  width: ${horizontalScale(55)}px;
+  height: ${verticalScale(55)}px;
+  border-radius: ${moderateScale(55)}px;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.light};
   margin-right: ${horizontalScale(10)}px;
 `;
 
-const NextButton = styled(Button)`
+const NextButton = styled.TouchableOpacity`
   flex: 1;
+  border-radius: ${moderateScale(70)}px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  background-color: ${({ theme }) => theme.colors.secondary};
+  padding: ${moderateScale(10)}px ${moderateScale(16)}px;
 `;
