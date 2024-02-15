@@ -8,7 +8,7 @@ import { PostView } from '@/api';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 function PostCard(props: PostView) {
-  const postWidth = width * 0.44;
+  const postWidth = width * 0.5 - moderateScale(17);
 
   return (
     <Container width={postWidth}>

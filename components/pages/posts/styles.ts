@@ -22,7 +22,10 @@ export const SearchWrapper = styled.View`
 export const PostsContainer = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: ${moderateScale(10)}px;
+  width: 100%;
+  padding: 0 ${horizontalScale(10)}px;
 `;
 
 export const NewPostContainer = styled.SafeAreaView`
