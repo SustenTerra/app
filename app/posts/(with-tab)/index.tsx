@@ -1,14 +1,18 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import debounce from 'awesome-debounce-promise';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
 
 import { PostView } from '@/api';
 import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
+import EmptyList from '@/components/EmptyList';
 import Input from '@/components/Input';
+import Loading from '@/components/Loading';
 import PostCard from '@/components/PostCard';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
+import { TitleContainer } from '@/components/pages/courses/styles';
 import {
   Container,
   Header,
@@ -18,50 +22,60 @@ import {
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 
-const CATEGORIES = [
-  'Todos',
-  'Tintas',
-  'Obras de Arte',
-  'Serviços',
-  'Tintas2',
-  'Obras de Arte2',
-  'Serviços2',
-];
+const DEFAULT_CATEGORIES = ['Todos'];
 
 interface GetPostsPayload {
   search?: string;
   category?: string;
-  userId?: number;
 }
 
 export default function Posts() {
+  const router = useRouter();
   const params = useLocalSearchParams<{
     search: string;
     category: string;
   }>();
 
-  const [search, setSearch] = useState('');
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+
+  const [searchText, setSearchText] = useState(params.search || '');
   const [selectedCategory, setSelectedCategory] = useState(
-    CATEGORIES.indexOf(params.category || 'Todos'),
+    categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
+  const [loadingPosts, setLoadingPosts] = useState(true);
   const [viewPosts, setViewPosts] = useState<PostView[]>([]);
 
-  const getPosts = async ({ search, category, userId }: GetPostsPayload) => {
+  const getCategories = async () => {
     try {
-      const posts = await client.posts.listAllPostsPostsGet(
-        category,
-        userId,
-        search,
-      );
-      setViewPosts(posts);
+      const categoriesResponse =
+        await client.postCategories.listAllPostCategoriesPostCategoriesGet();
+      const names = categoriesResponse.map((category) => category.name);
+      setCategories([DEFAULT_CATEGORIES[0], ...names]);
     } catch (error) {
       showErrors(error);
     }
   };
 
+  const getPosts = async ({ search, category }: GetPostsPayload) => {
+    try {
+      setLoadingPosts(true);
+      const posts = await client.posts.listAllPostsPostsGet(
+        search,
+        null,
+        category,
+      );
+      setViewPosts(posts);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoadingPosts(false);
+    }
+  };
+  const getPostsDebounced = useCallback(debounce(getPosts, 500), []);
+
   useEffect(() => {
     if (params.search) {
-      getPosts({ search: params.search });
+      getPostsDebounced({ search: params.search });
       return;
     }
 
@@ -70,8 +84,20 @@ export default function Posts() {
       return;
     }
 
-    getPosts({});
+    getPostsDebounced({});
   }, [params.search, params.category]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (params.category) {
+      setSelectedCategory(categories.indexOf(params.category));
+    }
+  }, [categories, params.category]);
+
+  const shouldShowByDefault = !params.search;
 
   return (
     <ScrollablePage>
@@ -89,27 +115,45 @@ export default function Posts() {
           <Input
             iconName="search"
             placeholder="Pesquisar por produto, categoria..."
-            value={search}
-            onChangeText={setSearch}
+            clearable
+            value={searchText}
+            onChangeText={(text) => {
+              setSearchText(text);
+              router.setParams({ search: text });
+            }}
           />
         </SearchWrapper>
-        <Banner
-          title="Deseja aprender a criar produtos tão incríveis quanto esses?"
-          description="Clique aqui e saiba como!"
-          href="/courses"
-        />
-        <CategoryList
-          categories={CATEGORIES}
-          value={selectedCategory}
-          onChange={(value) => {
-            setSelectedCategory(value);
-            router.setParams({ category: CATEGORIES[value] });
-          }}
-        />
+        {shouldShowByDefault && (
+          <Banner
+            title="Deseja aprender a criar produtos tão incríveis quanto esses?"
+            description="Clique aqui e saiba como!"
+            href="/courses"
+          />
+        )}
+
+        {!shouldShowByDefault && (
+          <TitleContainer>
+            <Text size="h6">Exibindo resultados...</Text>
+          </TitleContainer>
+        )}
+
+        {shouldShowByDefault && (
+          <CategoryList
+            categories={categories}
+            value={selectedCategory}
+            onChange={(value) => {
+              setSelectedCategory(value);
+              router.setParams({ category: categories[value] });
+            }}
+          />
+        )}
         <PostsContainer>
-          {viewPosts.map((post) => (
-            <PostCard key={post.id} {...post} />
-          ))}
+          {loadingPosts && <Loading />}
+
+          {!loadingPosts &&
+            viewPosts.map((post) => <PostCard key={post.id} {...post} />)}
+
+          {!loadingPosts && viewPosts.length === 0 && <EmptyList />}
         </PostsContainer>
       </Container>
     </ScrollablePage>

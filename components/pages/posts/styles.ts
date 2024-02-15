@@ -6,7 +6,6 @@ export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${(props) => props.theme.colors.background};
   align-items: center;
-  margin: ${moderateScale(10)}px;
   margin-top: ${verticalScale(50)}px;
   gap: ${moderateScale(10)}px;
 `;
