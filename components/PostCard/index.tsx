@@ -5,6 +5,7 @@ import { Container, InfoContainer, TextContainer } from './style';
 import Text from '../Text';
 
 import { PostView } from '@/api';
+import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 function PostCard(props: PostView) {
   return (
@@ -12,7 +13,11 @@ function PostCard(props: PostView) {
       <Image
         source={props.image_url ? { uri: props.image_url } : undefined}
         defaultSource={require('assets/icon.png')}
-        style={{ width: 150, height: 180, borderRadius: 20 }}
+        style={{
+          width: width * 0.44,
+          height: verticalScale(200),
+          borderRadius: moderateScale(25),
+        }}
       />
       <InfoContainer>
         <TextContainer>
