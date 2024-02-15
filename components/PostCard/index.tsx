@@ -12,7 +12,7 @@ function PostCard(props: PostView) {
     <Container>
       <Image
         source={props.image_url ? { uri: props.image_url } : undefined}
-        defaultSource={require('assets/icon.png')}
+        defaultSource={require('assets/gray.png')}
         style={{
           width: width * 0.44,
           height: verticalScale(200),
