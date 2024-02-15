@@ -8,13 +8,15 @@ import { PostView } from '@/api';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 function PostCard(props: PostView) {
+  const postWidth = width * 0.44;
+
   return (
-    <Container>
+    <Container width={postWidth}>
       <Image
         source={props.image_url ? { uri: props.image_url } : undefined}
         defaultSource={require('assets/gray.png')}
         style={{
-          width: width * 0.44,
+          width: postWidth,
           height: verticalScale(200),
           borderRadius: moderateScale(25),
         }}
