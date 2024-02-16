@@ -1,6 +1,8 @@
+import Feather from '@expo/vector-icons/Feather';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
+import { useTheme } from 'styled-components/native';
 
 import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
@@ -13,11 +15,13 @@ import Text from '@/components/Text';
 import { TitleContainer } from '@/components/pages/courses/styles';
 import {
   Container,
+  FilterButton,
   Header,
   PostsContainer,
+  PostsGridHeader,
   SearchWrapper,
 } from '@/components/pages/posts/styles';
-import { usePosts } from '@/hooks/posts';
+import { usePostSorting, usePosts } from '@/hooks/posts';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 
@@ -25,6 +29,7 @@ const DEFAULT_CATEGORIES = ['Todos'];
 
 export default function Posts() {
   const router = useRouter();
+  const theme = useTheme();
   const params = useLocalSearchParams<{
     search: string;
     category: string;
@@ -37,13 +42,14 @@ export default function Posts() {
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
   const { loadingPosts, viewPosts } = usePosts(params.category, params.search);
+  const sorting = usePostSorting(viewPosts);
 
   const getCategories = async () => {
     try {
       const categoriesResponse =
         await client.postCategories.listAllPostCategoriesPostCategoriesGet();
       const names = categoriesResponse.map((category) => category.name);
-      setCategories([DEFAULT_CATEGORIES[0], ...names]);
+      setCategories([...DEFAULT_CATEGORIES, ...names]);
     } catch (error) {
       showErrors(error);
     }
@@ -109,13 +115,28 @@ export default function Posts() {
             }}
           />
         )}
+
+        {shouldShowByDefault && (
+          <PostsGridHeader>
+            <Text size="h5" weight="bold">
+              {sorting.sorterLabel}
+            </Text>
+
+            <FilterButton onPress={sorting.actionSheet.show}>
+              <Feather name="sliders" size={24} color={theme.colors.light} />
+            </FilterButton>
+          </PostsGridHeader>
+        )}
+
         <PostsContainer>
           {loadingPosts && <Loading />}
 
           {!loadingPosts &&
-            viewPosts.map((post) => <PostCard key={post.id} {...post} />)}
+            sorting.sortedPosts.map((post) => (
+              <PostCard key={post.id} {...post} />
+            ))}
 
-          {!loadingPosts && viewPosts.length === 0 && <EmptyList />}
+          {!loadingPosts && sorting.sortedPosts.length === 0 && <EmptyList />}
         </PostsContainer>
       </Container>
     </ScrollablePage>

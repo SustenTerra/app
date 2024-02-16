@@ -43,3 +43,21 @@ export const ImageForeGround = styled.View`
   align-items: center;
   width: 100%;
 `;
+
+export const PostsGridHeader = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 ${horizontalScale(10)}px;
+  margin-bottom: ${verticalScale(10)}px;
+`;
+
+export const FilterButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  width: ${moderateScale(40)}px;
+  height: ${moderateScale(40)}px;
+  border-radius: ${moderateScale(40)}px;
+  background-color: ${(props) => props.theme.colors.primary};
+`;
