@@ -1,9 +1,7 @@
-import debounce from 'awesome-debounce-promise';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
 
-import { PostView } from '@/api';
 import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
 import EmptyList from '@/components/EmptyList';
@@ -19,15 +17,11 @@ import {
   PostsContainer,
   SearchWrapper,
 } from '@/components/pages/posts/styles';
+import { usePosts } from '@/hooks/posts';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 
 const DEFAULT_CATEGORIES = ['Todos'];
-
-interface GetPostsPayload {
-  search?: string;
-  category?: string;
-}
 
 export default function Posts() {
   const router = useRouter();
@@ -42,8 +36,7 @@ export default function Posts() {
   const [selectedCategory, setSelectedCategory] = useState(
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
-  const [loadingPosts, setLoadingPosts] = useState(true);
-  const [viewPosts, setViewPosts] = useState<PostView[]>([]);
+  const { loadingPosts, viewPosts } = usePosts(params.category, params.search);
 
   const getCategories = async () => {
     try {
@@ -55,37 +48,6 @@ export default function Posts() {
       showErrors(error);
     }
   };
-
-  const getPosts = async ({ search, category }: GetPostsPayload) => {
-    try {
-      setLoadingPosts(true);
-      const posts = await client.posts.listAllPostsPostsGet(
-        search,
-        null,
-        category,
-      );
-      setViewPosts(posts);
-    } catch (error) {
-      showErrors(error);
-    } finally {
-      setLoadingPosts(false);
-    }
-  };
-  const getPostsDebounced = useCallback(debounce(getPosts, 500), []);
-
-  useEffect(() => {
-    if (params.search) {
-      getPostsDebounced({ search: params.search });
-      return;
-    }
-
-    if (params.category && params.category !== 'Todos') {
-      getPosts({ category: params.category });
-      return;
-    }
-
-    getPostsDebounced({});
-  }, [params.search, params.category]);
 
   useEffect(() => {
     getCategories();
