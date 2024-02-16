@@ -32,3 +32,14 @@ export const NewPostContainer = styled.SafeAreaView`
   margin: ${moderateScale(10)}px;
   gap: ${moderateScale(10)}px;
 `;
+
+export const ImageForeGround = styled.View`
+  position: absolute;
+  height: 50%;
+  bottom: 0;
+  background-color: ${(props) => props.theme.colors.secondary};
+  opacity: 0.7;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
