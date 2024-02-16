@@ -12,9 +12,12 @@ export const height =
     ? guidelineBaseHeight
     : dimensions.height;
 
+const widthForScale = isWeb ? guidelineBaseWidth : dimensions.width;
+const heightForScale = isWeb ? guidelineBaseHeight : dimensions.height;
+
 export const horizontalScale = (size: number) =>
-  (width / guidelineBaseWidth) * size;
+  (widthForScale / guidelineBaseWidth) * size;
 export const verticalScale = (size: number) =>
-  (height / guidelineBaseHeight) * size;
+  (heightForScale / guidelineBaseHeight) * size;
 export const moderateScale = (size: number, factor = 0.5) =>
   size + (horizontalScale(size) - size) * factor;
