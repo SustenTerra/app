@@ -42,6 +42,6 @@ const Container = styled.View`
   ${webOnlyCSS`
     width: 100%;
     max-width: 500px;
-    min-height: 100vh;
+    height: 100vh;
   `}
 `;

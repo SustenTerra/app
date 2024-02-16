@@ -1,7 +1,5 @@
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-
-import { isWeb } from '@/utils/platform';
 
 interface Props {
   children: React.ReactNode;
@@ -16,6 +14,7 @@ function ScrollablePage({ children }: Props) {
         width: '100%',
         minHeight: '100%',
       }}
+      showsVerticalScrollIndicator={false}
     >
       {children}
     </Container>
@@ -24,7 +23,7 @@ function ScrollablePage({ children }: Props) {
 
 export default ScrollablePage;
 
-const Container = styled(isWeb ? View : ScrollView)`
+const Container = styled(ScrollView)`
   flex: 1;
   background-color: ${(props) => props.theme.colors.background};
 `;
