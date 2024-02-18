@@ -11,6 +11,9 @@ import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 function PostCard(props: PostView) {
   const postWidth = width * 0.5 - moderateScale(17);
+  const postPrice = props.price
+    ? (props.price / 100).toFixed(2).replace('.', ',')
+    : '-';
 
   return (
     <TouchableOpacity onPress={() => router.replace(`posts/${props.id}`)}>
@@ -26,9 +29,7 @@ function PostCard(props: PostView) {
         />
         <InfoContainer>
           <TextContainer>
-            <Text weight="bold">
-              R$ {props.price ? props.price.toFixed(2) : '-'}
-            </Text>
+            <Text weight="bold">R$ {postPrice}</Text>
             <Text>{props.title}</Text>
           </TextContainer>
           <FavoriteButton size={20} />
