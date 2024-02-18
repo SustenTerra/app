@@ -26,7 +26,7 @@ export default function NewPost() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
-  const [price, setPrice] = useState('R$ 0.00');
+  const [price, setPrice] = useState('');
   const [image, setImage] = useState<ImageAsset>(null);
   const [categories, setCategories] = useState<PostCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
@@ -38,8 +38,13 @@ export default function NewPost() {
   const [loading, setLoading] = useState(false);
 
   const formatPrice = (price: string) => {
+    if (price.trim() === 'R$ 0,0') {
+      setPrice('');
+      return;
+    }
+
     const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
-    setPrice('R$ ' + val.toFixed(2).toString());
+    setPrice('R$ ' + val.toFixed(2).toString().replace('.', ','));
   };
 
   const getCategories = async () => {
