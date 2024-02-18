@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Image, TouchableOpacity } from 'react-native';
 
 import { Container, InfoContainer, TextContainer } from './style';
+import FavoriteButton from '../FavoriteButton';
 import Text from '../Text';
 
 import { PostView } from '@/api';
@@ -30,7 +31,7 @@ function PostCard(props: PostView) {
             </Text>
             <Text>{props.title}</Text>
           </TextContainer>
-          <Feather name="heart" size={20} />
+          <FavoriteButton size={20} />
         </InfoContainer>
       </Container>
     </TouchableOpacity>

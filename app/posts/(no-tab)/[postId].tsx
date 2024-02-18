@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 import { PostView } from '@/api';
 import BackButton from '@/components/BackButton';
 import EmptyList from '@/components/EmptyList';
+import FavoriteButton from '@/components/FavoriteButton';
 import Loading from '@/components/Loading';
 import MoreOptionsButton from '@/components/MoreOptionsButton';
 import ScrollablePage from '@/components/ScrollablePage';
@@ -73,7 +74,7 @@ export default function ShowPost() {
               <PostInfoWrapper>
                 <Row style={{ justifyContent: 'space-between' }}>
                   <Text size="h2">{post.title}</Text>
-                  <Feather name="heart" size={24} />
+                  <FavoriteButton />
                 </Row>
                 <Row style={{ justifyContent: 'space-between' }}>
                   <View>
