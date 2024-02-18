@@ -2,8 +2,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
-import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 
 import { PostView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -102,7 +101,7 @@ export default function ShowPost() {
                 }
               >
                 <Feather
-                  name="phone-incoming"
+                  name="phone-call"
                   color={theme.colors.light}
                   size={24}
                 />
