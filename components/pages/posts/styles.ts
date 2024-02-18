@@ -61,3 +61,43 @@ export const FilterButton = styled.TouchableOpacity`
   border-radius: ${moderateScale(40)}px;
   background-color: ${(props) => props.theme.colors.primary};
 `;
+
+export const ImagePostView = styled.Image`
+  height: 60%;
+  width: 100%;
+`;
+
+export const PostInfoWrapper = styled.View`
+  width: 100%;
+  padding: ${moderateScale(20)}px;
+`;
+
+export const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const ContactBar = styled.SafeAreaView`
+  background-color: ${(props) => props.theme.colors.secondary};
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+`;
+
+export const BarContent = styled.Pressable`
+  flex-direction: row;
+  width: 100%;
+  gap: ${moderateScale(10)}px;
+  padding: ${moderateScale(20)}px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HeaderPostView = styled.SafeAreaView`
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+`;

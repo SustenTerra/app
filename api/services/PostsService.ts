@@ -17,7 +17,7 @@ export class PostsService {
      * @throws ApiError
      */
     public createPostPostsPost(
-        formData: Body_create_post_posts_post,
+        formData: FormData,
     ): CancelablePromise<PostView> {
         return this.httpRequest.request({
             method: 'POST',
@@ -26,6 +26,10 @@ export class PostsService {
             mediaType: 'multipart/form-data',
             errors: {
                 422: `Validation Error`,
+            },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
             },
         });
     }

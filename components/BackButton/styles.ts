@@ -4,6 +4,7 @@ import { horizontalScale, moderateScale } from '@/utils/scale';
 
 interface ContainerProps {
   marginRight: number;
+  color: 'primary' | 'light';
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
@@ -11,7 +12,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
   height: ${moderateScale(40)}px;
   margin-right: ${(props) => horizontalScale(props.marginRight)}px;
   border-radius: ${moderateScale(20)}px;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${(props) => props.theme.colors[props.color]};
   align-items: center;
   justify-content: center;
 `;

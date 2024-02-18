@@ -76,16 +76,26 @@ export default function NewPost() {
       if (image) {
         const result = await fetch(image);
         const blob = await result.blob();
-        const formData = {
-          image: blob,
-          title,
-          description,
-          post_type: selectedPostType,
-          category_id: selectedCategory,
-          price: parseFloat(price.replace('R$ ', '')) * 100,
-          location,
-        };
-        console.log('passou daq');
+
+        const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
+        const stringPrice = formattedPrice.toFixed(2).toString();
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('location', location);
+        formData.append('price', stringPrice);
+        formData.append('post_type', selectedPostType);
+        formData.append('category', selectedCategory.toString());
+        // const formData = {
+        //   image: blob,
+        //   title,
+        //   description,
+        //   post_type: selectedPostType,
+        //   category_id: selectedCategory,
+        //   price: parseFloat(price.replace('R$ ', '')) * 100,
+        //   location,
+        // };
         await client.posts.createPostPostsPost(formData);
         router.replace('/posts');
       }
