@@ -17,7 +17,7 @@ export class PostsService {
      * @throws ApiError
      */
     public createPostPostsPost(
-        formData: FormData,
+        formData: Body_create_post_posts_post,
     ): CancelablePromise<PostView> {
         return this.httpRequest.request({
             method: 'POST',

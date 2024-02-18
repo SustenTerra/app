@@ -76,28 +76,27 @@ export default function NewPost() {
 
     setLoading(true);
     try {
-      const fileToUpload = {
-        uri: image.uri,
-        type: image.mimeType || 'image/jpeg',
-        name: image.fileName || 'image.jpg',
-      };
-      const fileBlob = await fetch(fileToUpload.uri).then((res) => res.blob());
+      const fileToUpload = await (await fetch(image.uri)).blob();
 
       const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
-      const stringPrice = formattedPrice.toFixed(2).toString();
-      const formData = new FormData();
-      formData.append('image', fileBlob);
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('location', location);
-      formData.append('price', stringPrice);
-      formData.append('post_type', selectedPostType);
-      formData.append('category_id', selectedCategory.toString());
 
-      await client.posts.createPostPostsPost(formData);
+      await client.posts.createPostPostsPost({
+        image: fileToUpload,
+        title,
+        description,
+        location,
+        price: formattedPrice,
+        post_type: selectedPostType,
+        category_id: selectedCategory,
+      });
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Anúncio cadastrado com sucesso!',
+      });
       router.replace('/posts');
     } catch (err) {
-      console.log(err);
       showErrors(err);
     } finally {
       setLoading(false);

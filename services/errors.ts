@@ -19,6 +19,8 @@ const errorPatterns = [
 export function showErrors(error: unknown) {
   let detail = DEFAULT_ERROR_MESSAGE;
   if (error instanceof ApiError) {
+    console.log(JSON.stringify(error.body));
+
     const foundDetail = error.body.detail;
 
     if (foundDetail) {

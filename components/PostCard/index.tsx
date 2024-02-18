@@ -1,4 +1,3 @@
-import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
 import { Image, TouchableOpacity } from 'react-native';
 
