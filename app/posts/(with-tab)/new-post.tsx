@@ -140,6 +140,7 @@ export default function NewPost() {
           value={price}
           onChangeText={formatPrice}
         />
+
         <Input
           iconName="map-pin"
           placeholder="Localização"
