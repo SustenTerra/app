@@ -16,6 +16,7 @@ import {
 } from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import { postTypes } from '@/utils/constants';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
@@ -26,8 +27,12 @@ export default function NewPost() {
   const [price, setPrice] = useState('R$ 0.00');
   const [image, setImage] = useState<string | null>(null);
   const [categories, setCategories] = useState<PostCategoryView[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState(-1);
-  const [selectedPostType, setSelectedPostType] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined,
+  );
+  const [selectedPostType, setSelectedPostType] = useState<string | undefined>(
+    undefined,
+  );
 
   const formatPrice = (price: string) => {
     const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
@@ -63,6 +68,23 @@ export default function NewPost() {
   }, []);
 
   const handleSubmit = async () => {
+    if (
+      !title ||
+      !description ||
+      !location ||
+      !price ||
+      !selectedCategory ||
+      !selectedPostType
+    ) {
+      showMessage({
+        type: 'danger',
+        title: 'Atenção!',
+        message: 'Preencha todos os campos',
+      });
+
+      return;
+    }
+
     try {
       if (image) {
         // const result = await fetch(image);
@@ -104,31 +126,37 @@ export default function NewPost() {
           Criar anúncio
         </Text>
         <Text color="primary">Anuncie seu produto ou serviço</Text>
-        <Text>Título</Text>
-        <Input placeholder="Título" value={title} onChangeText={setTitle} />
-        <Text>Preço</Text>
+
         <Input
+          iconName="edit"
+          placeholder="Título"
+          value={title}
+          onChangeText={setTitle}
+        />
+        <Input
+          iconName="tag"
           placeholder="Preço"
           keyboardType="numeric"
           value={price}
           onChangeText={formatPrice}
         />
-        <Text>Localização</Text>
         <Input
+          iconName="map-pin"
           placeholder="Localização"
           value={location}
           onChangeText={setLocation}
         />
-        <Text>Descrição</Text>
         <Input
+          iconName="info"
           placeholder="Descrição"
           multiline
           value={description}
           onChangeText={setDescription}
         />
 
-        <Text>Categoria</Text>
         <ItemsPicker
+          icon="list"
+          label="Categoria"
           options={categories.map((category) => ({
             label: category.name,
             value: category.id,
@@ -139,8 +167,9 @@ export default function NewPost() {
           }
         />
 
-        <Text>Tipo</Text>
         <ItemsPicker
+          icon="layers"
+          label="Tipo de anúncio"
           options={postTypes.map((postType) => ({
             label: postType.name,
             value: postType.id,

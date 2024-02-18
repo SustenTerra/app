@@ -10,7 +10,16 @@ import { useTheme } from 'styled-components/native';
 
 import { Container, TextInput } from './styles';
 
-type IconNameOptions = 'user' | 'mail' | 'message-circle' | 'lock' | 'search';
+type IconNameOptions =
+  | 'user'
+  | 'mail'
+  | 'message-circle'
+  | 'lock'
+  | 'search'
+  | 'map-pin'
+  | 'tag'
+  | 'info'
+  | 'edit';
 
 interface InputProps extends TextInputProps {
   iconName?: IconNameOptions;
