@@ -65,13 +65,13 @@ function ItemsPicker({
         <Text>{label}</Text>
       </LabelWrapper>
 
-      <StyledPicker onPress={onPress}>
+      <StyledPicker onPress={onPress} disabled={!isIOS}>
         <Feather name={icon} size={24} color={theme.colors.dark} />
 
         {!isIOS && options.length > 0 && (
           <Picker
             mode="dropdown"
-            style={{ flex: 1 }}
+            style={{ flex: 1, borderWidth: 0 }}
             selectedValue={selectedOptionValue || options[0].value}
             onValueChange={(itemValue) => setSelectedOptionValue(itemValue)}
           >
