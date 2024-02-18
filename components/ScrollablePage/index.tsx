@@ -9,7 +9,7 @@ function ScrollablePage({ children }: Props) {
   return (
     <Container
       automaticallyAdjustKeyboardInsets
-      alwaysBounceVertical={false}
+      bounces={false}
       contentContainerStyle={{
         width: '100%',
         minHeight: '100%',

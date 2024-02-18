@@ -36,7 +36,7 @@ export const BackButtonWrapper = styled.View`
 export const NewPostContainer = styled.SafeAreaView`
   margin: ${moderateScale(10)}px;
   gap: ${moderateScale(20)}px;
-  padding-top: ${verticalScale(30)}px;
+  padding: ${verticalScale(30)}px 0;
 `;
 
 export const ImageForeGround = styled.View`
