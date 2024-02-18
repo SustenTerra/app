@@ -1,12 +1,13 @@
-import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, Pressable } from 'react-native';
 
+import { PostCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import ItemsPicker from '@/components/ItemsPicker';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import {
@@ -18,18 +19,13 @@ import { showErrors } from '@/services/errors';
 import { postTypes } from '@/utils/constants';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
-interface CategoryOption {
-  id: number;
-  name: string;
-}
-
 export default function NewPost() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('R$ 0.00');
   const [image, setImage] = useState<string | null>(null);
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const [categories, setCategories] = useState<PostCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [selectedPostType, setSelectedPostType] = useState('');
 
@@ -56,11 +52,7 @@ export default function NewPost() {
     try {
       const categoriesResponse =
         await client.postCategories.listAllPostCategoriesPostCategoriesGet();
-      const categories = categoriesResponse.map(({ name, id }) => ({
-        name,
-        id,
-      }));
-      setCategories(categories);
+      setCategories(categoriesResponse);
     } catch (error) {
       showErrors(error);
     }
@@ -134,28 +126,31 @@ export default function NewPost() {
           value={description}
           onChangeText={setDescription}
         />
+
         <Text>Categoria</Text>
-        <Picker
-          selectedValue={selectedCategory}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedCategory(itemValue)
+        <ItemsPicker
+          options={categories.map((category) => ({
+            label: category.name,
+            value: category.id,
+          }))}
+          selectedOptionValue={selectedCategory}
+          setSelectedOptionValue={(value) =>
+            setSelectedCategory(value as number)
           }
-        >
-          {categories.map(({ name, id }) => (
-            <Picker.Item key={id} label={name} value={id} />
-          ))}
-        </Picker>
+        />
+
         <Text>Tipo</Text>
-        <Picker
-          selectedValue={selectedPostType}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedPostType(itemValue)
+        <ItemsPicker
+          options={postTypes.map((postType) => ({
+            label: postType.name,
+            value: postType.id,
+          }))}
+          selectedOptionValue={selectedPostType}
+          setSelectedOptionValue={(value) =>
+            setSelectedPostType(value as string)
           }
-        >
-          {postTypes.map(({ name, id }) => (
-            <Picker.Item key={id} label={name} value={id} />
-          ))}
-        </Picker>
+        />
+
         <Text>Imagem do Anúncio</Text>
         <Pressable onPress={pickImage} style={{ alignSelf: 'center' }}>
           <Image
