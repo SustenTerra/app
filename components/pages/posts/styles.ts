@@ -26,6 +26,7 @@ export const PostsContainer = styled.View`
   gap: ${moderateScale(10)}px;
   width: 100%;
   padding: 0 ${horizontalScale(10)}px;
+  padding-bottom: ${verticalScale(30)}px;
 `;
 
 export const BackButtonWrapper = styled.View`
