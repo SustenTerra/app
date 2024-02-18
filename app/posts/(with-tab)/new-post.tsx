@@ -4,7 +4,6 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, Pressable } from 'react-native';
 
-import { Body_create_post_posts_post } from '@/api';
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -17,7 +16,7 @@ import {
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { postTypes } from '@/utils/constants';
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
+import { horizontalScale, verticalScale } from '@/utils/scale';
 
 interface CategoryOption {
   id: number;
@@ -35,7 +34,7 @@ export default function NewPost() {
   const [selectedPostType, setSelectedPostType] = useState('');
 
   const formatPrice = (price: string) => {
-    const val = parseInt(price.replace(/\D/g, '')) / 100;
+    const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
     setPrice('R$ ' + val.toFixed(2).toString());
   };
 
@@ -74,8 +73,8 @@ export default function NewPost() {
   const handleSubmit = async () => {
     try {
       if (image) {
-        const result = await fetch(image);
-        const blob = await result.blob();
+        // const result = await fetch(image);
+        // const blob = await result.blob();
 
         const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
         const stringPrice = formattedPrice.toFixed(2).toString();
