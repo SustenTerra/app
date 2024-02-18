@@ -7,6 +7,7 @@ import {
   ProfileButtonContainer,
 } from './styles';
 
+import { HorizontalLoading } from '@/components/Loading';
 import Text from '@/components/Text';
 import { useAuth } from '@/hooks/auth';
 import { moderateScale } from '@/utils/scale';
@@ -16,7 +17,11 @@ export function ProfileInfo() {
   const { user } = useAuth();
 
   if (!user) {
-    return null;
+    return (
+      <ProfileInfoContainer>
+        <HorizontalLoading />
+      </ProfileInfoContainer>
+    );
   }
 
   const { firstName, lastName } = getFirstAndLastName(user.full_name);

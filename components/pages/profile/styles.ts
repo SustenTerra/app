@@ -8,6 +8,7 @@ export const ProfileInfoContainer = styled.SafeAreaView`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  min-height: ${verticalScale(60)}px;
 `;
 
 export const DataWrapper = styled.View`
