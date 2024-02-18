@@ -10,21 +10,24 @@ import { showErrors } from '@/services/errors';
 interface GetPostsPayload {
   search?: string;
   category?: string;
+  userId?: string;
 }
 
 export function usePosts(
   category: string | undefined,
   search: string | undefined,
+  userId: string | undefined,
 ) {
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [viewPosts, setViewPosts] = useState<PostView[]>([]);
 
-  const getPosts = async ({ search, category }: GetPostsPayload) => {
+  const getPosts = async ({ search, category, userId }: GetPostsPayload) => {
     try {
       setLoadingPosts(true);
+      const userIdNumber = userId ? Number(userId) : undefined;
       const posts = await client.posts.listAllPostsPostsGet(
         search,
-        null,
+        userIdNumber,
         category,
       );
       setViewPosts(posts);
@@ -44,6 +47,11 @@ export function usePosts(
 
     if (category && category !== 'Todos') {
       getPosts({ category });
+      return;
+    }
+
+    if (userId) {
+      getPosts({ userId });
       return;
     }
 

@@ -23,7 +23,6 @@ export function ProfileInfo() {
       </ProfileInfoContainer>
     );
   }
-
   const { firstName, lastName } = getFirstAndLastName(user.full_name);
 
   return (

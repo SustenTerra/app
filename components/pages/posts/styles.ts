@@ -13,6 +13,7 @@ export const Container = styled.SafeAreaView`
 export const Header = styled.View`
   flex-direction: row;
   gap: ${horizontalScale(5)}px;
+  align-items: center;
 `;
 
 export const SearchWrapper = styled.View`

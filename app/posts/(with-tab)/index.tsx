@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { useTheme } from 'styled-components/native';
@@ -33,6 +33,7 @@ export default function Posts() {
   const params = useLocalSearchParams<{
     search: string;
     category: string;
+    userId: string;
   }>();
 
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
@@ -41,7 +42,11 @@ export default function Posts() {
   const [selectedCategory, setSelectedCategory] = useState(
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
-  const { loadingPosts, viewPosts } = usePosts(params.category, params.search);
+  const { loadingPosts, viewPosts } = usePosts(
+    params.category,
+    params.search,
+    params.userId,
+  );
   const sorting = usePostSorting(viewPosts);
 
   const getCategories = async () => {
@@ -65,20 +70,23 @@ export default function Posts() {
     }
   }, [categories, params.category]);
 
-  const shouldShowByDefault = !params.search;
+  const shouldShowByDefault = !params.search && !params.userId;
 
   return (
     <ScrollablePage>
       <Container>
-        <Header>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={require('assets/adaptive-icon.png')}
-          />
-          <Text size="h1" color="primary" weight="bold">
-            SustenTerra
-          </Text>
-        </Header>
+        <Link asChild href="/posts">
+          <Header>
+            <Image
+              style={{ width: 50, height: 50 }}
+              source={require('assets/adaptive-icon.png')}
+            />
+            <Text size="h1" color="primary" weight="bold">
+              SustenTerra
+            </Text>
+          </Header>
+        </Link>
+
         <SearchWrapper>
           <Input
             iconName="search"
