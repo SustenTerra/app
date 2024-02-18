@@ -27,10 +27,6 @@ export class PostsService {
             errors: {
                 422: `Validation Error`,
             },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-            },
         });
     }
     /**

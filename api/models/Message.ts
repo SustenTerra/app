@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Message = {
-    role: 'user' | 'system' | 'assistant';
+    role: ;
     content: string;
 };
 

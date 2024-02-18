@@ -13,28 +13,34 @@ import { useAuth } from '@/hooks/auth';
 import { moderateScale } from '@/utils/scale';
 import { getFirstAndLastName } from '@/utils/strings';
 
-export function ProfileInfo() {
+interface ProfileInfoProps {
+  name?: string;
+  email?: string;
+  verticalMargin?: number;
+}
+
+export function ProfileInfo({ name, email, verticalMargin }: ProfileInfoProps) {
   const { user } = useAuth();
 
   if (!user) {
     return (
-      <ProfileInfoContainer>
+      <ProfileInfoContainer margin={verticalMargin}>
         <HorizontalLoading />
       </ProfileInfoContainer>
     );
   }
-  const { firstName, lastName } = getFirstAndLastName(user.full_name);
+  const userNames = getFirstAndLastName(name || user.full_name);
 
   return (
-    <ProfileInfoContainer>
+    <ProfileInfoContainer margin={verticalMargin}>
       <Feather name="user" size={moderateScale(50)} />
 
       <DataWrapper>
         <Text size="h5" weight="bold">
-          {firstName} {lastName}
+          {userNames.firstName} {userNames.lastName}
         </Text>
         <Text size="h6" weight="regular" color="textBody">
-          {user.email}
+          {email || user.email}
         </Text>
       </DataWrapper>
     </ProfileInfoContainer>

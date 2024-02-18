@@ -2,9 +2,13 @@ import styled from 'styled-components/native';
 
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
-export const ProfileInfoContainer = styled.SafeAreaView`
+interface ProfileInfoContainerProps {
+  margin?: number;
+}
+
+export const ProfileInfoContainer = styled.SafeAreaView<ProfileInfoContainerProps>`
   width: 100%;
-  margin: ${verticalScale(60)}px 0;
+  margin: ${(props) => props.margin || verticalScale(60)}px 0;
   align-items: center;
   justify-content: center;
   flex-direction: row;

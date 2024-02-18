@@ -72,6 +72,26 @@ export class UsersService {
         });
     }
     /**
+     * Get Specific User
+     * @param userId
+     * @returns UserView Successful Response
+     * @throws ApiError
+     */
+    public getSpecificUserUsersUserIdGet(
+        userId: number,
+    ): CancelablePromise<UserView> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/{user_id}',
+            path: {
+                'user_id': userId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
      * Update User Password
      * @param requestBody
      * @returns UserView Successful Response

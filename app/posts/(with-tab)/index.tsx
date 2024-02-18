@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
+import { UserView } from '@/api';
 import Banner from '@/components/Banner';
 import CategoryList from '@/components/CategoryList';
 import EmptyList from '@/components/EmptyList';
@@ -21,6 +22,7 @@ import {
   PostsGridHeader,
   SearchWrapper,
 } from '@/components/pages/posts/styles';
+import { ProfileInfo } from '@/components/pages/profile';
 import { usePostSorting, usePosts } from '@/hooks/posts';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
@@ -37,6 +39,8 @@ export default function Posts() {
   }>();
 
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+  const [searchedUser, setSearchedUser] = useState<UserView | null>(null);
+  const [loadingUser, setLoadingUser] = useState(!!params.userId);
 
   const [searchText, setSearchText] = useState(params.search || '');
   const [selectedCategory, setSelectedCategory] = useState(
@@ -64,6 +68,26 @@ export default function Posts() {
     getCategories();
   }, []);
 
+  const getUser = async () => {
+    setLoadingUser(true);
+    try {
+      const user = await client.users.getSpecificUserUsersUserIdGet(
+        Number(params.userId),
+      );
+      setSearchedUser(user);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoadingUser(false);
+    }
+  };
+
+  useEffect(() => {
+    if (params.userId) {
+      getUser();
+    }
+  }, [params.userId]);
+
   useLayoutEffect(() => {
     if (params.category) {
       setSelectedCategory(categories.indexOf(params.category));
@@ -87,18 +111,30 @@ export default function Posts() {
           </Header>
         </Link>
 
-        <SearchWrapper>
-          <Input
-            iconName="search"
-            placeholder="Pesquisar por produto, categoria..."
-            clearable
-            value={searchText}
-            onChangeText={(text) => {
-              setSearchText(text);
-              router.setParams({ search: text });
-            }}
+        {!params.userId ||
+          (params.search && (
+            <SearchWrapper>
+              <Input
+                iconName="search"
+                placeholder="Pesquisar por produto, categoria..."
+                clearable
+                value={searchText}
+                onChangeText={(text) => {
+                  setSearchText(text);
+                  router.setParams({ search: text });
+                }}
+              />
+            </SearchWrapper>
+          ))}
+
+        {!loadingUser && searchedUser && (
+          <ProfileInfo
+            verticalMargin={10}
+            name={searchedUser.full_name}
+            email={searchedUser.email}
           />
-        </SearchWrapper>
+        )}
+
         {shouldShowByDefault && (
           <Banner
             title="Deseja aprender a criar produtos tão incríveis quanto esses?"
