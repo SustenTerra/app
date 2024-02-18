@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 
 import { PostCategoryView } from '@/api';
@@ -76,18 +77,30 @@ export default function NewPost() {
 
     setLoading(true);
     try {
-      const fileToUpload = await (await fetch(image.uri)).blob();
+      const fileToUpload = {
+        uri: image.uri,
+        type: image.mimeType || 'image/jpeg',
+        name: image.fileName || 'image.jpg',
+      };
 
       const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
 
-      await client.posts.createPostPostsPost({
-        image: fileToUpload,
-        title,
-        description,
-        location,
-        price: formattedPrice,
-        post_type: selectedPostType,
-        category_id: selectedCategory,
+      const formData = new FormData();
+      formData.append('image', fileToUpload);
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('location', location);
+      formData.append('price', formattedPrice);
+      formData.append('post_type', selectedPostType);
+      formData.append('category_id', selectedCategory);
+
+      await client.request.request({
+        url: '/posts',
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       showMessage({
