@@ -39,17 +39,6 @@ export const NewPostContainer = styled.SafeAreaView`
   padding: ${verticalScale(30)}px 0;
 `;
 
-export const ImageForeGround = styled.View`
-  position: absolute;
-  height: 50%;
-  bottom: 0;
-  background-color: ${(props) => props.theme.colors.secondary};
-  opacity: 0.7;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
 export const PostsGridHeader = styled.View`
   width: 100%;
   flex-direction: row;

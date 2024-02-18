@@ -1,8 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
-import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, Pressable } from 'react-native';
 
 import { PostCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -12,9 +10,9 @@ import ItemsPicker from '@/components/ItemsPicker';
 import { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
+import UploadImage, { ImageAsset } from '@/components/UploadImage';
 import {
   BackButtonWrapper,
-  ImageForeGround,
   NewPostContainer,
   NewPostTitleWrapper,
 } from '@/components/pages/posts/styles';
@@ -22,14 +20,13 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { postTypes } from '@/utils/constants';
-import { horizontalScale, verticalScale } from '@/utils/scale';
 
 export default function NewPost() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('R$ 0.00');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<ImageAsset>(null);
   const [categories, setCategories] = useState<PostCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined,
@@ -42,20 +39,6 @@ export default function NewPost() {
   const formatPrice = (price: string) => {
     const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
     setPrice('R$ ' + val.toFixed(2).toString());
-  };
-
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      allowsMultipleSelection: false,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
   };
 
   const getCategories = async () => {
@@ -79,7 +62,8 @@ export default function NewPost() {
       !location ||
       !price ||
       !selectedCategory ||
-      !selectedPostType
+      !selectedPostType ||
+      !image
     ) {
       showMessage({
         type: 'danger',
@@ -92,32 +76,26 @@ export default function NewPost() {
 
     setLoading(true);
     try {
-      if (image) {
-        // const result = await fetch(image);
-        // const blob = await result.blob();
+      const fileToUpload = {
+        uri: image.uri,
+        type: image.mimeType || 'image/jpeg',
+        name: image.fileName || 'image.jpg',
+      };
+      const fileBlob = await fetch(fileToUpload.uri).then((res) => res.blob());
 
-        const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
-        const stringPrice = formattedPrice.toFixed(2).toString();
-        const formData = new FormData();
-        formData.append('image', image);
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('location', location);
-        formData.append('price', stringPrice);
-        formData.append('post_type', selectedPostType);
-        formData.append('category', selectedCategory.toString());
-        // const formData = {
-        //   image: blob,
-        //   title,
-        //   description,
-        //   post_type: selectedPostType,
-        //   category_id: selectedCategory,
-        //   price: parseFloat(price.replace('R$ ', '')) * 100,
-        //   location,
-        // };
-        await client.posts.createPostPostsPost(formData);
-        router.replace('/posts');
-      }
+      const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
+      const stringPrice = formattedPrice.toFixed(2).toString();
+      const formData = new FormData();
+      formData.append('image', fileBlob);
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('location', location);
+      formData.append('price', stringPrice);
+      formData.append('post_type', selectedPostType);
+      formData.append('category_id', selectedCategory.toString());
+
+      await client.posts.createPostPostsPost(formData);
+      router.replace('/posts');
     } catch (err) {
       console.log(err);
       showErrors(err);
@@ -198,19 +176,11 @@ export default function NewPost() {
           }
         />
 
-        <Text>Imagem do Anúncio</Text>
-        <Pressable onPress={pickImage} style={{ alignSelf: 'center' }}>
-          <Image
-            style={{
-              width: horizontalScale(300),
-              height: verticalScale(250),
-            }}
-            source={image ? { uri: image } : require('assets/gray_logo.png')}
-          />
-          <ImageForeGround style={{ width: horizontalScale(300) }}>
-            <Text color="light">Clique para selecionar uma imagem</Text>
-          </ImageForeGround>
-        </Pressable>
+        <UploadImage
+          label="Imagem do anúncio"
+          image={image}
+          setImage={setImage}
+        />
 
         <Button onPress={handleSubmit} color="secondary">
           {!loading && (

@@ -62,7 +62,7 @@ function ItemsPicker({
   return (
     <Container>
       <LabelWrapper>
-        <Text>{label}</Text>
+        <Text weight="bold">{label}</Text>
       </LabelWrapper>
 
       <StyledPicker onPress={onPress} disabled={!isIOS}>
