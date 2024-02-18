@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { useTheme } from 'styled-components/native';
@@ -99,7 +99,7 @@ export default function Posts() {
           />
         )}
 
-        {!shouldShowByDefault && (
+        {!!params.search && (
           <TitleContainer>
             <Text size="h6">Exibindo resultados...</Text>
           </TitleContainer>
