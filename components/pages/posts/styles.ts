@@ -28,9 +28,15 @@ export const PostsContainer = styled.View`
   padding: 0 ${horizontalScale(10)}px;
 `;
 
+export const BackButtonWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const NewPostContainer = styled.SafeAreaView`
   margin: ${moderateScale(10)}px;
-  gap: ${moderateScale(10)}px;
+  gap: ${moderateScale(20)}px;
+  padding-top: ${verticalScale(30)}px;
 `;
 
 export const ImageForeGround = styled.View`
@@ -100,4 +106,8 @@ export const HeaderPostView = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+`;
+
+export const NewPostTitleWrapper = styled.View`
+  margin-bottom: ${verticalScale(10)}px;
 `;

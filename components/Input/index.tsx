@@ -10,6 +10,8 @@ import { useTheme } from 'styled-components/native';
 
 import { Container, TextInput } from './styles';
 
+import { moderateScale } from '@/utils/scale';
+
 type IconNameOptions =
   | 'user'
   | 'mail'
@@ -38,6 +40,7 @@ function Input({
   useSecondaryColors = false,
   useFlex = false,
   clearable = false,
+  multiline = false,
   value,
   onChangeText,
   ...props
@@ -52,8 +55,14 @@ function Input({
     : theme.colors.dark;
 
   return (
-    <Container onPress={() => inputRef.current?.focus()} useFlex={useFlex}>
-      {iconName && <Feather name={iconName} size={24} color={iconColor} />}
+    <Container
+      onPress={() => inputRef.current?.focus()}
+      useFlex={useFlex}
+      isMultiline={multiline}
+    >
+      {iconName && (
+        <Feather name={iconName} size={moderateScale(20)} color={iconColor} />
+      )}
 
       <TextInput
         ref={inputRef}
@@ -61,6 +70,7 @@ function Input({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={!showInput}
+        multiline={multiline}
         placeholderTextColor={
           useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
         }

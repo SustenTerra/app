@@ -1,3 +1,4 @@
+import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -8,11 +9,14 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import ItemsPicker from '@/components/ItemsPicker';
+import { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import {
+  BackButtonWrapper,
   ImageForeGround,
   NewPostContainer,
+  NewPostTitleWrapper,
 } from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
@@ -33,6 +37,7 @@ export default function NewPost() {
   const [selectedPostType, setSelectedPostType] = useState<string | undefined>(
     undefined,
   );
+  const [loading, setLoading] = useState(false);
 
   const formatPrice = (price: string) => {
     const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
@@ -85,6 +90,7 @@ export default function NewPost() {
       return;
     }
 
+    setLoading(true);
     try {
       if (image) {
         // const result = await fetch(image);
@@ -115,17 +121,28 @@ export default function NewPost() {
     } catch (err) {
       console.log(err);
       showErrors(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <ScrollablePage>
       <NewPostContainer>
-        <BackButton />
-        <Text size="h1" color="primary">
-          Criar anúncio
-        </Text>
-        <Text color="primary">Anuncie seu produto ou serviço</Text>
+        <BackButtonWrapper>
+          <BackButton />
+          <Text weight="bold">Voltar</Text>
+        </BackButtonWrapper>
+
+        <NewPostTitleWrapper>
+          <Text size="h1" color="primary" weight="bold">
+            Criar anúncio
+          </Text>
+          <Text color="textBody">
+            Preencha todos os dados para anunciar o seu produto ou serviço
+            gratuitamente na plataforma.
+          </Text>
+        </NewPostTitleWrapper>
 
         <Input
           iconName="edit"
@@ -149,7 +166,7 @@ export default function NewPost() {
         />
         <Input
           iconName="info"
-          placeholder="Descrição"
+          placeholder="Preencha a descrição, detalhes e informações sobre o anúncio"
           multiline
           value={description}
           onChangeText={setDescription}
@@ -194,8 +211,19 @@ export default function NewPost() {
             <Text color="light">Clique para selecionar uma imagem</Text>
           </ImageForeGround>
         </Pressable>
+
         <Button onPress={handleSubmit} color="secondary">
-          <Text color="light">Cadastrar anúncio</Text>
+          {!loading && (
+            <>
+              <Feather name="plus-circle" size={24} color="white" />
+
+              <Text color="light" weight="bold">
+                Cadastrar anúncio
+              </Text>
+            </>
+          )}
+
+          {loading && <HorizontalLoading color="light" />}
         </Button>
       </NewPostContainer>
     </ScrollablePage>

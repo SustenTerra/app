@@ -40,7 +40,7 @@ function ItemsPicker({
     if (selectedOptionValue === undefined && options.length > 0) {
       setSelectedOptionValue(options[0].value);
     }
-  }, [selectedOptionValue]);
+  }, [selectedOptionValue, options]);
 
   const isIOS = Platform.OS === 'ios';
 
@@ -67,6 +67,12 @@ function ItemsPicker({
 
       <StyledPicker onPress={onPress} disabled={!isIOS}>
         <Feather name={icon} size={24} color={theme.colors.dark} />
+
+        {options.length === 0 && (
+          <Text color="dark" style={{ marginLeft: horizontalScale(8) }}>
+            Carregando...
+          </Text>
+        )}
 
         {!isIOS && options.length > 0 && (
           <Picker
