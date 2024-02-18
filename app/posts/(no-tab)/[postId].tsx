@@ -9,6 +9,7 @@ import { PostView } from '@/api';
 import BackButton from '@/components/BackButton';
 import EmptyList from '@/components/EmptyList';
 import Loading from '@/components/Loading';
+import MoreOptionsButton from '@/components/MoreOptionsButton';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import {
@@ -31,7 +32,6 @@ export default function ShowPost() {
   const theme = useTheme();
 
   const getPost = async () => {
-    setLoading(true);
     try {
       if (typeof postId === 'string') {
         const postResponse = await client.posts.getPostByIdPostsPostIdGet(
@@ -58,8 +58,9 @@ export default function ShowPost() {
         {!loading && post && (
           <>
             <HeaderPostView>
-              <BackButton color="light" />
+              <BackButton color="light" href="/posts" />
               <Text size="h3">Detalhes</Text>
+              <MoreOptionsButton />
             </HeaderPostView>
             <>
               <ImagePostView
