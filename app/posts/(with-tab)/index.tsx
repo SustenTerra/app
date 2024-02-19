@@ -99,7 +99,7 @@ export default function Posts() {
   return (
     <ScrollablePage>
       <Container>
-        <Link asChild href="/posts">
+        <Link asChild replace href="/posts">
           <Header>
             <Image
               style={{ width: 50, height: 50 }}
@@ -111,23 +111,22 @@ export default function Posts() {
           </Header>
         </Link>
 
-        {!params.userId ||
-          (params.search && (
-            <SearchWrapper>
-              <Input
-                iconName="search"
-                placeholder="Pesquisar por produto, categoria..."
-                clearable
-                value={searchText}
-                onChangeText={(text) => {
-                  setSearchText(text);
-                  router.setParams({ search: text });
-                }}
-              />
-            </SearchWrapper>
-          ))}
+        {!params.userId && (
+          <SearchWrapper>
+            <Input
+              iconName="search"
+              placeholder="Pesquisar por produto, categoria..."
+              clearable
+              value={searchText}
+              onChangeText={(text) => {
+                setSearchText(text);
+                router.setParams({ search: text });
+              }}
+            />
+          </SearchWrapper>
+        )}
 
-        {!loadingUser && searchedUser && (
+        {!loadingUser && searchedUser && !!params.userId && (
           <ProfileInfo
             verticalMargin={10}
             name={searchedUser.full_name}
