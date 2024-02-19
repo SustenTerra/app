@@ -1,24 +1,33 @@
+import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
 import { Image, TouchableOpacity } from 'react-native';
 
-import { Container, InfoContainer, TextContainer } from './style';
+import { Container, InfoContainer, TextContainer } from './styles';
 import FavoriteButton from '../FavoriteButton';
 import Text from '../Text';
 
 import { PostView } from '@/api';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
 
-function PostCard(props: PostView) {
+interface PostCardProps {
+  post: PostView;
+  editable?: boolean;
+}
+
+function PostCard({ post, editable = false }: PostCardProps) {
   const postWidth = width * 0.5 - moderateScale(17);
-  const postPrice = props.price
-    ? (props.price / 100).toFixed(2).replace('.', ',')
+  const postPrice = post.price
+    ? (post.price / 100).toFixed(2).replace('.', ',')
     : '-';
+  const postLink = editable
+    ? `/posts/new-post?postId=${post.id}`
+    : `/posts/${post.id}`;
 
   return (
-    <TouchableOpacity onPress={() => router.replace(`posts/${props.id}`)}>
+    <TouchableOpacity onPress={() => router.push(postLink)}>
       <Container width={postWidth}>
         <Image
-          source={props.image_url ? { uri: props.image_url } : undefined}
+          source={post.image_url ? { uri: post.image_url } : undefined}
           defaultSource={require('assets/gray.png')}
           style={{
             width: postWidth,
@@ -29,9 +38,12 @@ function PostCard(props: PostView) {
         <InfoContainer>
           <TextContainer>
             <Text weight="bold">R$ {postPrice}</Text>
-            <Text>{props.title}</Text>
+            <Text>{post.title}</Text>
           </TextContainer>
-          <FavoriteButton size={20} />
+
+          {!editable && <FavoriteButton size={20} />}
+
+          {editable && <Feather name="edit" size={20} />}
         </InfoContainer>
       </Container>
     </TouchableOpacity>

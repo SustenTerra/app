@@ -64,7 +64,9 @@ export default function MyPosts() {
 
         {!loadingPosts &&
           !!auth.user &&
-          viewPosts.map((post) => <PostCard key={post.id} {...post} />)}
+          viewPosts.map((post) => (
+            <PostCard key={post.id} post={post} editable />
+          ))}
 
         {!loadingPosts && !!auth.user && viewPosts.length === 0 && (
           <EmptyList />

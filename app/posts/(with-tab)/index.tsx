@@ -176,7 +176,7 @@ export default function Posts() {
 
           {!loadingPosts &&
             sorting.sortedPosts.map((post) => (
-              <PostCard key={post.id} {...post} />
+              <PostCard key={post.id} post={post} />
             ))}
 
           {!loadingPosts && sorting.sortedPosts.length === 0 && <EmptyList />}
