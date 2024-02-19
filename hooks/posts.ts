@@ -51,12 +51,12 @@ export function usePosts(
     }
 
     if (userId) {
-      getPosts({ userId });
+      getPostsDebounced({ userId });
       return;
     }
 
     getPostsDebounced({});
-  }, [search, category]);
+  }, [search, category, userId]);
 
   return {
     loadingPosts,
