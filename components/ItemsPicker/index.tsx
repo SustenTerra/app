@@ -8,6 +8,7 @@ import { Container, LabelWrapper, StyledPicker } from './styles';
 
 import Text from '@/components/Text';
 import { useActionSheet } from '@/hooks/actionSheet';
+import { isWeb } from '@/utils/platform';
 import { horizontalScale } from '@/utils/scale';
 
 type IconNames = 'list' | 'layers';
@@ -43,6 +44,7 @@ function ItemsPicker({
   }, [selectedOptionValue, options]);
 
   const isIOS = Platform.OS === 'ios';
+  const shouldUseActionSheet = isIOS || isWeb;
 
   const actionSheet = useActionSheet({
     actions: options.map(({ label }) => label),
@@ -54,7 +56,7 @@ function ItemsPicker({
   });
 
   const onPress = () => {
-    if (isIOS) {
+    if (isIOS || isWeb) {
       actionSheet.show();
     }
   };
@@ -65,7 +67,7 @@ function ItemsPicker({
         <Text weight="bold">{label}</Text>
       </LabelWrapper>
 
-      <StyledPicker onPress={onPress} disabled={!isIOS}>
+      <StyledPicker onPress={onPress} disabled={!shouldUseActionSheet}>
         <Feather name={icon} size={24} color={theme.colors.dark} />
 
         {options.length === 0 && (
@@ -74,7 +76,7 @@ function ItemsPicker({
           </Text>
         )}
 
-        {!isIOS && options.length > 0 && (
+        {!shouldUseActionSheet && options.length > 0 && (
           <Picker
             mode="dropdown"
             style={{ flex: 1, borderWidth: 0 }}
@@ -87,7 +89,7 @@ function ItemsPicker({
           </Picker>
         )}
 
-        {isIOS && (
+        {shouldUseActionSheet && (
           <Text color="dark" style={{ marginLeft: horizontalScale(8) }}>
             {
               options.find((option) => option.value === selectedOptionValue)
