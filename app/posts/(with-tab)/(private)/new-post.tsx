@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 
@@ -23,6 +23,38 @@ import { showMessage } from '@/services/messages';
 import { postTypes } from '@/utils/constants';
 
 export default function NewPost() {
+  const params = useLocalSearchParams<{ postId: string }>();
+
+  const getPost = async () => {
+    try {
+      const postResponse = await client.posts.getPostByIdPostsPostIdGet(
+        Number(params.postId),
+      );
+
+      setTitle(postResponse.title);
+      setDescription(postResponse.description);
+      setLocation(postResponse.location);
+      setPrice('R$ ' + ((postResponse.price || 0) / 100).toFixed(2).toString());
+      setImage({
+        uri: postResponse.image_url || '',
+        fileName: postResponse.image_url,
+        mimeType: 'image/jpeg',
+        width: 500,
+        height: 500,
+      });
+      setSelectedCategory(postResponse.category_id);
+      setSelectedPostType(postResponse.post_type);
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
+  useEffect(() => {
+    if (params.postId) {
+      getPost();
+    }
+  }, [params.postId]);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -136,7 +168,7 @@ export default function NewPost() {
 
         <NewPostTitleWrapper>
           <Text size="h1" color="primary" weight="bold">
-            Criar anúncio
+            {params.postId ? 'Editar' : 'Criar'} anúncio
           </Text>
           <Text color="textBody">
             Preencha todos os dados para anunciar o seu produto ou serviço
