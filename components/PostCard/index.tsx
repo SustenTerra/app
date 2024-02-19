@@ -7,6 +7,7 @@ import FavoriteButton from '../FavoriteButton';
 import Text from '../Text';
 
 import { PostView } from '@/api';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 interface PostCardProps {
@@ -15,6 +16,23 @@ interface PostCardProps {
 }
 
 function PostCard({ post, editable = false }: PostCardProps) {
+  const confirmDelete = useActionSheet({
+    title: 'Deseja mesmo excluir esse anúncio?',
+    message: 'Essa ação não pode ser desfeita',
+    actions: ['Sim, tenho certeza!'],
+    actionsCallbacks: [() => console.log('delete')],
+  });
+
+  const postActionSheet = useActionSheet({
+    title: 'O que deseja fazer?',
+    message: 'Escolha uma das opções abaixo',
+    actions: ['Editar', 'Excluir'],
+    actionsCallbacks: [
+      () => router.push(`/posts/new-post?postId=${post.id}`),
+      confirmDelete.show,
+    ],
+  });
+
   const postWidth = width * 0.5 - moderateScale(17);
   const postPrice = post.price
     ? (post.price / 100).toFixed(2).replace('.', ',')
@@ -23,8 +41,17 @@ function PostCard({ post, editable = false }: PostCardProps) {
     ? `/posts/new-post?postId=${post.id}`
     : `/posts/${post.id}`;
 
+  const onPress = () => {
+    if (!editable) {
+      router.push(postLink);
+      return;
+    }
+
+    postActionSheet.show();
+  };
+
   return (
-    <TouchableOpacity onPress={() => router.push(postLink)}>
+    <TouchableOpacity onPress={onPress}>
       <Container width={postWidth}>
         <Image
           source={post.image_url ? { uri: post.image_url } : undefined}
