@@ -9,14 +9,15 @@ import {
 
 import Text from '@/components/Text';
 import { showMessage } from '@/services/messages';
+import { isWeb } from '@/utils/platform';
 import { verticalScale } from '@/utils/scale';
 
 export type ImageAsset = ImagePicker.ImagePickerAsset | null;
 
 interface Props {
   label: string;
-  image: ImageAsset;
-  setImage: (image: ImageAsset) => void;
+  image: ImageAsset | File;
+  setImage: (image: ImageAsset | File) => void;
 }
 
 function UploadImage({ label, image, setImage }: Props) {
@@ -53,6 +54,36 @@ function UploadImage({ label, image, setImage }: Props) {
       setImage(result.assets[0]);
     }
   };
+
+  if (isWeb) {
+    return (
+      <Container>
+        <Text weight="bold" style={{ marginBottom: verticalScale(10) }}>
+          {label}
+        </Text>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(event) => {
+            if (!event.target.files) return;
+
+            const file = event.target.files[0];
+            setImage(file);
+          }}
+        />
+        {image && image instanceof File && (
+          <img
+            src={URL.createObjectURL(image)}
+            style={{ width: '100%', height: 200, objectFit: 'cover' }}
+          />
+        )}
+      </Container>
+    );
+  }
+
+  if (image instanceof File) {
+    return null;
+  }
 
   return (
     <Container>

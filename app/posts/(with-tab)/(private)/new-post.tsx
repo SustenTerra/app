@@ -27,7 +27,7 @@ export default function NewPost() {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState<ImageAsset>(null);
+  const [image, setImage] = useState<ImageAsset | File>(null);
   const [categories, setCategories] = useState<PostCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined,
@@ -82,11 +82,16 @@ export default function NewPost() {
 
     setLoading(true);
     try {
-      const fileToUpload = {
-        uri: image.uri,
-        type: image.mimeType || 'image/jpeg',
-        name: image.fileName || 'image.jpg',
-      };
+      let fileToUpload;
+      if (image instanceof File) {
+        fileToUpload = image;
+      } else {
+        fileToUpload = {
+          uri: image.uri,
+          type: image.mimeType || 'image/jpeg',
+          name: image.fileName || 'image.jpg',
+        };
+      }
 
       const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
 
