@@ -50,7 +50,7 @@ export const PostsGridHeader = styled.View`
   margin-bottom: ${verticalScale(10)}px;
 `;
 
-export const FilterButton = styled.TouchableOpacity`
+export const CircleButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   width: ${moderateScale(40)}px;
@@ -101,4 +101,14 @@ export const HeaderPostView = styled.SafeAreaView`
 
 export const NewPostTitleWrapper = styled.View`
   margin-bottom: ${verticalScale(10)}px;
+`;
+
+export const PostsSpacer = styled.SafeAreaView`
+  height: ${verticalScale(20)}px;
+`;
+
+export const PostsGridHeaderWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: ${moderateScale(10)}px;
 `;

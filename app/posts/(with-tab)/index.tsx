@@ -16,7 +16,7 @@ import Text from '@/components/Text';
 import { TitleContainer } from '@/components/pages/courses/styles';
 import {
   Container,
-  FilterButton,
+  CircleButton,
   Header,
   PostsContainer,
   PostsGridHeader,
@@ -165,9 +165,9 @@ export default function Posts() {
               {sorting.sorterLabel}
             </Text>
 
-            <FilterButton onPress={sorting.actionSheet.show}>
+            <CircleButton onPress={sorting.actionSheet.show}>
               <Feather name="sliders" size={24} color={theme.colors.light} />
-            </FilterButton>
+            </CircleButton>
           </PostsGridHeader>
         )}
 

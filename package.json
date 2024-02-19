@@ -45,7 +45,8 @@
     "react-native-web-webview": "^1.0.2",
     "react-native-webview": "13.6.4",
     "react-native-youtube-iframe": "^2.3.0",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "expo-sharing": "~11.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
