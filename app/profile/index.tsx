@@ -9,6 +9,7 @@ import {
   ProfileButtonProps,
   ProfileInfo,
 } from '@/components/pages/profile';
+import { ProfileSpacer } from '@/components/pages/profile/styles';
 import { useActionSheet } from '@/hooks/actionSheet';
 import { useAuth } from '@/hooks/auth';
 import { showMessage } from '@/services/messages';
@@ -95,6 +96,8 @@ export default function Profile() {
       {options.map((option) => (
         <ProfileButton key={option.title} {...option} />
       ))}
+
+      <ProfileSpacer />
     </ScrollablePage>
   );
 }

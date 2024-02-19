@@ -27,3 +27,7 @@ export const ProfileButtonContainer = styled.TouchableOpacity`
   flex-direction: row;
   padding-left: ${horizontalScale(20)}px;
 `;
+
+export const ProfileSpacer = styled.View`
+  height: ${verticalScale(30)}px;
+`;
