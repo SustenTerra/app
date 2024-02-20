@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
 import { PostView } from '@/api';
@@ -35,7 +35,7 @@ export default function ShowPost() {
     try {
       if (typeof postId === 'string') {
         const postResponse = await client.posts.getPostByIdPostsPostIdGet(
-          parseInt(postId),
+          parseInt(postId, 10),
         );
 
         setPost(postResponse);

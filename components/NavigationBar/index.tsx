@@ -21,7 +21,7 @@ const tabs: TabInfo[] = [
     title: 'Anúncios',
   },
   {
-    href: '/posts/favorites',
+    href: '/posts/#',
     iconName: 'heart',
     title: 'Favoritos',
   },

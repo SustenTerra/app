@@ -1,5 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { Link, useRouter } from 'expo-router';
+import { Linking } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
 import ScrollablePage from '@/components/ScrollablePage';
@@ -63,6 +64,12 @@ export default function Profile() {
       title: 'Alterar senha',
       description: 'Mude a senha da sua conta',
       href: '/profile/edit-password',
+    },
+    {
+      icon: 'help-circle',
+      title: 'Precisa de ajuda?',
+      description: 'Fale com os desenvolvedores',
+      onPress: () => Linking.openURL('https://wa.me/5583935009250'),
     },
     {
       icon: 'log-out',

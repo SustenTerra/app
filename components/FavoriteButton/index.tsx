@@ -1,9 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
 import { useTheme } from 'styled-components/native';
 
 import { useAuth } from '@/hooks/auth';
-import { client } from '@/services/client';
 import { showMessage } from '@/services/messages';
 
 interface FavoriteButtonProps {
@@ -23,9 +21,9 @@ function FavoriteButton({ size = 24, color = 'dark' }: FavoriteButtonProps) {
       });
     } else {
       showMessage({
-        type: 'success',
-        title: 'Sucesso!',
-        message: 'Anúncio adicionado aos favoritos.',
+        type: 'warning',
+        title: 'Atenção!',
+        message: 'Funcionalidade ainda não implementada.',
       });
     }
   };
