@@ -3,12 +3,12 @@ import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 
-import { PostCategoryView } from '@/api';
+import { PostCategoryView, PostView } from '@/api';
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import ItemsPicker from '@/components/ItemsPicker';
-import { HorizontalLoading } from '@/components/Loading';
+import Loading, { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import UploadImage, { ImageAsset } from '@/components/UploadImage';
@@ -21,31 +21,43 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { postTypes } from '@/utils/constants';
+import { formatCurrencyString } from '@/utils/strings';
+
+const headerInfo = {
+  new: {
+    title: 'Criar anúncio',
+    description:
+      'Preencha todos os dados para anunciar o seu produto ou serviço gratuitamente na plataforma.',
+    submit: 'Cadastrar anúncio',
+  },
+  edit: {
+    title: 'Editar anúncio',
+    description: 'Preencha os dados que você deseja editar no seu anúncio.',
+    submit: 'Salvar alterações',
+  },
+};
 
 export default function NewPost() {
   const params = useLocalSearchParams<{ postId: string }>();
 
+  const [loadedPost, setLoadedPost] = useState<PostView | null>(null);
+  const [loadingPost, setLoadingPost] = useState(!!params.postId);
+
   const getPost = async () => {
+    setLoadingPost(true);
     try {
       const postResponse = await client.posts.getPostByIdPostsPostIdGet(
         Number(params.postId),
       );
 
-      setTitle(postResponse.title);
-      setDescription(postResponse.description);
-      setLocation(postResponse.location);
-      setPrice('R$ ' + ((postResponse.price || 0) / 100).toFixed(2).toString());
-      setImage({
-        uri: postResponse.image_url || '',
-        fileName: postResponse.image_url,
-        mimeType: 'image/jpeg',
-        width: 500,
-        height: 500,
-      });
-      setSelectedCategory(postResponse.category_id);
+      setLoadedPost(postResponse);
+      setSelectedCategory(postResponse.category.id);
       setSelectedPostType(postResponse.post_type);
     } catch (error) {
       showErrors(error);
+      router.replace('/posts');
+    } finally {
+      setLoadingPost(false);
     }
   };
 
@@ -69,14 +81,8 @@ export default function NewPost() {
   );
   const [loading, setLoading] = useState(false);
 
-  const formatPrice = (price: string) => {
-    if (price.trim() === 'R$ 0,0') {
-      setPrice('');
-      return;
-    }
-
-    const val = parseInt(price.replace(/\D/g, ''), 10) / 100;
-    setPrice('R$ ' + val.toFixed(2).toString().replace('.', ','));
+  const updatePrice = (price: string) => {
+    setPrice(formatCurrencyString(price));
   };
 
   const getCategories = async () => {
@@ -93,7 +99,7 @@ export default function NewPost() {
     getCategories();
   }, []);
 
-  const handleSubmit = async () => {
+  const handleCreation = async () => {
     if (
       !title ||
       !description ||
@@ -158,6 +164,71 @@ export default function NewPost() {
     }
   };
 
+  const handleUpdate = async () => {
+    const returnUndefinedIfEmpty = (value: string | number | undefined) =>
+      !value ? undefined : value;
+
+    setLoading(true);
+    try {
+      const formData = new FormData();
+
+      if (image) {
+        let fileToUpload;
+        if (image instanceof File) {
+          fileToUpload = image;
+        } else {
+          fileToUpload = {
+            uri: image.uri,
+            type: image.mimeType || 'image/jpeg',
+            name: image.fileName || 'image.jpg',
+          };
+        }
+        formData.append('image', fileToUpload);
+      }
+
+      const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
+
+      formData.append('title', returnUndefinedIfEmpty(title));
+      formData.append('description', returnUndefinedIfEmpty(description));
+      formData.append('location', returnUndefinedIfEmpty(location));
+      formData.append('price', returnUndefinedIfEmpty(formattedPrice));
+      formData.append('post_type', returnUndefinedIfEmpty(selectedPostType));
+      formData.append('category_id', returnUndefinedIfEmpty(selectedCategory));
+
+      await client.request.request({
+        url: '/posts',
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Anúncio atualizado com sucesso!',
+      });
+      router.replace('/profile/my-posts');
+    } catch (err) {
+      showErrors(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = params.postId ? handleUpdate : handleCreation;
+
+  const headerInfos = headerInfo[params.postId ? 'edit' : 'new'];
+
+  if (loadingPost) {
+    return (
+      <ScrollablePage>
+        <Loading />
+      </ScrollablePage>
+    );
+  }
+
   return (
     <ScrollablePage>
       <NewPostContainer>
@@ -168,37 +239,41 @@ export default function NewPost() {
 
         <NewPostTitleWrapper>
           <Text size="h1" color="primary" weight="bold">
-            {params.postId ? 'Editar' : 'Criar'} anúncio
+            {headerInfos.title}
           </Text>
-          <Text color="textBody">
-            Preencha todos os dados para anunciar o seu produto ou serviço
-            gratuitamente na plataforma.
-          </Text>
+          <Text color="textBody">{headerInfos.description}</Text>
         </NewPostTitleWrapper>
 
         <Input
           iconName="edit"
-          placeholder="Título"
+          placeholder={loadedPost?.title || 'Título'}
           value={title}
           onChangeText={setTitle}
         />
         <Input
           iconName="tag"
-          placeholder="Preço"
+          placeholder={
+            loadedPost?.price
+              ? formatCurrencyString(String(loadedPost.price))
+              : 'Preço'
+          }
           keyboardType="numeric"
           value={price}
-          onChangeText={formatPrice}
+          onChangeText={updatePrice}
         />
 
         <Input
           iconName="map-pin"
-          placeholder="Localização"
+          placeholder={loadedPost?.location || 'Localização'}
           value={location}
           onChangeText={setLocation}
         />
         <Input
           iconName="info"
-          placeholder="Preencha a descrição, detalhes e informações sobre o anúncio"
+          placeholder={
+            loadedPost?.description ||
+            'Preencha a descrição, detalhes e informações sobre o anúncio'
+          }
           multiline
           value={description}
           onChangeText={setDescription}
@@ -239,10 +314,14 @@ export default function NewPost() {
         <Button onPress={handleSubmit} color="secondary">
           {!loading && (
             <>
-              <Feather name="plus-circle" size={24} color="white" />
+              <Feather
+                name={params.postId ? 'save' : 'plus-circle'}
+                size={20}
+                color="white"
+              />
 
               <Text color="light" weight="bold">
-                Cadastrar anúncio
+                {headerInfos.submit}
               </Text>
             </>
           )}
