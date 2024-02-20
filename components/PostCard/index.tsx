@@ -8,6 +8,9 @@ import Text from '../Text';
 
 import { PostView } from '@/api';
 import { useActionSheet } from '@/hooks/actionSheet';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
 
 interface PostCardProps {
@@ -16,11 +19,25 @@ interface PostCardProps {
 }
 
 function PostCard({ post, editable = false }: PostCardProps) {
+  const deletePost = async () => {
+    try {
+      await client.posts.deletePostPostsPostIdDelete(post.id);
+      showMessage({
+        message: 'Anúncio excluído com sucesso!',
+        title: 'Sucesso!',
+        type: 'success',
+      });
+      router.replace('/profile');
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
   const confirmDelete = useActionSheet({
     title: 'Deseja mesmo excluir esse anúncio?',
     message: 'Essa ação não pode ser desfeita',
     actions: ['Sim, tenho certeza!'],
-    actionsCallbacks: [() => console.log('delete')],
+    actionsCallbacks: [deletePost],
   });
 
   const postActionSheet = useActionSheet({
@@ -29,7 +46,10 @@ function PostCard({ post, editable = false }: PostCardProps) {
     actions: ['Editar', 'Excluir'],
     actionsCallbacks: [
       () => router.push(`/posts/new-post?postId=${post.id}`),
-      confirmDelete.show,
+      () => {
+        setTimeout(() => confirmDelete.show(), 500);
+        postActionSheet.hide();
+      },
     ],
   });
 

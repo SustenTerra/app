@@ -36,5 +36,9 @@ export function useActionSheet({
     );
   };
 
-  return { show };
+  const hide = () => {
+    onCancel?.();
+  };
+
+  return { show, hide };
 }
