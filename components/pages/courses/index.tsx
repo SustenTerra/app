@@ -261,6 +261,10 @@ export function CoursesInProgress() {
     getInProgressCourses();
   }, []);
 
+  if (!loading && courses.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <TitleContainer>
