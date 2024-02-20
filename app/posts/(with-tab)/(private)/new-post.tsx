@@ -196,7 +196,7 @@ export default function NewPost() {
       formData.append('category_id', returnUndefinedIfEmpty(selectedCategory));
 
       await client.request.request({
-        url: '/posts',
+        url: `/posts/${params.postId}`,
         method: 'PATCH',
         body: formData,
         headers: {
