@@ -104,21 +104,24 @@ export function CourseChapterContents({
       </CourseChapterContainer>
 
       {active &&
-        chapter.chapter_contents.map((content) => (
-          <Link
-            key={content.id}
-            href={`/courses/${courseId}/contents/${content.id}`}
-            asChild
-          >
-            <CourseContentWrapper>
+        chapter.chapter_contents.map((content) => {
+          const textColor = content.is_available
+            ? theme.colors.dark
+            : theme.colors.textBody;
+          const textWeight = content.is_available ? 'regular' : 'light';
+
+          const component = (
+            <CourseContentWrapper disabled={!content.is_available}>
               <TitleWrapper>
                 <Feather
                   name="play-circle"
                   size={moderateScale(20)}
-                  color={theme.colors.dark}
+                  color={textColor}
                 />
 
-                <CourseContentTitle>{content.name}</CourseContentTitle>
+                <CourseContentTitle weight={textWeight} color={textColor}>
+                  {content.name}
+                </CourseContentTitle>
               </TitleWrapper>
 
               {content.was_viewed && (
@@ -129,8 +132,21 @@ export function CourseChapterContents({
                 />
               )}
             </CourseContentWrapper>
-          </Link>
-        ))}
+          );
+
+          if (content.is_available) {
+            return (
+              <Link
+                href={`/courses/${courseId}/contents/${content.id}`}
+                asChild
+              >
+                {component}
+              </Link>
+            );
+          }
+
+          return component;
+        })}
     </>
   );
 }
