@@ -165,8 +165,24 @@ export default function NewPost() {
   };
 
   const handleUpdate = async () => {
-    const returnUndefinedIfEmpty = (value: string | number | undefined) =>
-      !value ? undefined : value;
+    const fields = [
+      title,
+      description,
+      location,
+      price,
+      selectedCategory,
+      selectedPostType,
+      image,
+    ];
+    if (fields.every((field) => !field)) {
+      showMessage({
+        type: 'danger',
+        title: 'Atenção!',
+        message: 'Preencha pelo menos um campo para atualizar o anúncio.',
+      });
+
+      return;
+    }
 
     setLoading(true);
     try {
@@ -186,14 +202,30 @@ export default function NewPost() {
         formData.append('image', fileToUpload);
       }
 
-      const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
+      if (price) {
+        const formattedPrice = parseFloat(price.replace('R$ ', '')) * 100;
+        formData.append('price', formattedPrice);
+      }
 
-      formData.append('title', returnUndefinedIfEmpty(title));
-      formData.append('description', returnUndefinedIfEmpty(description));
-      formData.append('location', returnUndefinedIfEmpty(location));
-      formData.append('price', returnUndefinedIfEmpty(formattedPrice));
-      formData.append('post_type', returnUndefinedIfEmpty(selectedPostType));
-      formData.append('category_id', returnUndefinedIfEmpty(selectedCategory));
+      if (title) {
+        formData.append('title', title);
+      }
+
+      if (description) {
+        formData.append('description', description);
+      }
+
+      if (location) {
+        formData.append('location', location);
+      }
+
+      if (selectedPostType) {
+        formData.append('post_type', selectedPostType);
+      }
+
+      if (selectedCategory) {
+        formData.append('category_id', selectedCategory);
+      }
 
       await client.request.request({
         url: `/posts/${params.postId}`,
