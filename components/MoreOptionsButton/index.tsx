@@ -24,7 +24,7 @@ function MoreOptionsButton({
   const actionSheet = useActionSheet({
     title: 'Opções',
     message: 'Escolha uma opção',
-    actions: ['Compatilhar anúncio', 'Ver portfólio do autor'],
+    actions: ['Compartilhar anúncio', 'Ver portfólio do autor(a)'],
     actionsCallbacks: [
       () =>
         postId &&
