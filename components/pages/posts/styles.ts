@@ -67,6 +67,9 @@ export const CircleButton = styled.TouchableOpacity`
 export const ImagePostView = styled.Image`
   height: ${height * 0.6}px;
   width: 100%;
+
+  border-bottom-left-radius: ${moderateScale(45)}px;
+  border-bottom-right-radius: ${moderateScale(45)}px;
 `;
 
 export const PostInfoWrapper = styled.View`

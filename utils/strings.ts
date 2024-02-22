@@ -18,3 +18,7 @@ export function formatCurrencyString(currencyString: string) {
 export function centsToCurrencyString(cents: number) {
   return 'R$ ' + (cents / 100).toFixed(2).toString().replace('.', ',');
 }
+
+export function cropLongText(text: string, length = 35) {
+  return text.length > length ? `${text.slice(0, length)}...` : text;
+}

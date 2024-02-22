@@ -12,6 +12,7 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { moderateScale, verticalScale, width } from '@/utils/scale';
+import { cropLongText } from '@/utils/strings';
 
 interface PostCardProps {
   post: PostView;
@@ -69,9 +70,6 @@ function PostCard({ post, editable = false }: PostCardProps) {
 
     postActionSheet.show();
   };
-
-  const cropLongText = (text: string) =>
-    text.length > 35 ? `${text.slice(0, 35)}...` : text;
 
   return (
     <TouchableOpacity onPress={onPress}>

@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { Linking, View } from 'react-native';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
 
 import { PostView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -25,25 +25,35 @@ import {
 } from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
-import { height, moderateScale, verticalScale } from '@/utils/scale';
-import { centsToCurrencyString } from '@/utils/strings';
+import { showMessage } from '@/services/messages';
+import { moderateScale, verticalScale } from '@/utils/scale';
+import { centsToCurrencyString, cropLongText } from '@/utils/strings';
 
 export default function ShowPost() {
-  const { postId } = useLocalSearchParams();
+  const { postId } = useLocalSearchParams<{
+    postId: string;
+  }>();
   const [post, setPost] = useState<PostView | null>(null);
   const [loading, setLoading] = useState(true);
 
   const theme = useTheme();
 
   const getPost = async () => {
-    try {
-      if (typeof postId === 'string') {
-        const postResponse = await client.posts.getPostByIdPostsPostIdGet(
-          parseInt(postId, 10),
-        );
+    if (!postId) {
+      showMessage({
+        type: 'danger',
+        title: 'Erro',
+        message: 'Post não encontrado',
+      });
+      return;
+    }
 
-        setPost(postResponse);
-      }
+    try {
+      const postResponse = await client.posts.getPostByIdPostsPostIdGet(
+        parseInt(postId, 10),
+      );
+
+      setPost(postResponse);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -97,7 +107,7 @@ export default function ShowPost() {
                 <FavoriteButton />
               </Row>
               <Row style={{ marginBottom: verticalScale(10) }}>
-                <Text size="h4">{post.title}</Text>
+                <Text size="h4">{cropLongText(post.title, 60)}</Text>
               </Row>
 
               <Row
