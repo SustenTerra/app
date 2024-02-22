@@ -10,7 +10,9 @@ export const Container = styled.View<ContainerProps>`
   width: ${({ width }) => width}px;
 `;
 
-export const TextContainer = styled.View``;
+export const TextContainer = styled.View`
+  max-width: 90%;
+`;
 
 export const InfoContainer = styled.View`
   flex-direction: row;

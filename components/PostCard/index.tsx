@@ -70,6 +70,9 @@ function PostCard({ post, editable = false }: PostCardProps) {
     postActionSheet.show();
   };
 
+  const cropLongText = (text: string) =>
+    text.length > 35 ? `${text.slice(0, 35)}...` : text;
+
   return (
     <TouchableOpacity onPress={onPress}>
       <Container width={postWidth}>
@@ -85,7 +88,7 @@ function PostCard({ post, editable = false }: PostCardProps) {
         <InfoContainer>
           <TextContainer>
             <Text weight="bold">R$ {postPrice}</Text>
-            <Text>{post.title}</Text>
+            <Text>{cropLongText(post.title)}</Text>
           </TextContainer>
 
           {!editable && <FavoriteButton size={20} />}
