@@ -14,3 +14,7 @@ export function formatCurrencyString(currencyString: string) {
   const val = parseInt(currencyString.replace(/\D/g, ''), 10) / 100;
   return 'R$ ' + val.toFixed(2).toString().replace('.', ',');
 }
+
+export function centsToCurrencyString(cents: number) {
+  return 'R$ ' + (cents / 100).toFixed(2).toString().replace('.', ',');
+}

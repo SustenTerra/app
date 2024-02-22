@@ -1,7 +1,8 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
 import { PostView } from '@/api';
@@ -19,10 +20,13 @@ import {
   Row,
   ContactBar,
   BarContent,
+  PostsSpacer,
+  HeaderSafeAreaView,
 } from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
-import { moderateScale } from '@/utils/scale';
+import { height, moderateScale, verticalScale } from '@/utils/scale';
+import { centsToCurrencyString } from '@/utils/strings';
 
 export default function ShowPost() {
   const { postId } = useLocalSearchParams();
@@ -51,75 +55,92 @@ export default function ShowPost() {
     getPost();
   }, []);
 
+  const postPrice = post?.price
+    ? centsToCurrencyString(post.price)
+    : 'Valor a combinar';
+
   return (
-    <ScrollablePage>
-      <Container>
-        {loading && <Loading />}
+    <>
+      <StatusBar style="light" />
+
+      <HeaderSafeAreaView>
+        <HeaderPostView>
+          <BackButton color="light" href="/posts" />
+          <Text size="h3" color="light">
+            Detalhes
+          </Text>
+          <MoreOptionsButton />
+        </HeaderPostView>
+      </HeaderSafeAreaView>
+
+      <ScrollablePage>
+        {loading && (
+          <View>
+            <PostsSpacer />
+            <PostsSpacer />
+            <Loading />
+          </View>
+        )}
         {!loading && post && (
           <>
-            <HeaderPostView>
-              <BackButton color="light" href="/posts" />
-              <Text size="h3">Detalhes</Text>
-              <MoreOptionsButton />
-            </HeaderPostView>
-            <>
-              <ImagePostView
-                source={
-                  post.image_url
-                    ? { uri: post.image_url }
-                    : require('assets/gray.png')
-                }
-              />
-              <PostInfoWrapper>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <Text size="h2">{post.title}</Text>
-                  <FavoriteButton />
-                </Row>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <View>
-                    <Row style={{ gap: moderateScale(5) }}>
-                      <Feather name="user" size={16} />
-                      <Text>Por {post.user.full_name}</Text>
-                    </Row>
-                    <Row style={{ gap: moderateScale(5) }}>
-                      <Feather name="calendar" size={16} />
-                      <Text>
-                        Adicionado em{' '}
-                        {new Date(post.created_at).toLocaleDateString()}
-                      </Text>
-                    </Row>
-                  </View>
-                  <Text size="h2">R$ {post.price?.toFixed(2)}</Text>
-                </Row>
-                <Text>{post.description}</Text>
-              </PostInfoWrapper>
-            </>
-            <ContactBar>
-              <BarContent
-                onPress={() =>
-                  router.navigate(`https://wa.me/${post.user.phone}`)
-                }
+            <ImagePostView
+              defaultSource={require('assets/gray.png')}
+              source={
+                post.image_url
+                  ? { uri: post.image_url }
+                  : require('assets/gray.png')
+              }
+            />
+            <PostInfoWrapper>
+              <Row style={{ justifyContent: 'space-between' }}>
+                <Text size="h2">{postPrice}</Text>
+                <FavoriteButton />
+              </Row>
+              <Row style={{ marginBottom: verticalScale(10) }}>
+                <Text size="h4">{post.title}</Text>
+              </Row>
+
+              <Row
+                style={{
+                  justifyContent: 'space-between',
+                  marginBottom: verticalScale(10),
+                }}
               >
-                <Feather
-                  name="phone-call"
-                  color={theme.colors.light}
-                  size={24}
-                />
-                <Text size="h3" color="light">
-                  Entrar em contato!
-                </Text>
-              </BarContent>
-            </ContactBar>
+                <View>
+                  <Row style={{ gap: moderateScale(5) }}>
+                    <Feather name="user" size={16} />
+                    <Text>Por {post.user.full_name}</Text>
+                  </Row>
+                  <Row style={{ gap: moderateScale(5) }}>
+                    <Feather name="calendar" size={16} />
+                    <Text>
+                      Adicionado em{' '}
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </Text>
+                  </Row>
+                </View>
+              </Row>
+              <Text>{post.description}</Text>
+            </PostInfoWrapper>
           </>
         )}
         {!loading && !post && <EmptyList />}
-      </Container>
-    </ScrollablePage>
+
+        <PostsSpacer multiplier={6} />
+      </ScrollablePage>
+
+      <ContactBar>
+        <BarContent
+          onPress={() =>
+            post && Linking.openURL(`https://wa.me/${post.user.phone}`)
+          }
+        >
+          <Feather name="phone-call" color={theme.colors.light} size={24} />
+          <Text size="h3" color="light">
+            Entrar em contato!
+          </Text>
+        </BarContent>
+      </ContactBar>
+    </>
   );
 }
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-`;

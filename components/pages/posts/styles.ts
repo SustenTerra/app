@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
 
-import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
+import {
+  height,
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '@/utils/scale';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -60,7 +65,7 @@ export const CircleButton = styled.TouchableOpacity`
 `;
 
 export const ImagePostView = styled.Image`
-  height: 60%;
+  height: ${height * 0.6}px;
   width: 100%;
 `;
 
@@ -90,21 +95,35 @@ export const BarContent = styled.Pressable`
   justify-content: center;
 `;
 
-export const HeaderPostView = styled.SafeAreaView`
+export const HeaderSafeAreaView = styled.SafeAreaView`
   width: 100%;
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const HeaderPostView = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: ${verticalScale(10)}px 0;
 `;
 
 export const NewPostTitleWrapper = styled.View`
   margin-bottom: ${verticalScale(10)}px;
 `;
 
-export const PostsSpacer = styled.SafeAreaView`
-  height: ${verticalScale(20)}px;
+interface PostsSpacerProps {
+  multiplier?: number;
+}
+
+export const PostsSpacer = styled.SafeAreaView<PostsSpacerProps>`
+  height: ${({ multiplier = 1 }) => verticalScale(20) * multiplier}px;
 `;
 
 export const PostsGridHeaderWrapper = styled.View`
