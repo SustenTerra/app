@@ -1,8 +1,8 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import { PostView } from '@/api';
@@ -23,6 +23,7 @@ import {
   PostsSpacer,
   HeaderSafeAreaView,
 } from '@/components/pages/posts/styles';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -36,7 +37,21 @@ export default function ShowPost() {
   const [post, setPost] = useState<PostView | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
   const theme = useTheme();
+
+  const profileActionSheet = useActionSheet({
+    title: 'Tem certeza?',
+    message: 'Você será redirecionado para o portfólio do autor',
+    actions: ['Sim, tenho certeza'],
+    actionsCallbacks: [
+      () => {
+        if (post) {
+          router.push(`/posts?userId=${post.user_id}`);
+        }
+      },
+    ],
+  });
 
   const getPost = async () => {
     if (!postId) {
@@ -79,7 +94,7 @@ export default function ShowPost() {
           <Text size="h3" color="light">
             Detalhes
           </Text>
-          <MoreOptionsButton />
+          <MoreOptionsButton postId={post?.id} userId={post?.user_id} />
         </HeaderPostView>
       </HeaderSafeAreaView>
 
@@ -117,10 +132,14 @@ export default function ShowPost() {
                 }}
               >
                 <View>
-                  <Row style={{ gap: moderateScale(5) }}>
-                    <Feather name="user" size={16} />
-                    <Text>Por {post.user.full_name}</Text>
-                  </Row>
+                  <TouchableOpacity onPress={profileActionSheet.show}>
+                    <Row style={{ gap: moderateScale(5) }}>
+                      <Feather name="user" size={16} />
+                      <Text>Por</Text>
+                      <Text color="secondary">{post.user.full_name}</Text>
+                    </Row>
+                  </TouchableOpacity>
+
                   <Row style={{ gap: moderateScale(5) }}>
                     <Feather name="calendar" size={16} />
                     <Text>
