@@ -96,7 +96,7 @@ export default function ShowPost() {
     }
 
     if (post) {
-      Linking.openURL(`https://wa.me/${post.user.phone}`);
+      Linking.openURL(`https://wa.me/55${post.user.phone}`);
     }
   };
 
