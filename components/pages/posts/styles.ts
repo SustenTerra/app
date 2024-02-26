@@ -77,9 +77,14 @@ export const PostInfoWrapper = styled.View`
   padding: ${moderateScale(20)}px;
 `;
 
-export const Row = styled.View`
+interface RowProps {
+  paddingTop?: number;
+}
+
+export const Row = styled.View<RowProps>`
   flex-direction: row;
   align-items: center;
+  padding-top: ${({ paddingTop = 0 }) => verticalScale(paddingTop)}px;
 `;
 
 export const ContactBar = styled.SafeAreaView`
