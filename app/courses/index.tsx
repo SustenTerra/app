@@ -184,6 +184,14 @@ export default function CoursesHome() {
         )}
 
         {shouldShowByDefault && !auth.loading && auth.user && (
+          <Banner
+            title="Quer tirar dúvidas com nosso assistente virtual?"
+            description="Clique aqui para bater papo"
+            href="/chat"
+          />
+        )}
+
+        {shouldShowByDefault && !auth.loading && auth.user && (
           <CoursesInProgress />
         )}
 
