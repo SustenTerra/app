@@ -1,16 +1,67 @@
 import debounce from 'awesome-debounce-promise';
+import * as Network from 'expo-network';
 import { useCallback, useEffect, useState } from 'react';
 
 import { useActionSheet } from './actionSheet';
 
 import { PostView } from '@/api';
+import { PostsCacheService } from '@/services/cache/posts';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 
 interface GetPostsPayload {
   search?: string;
   category?: string;
   userId?: string;
+}
+
+const cacheService = new PostsCacheService();
+
+async function listCachedPosts({ search, category, userId }: GetPostsPayload) {
+  const posts = await cacheService.get();
+
+  showMessage({
+    type: 'info',
+    title: 'Sem conexão',
+    message: 'Exibindo resultados salvos localmente',
+  });
+
+  return (
+    posts?.filter((post) => {
+      if (search && !post.title.toLowerCase().includes(search.toLowerCase())) {
+        return false;
+      }
+
+      if (category && !post.category.name.includes(category)) {
+        return false;
+      }
+
+      if (userId && post.user.id !== Number(userId)) {
+        return false;
+      }
+
+      return true;
+    }) || []
+  );
+}
+
+async function fetchPosts({ search, category, userId }: GetPostsPayload) {
+  const networkState = await Network.getNetworkStateAsync();
+
+  if (networkState.isConnected) {
+    const posts = await client.posts.listAllPostsPostsGet(
+      search,
+      userId ? Number(userId) : undefined,
+      category,
+    );
+
+    await cacheService.set(posts);
+
+    return posts;
+  }
+
+  return await listCachedPosts({ search, category, userId });
 }
 
 export function usePosts(
@@ -24,14 +75,14 @@ export function usePosts(
   const getPosts = async ({ search, category, userId }: GetPostsPayload) => {
     try {
       setLoadingPosts(true);
-      const userIdNumber = userId ? Number(userId) : undefined;
-      const posts = await client.posts.listAllPostsPostsGet(
+      const posts = await fetchPosts({
         search,
-        userIdNumber,
         category,
-      );
+        userId,
+      });
       setViewPosts(posts);
     } catch (error) {
+      console.log(error);
       showErrors(error);
     } finally {
       setLoadingPosts(false);

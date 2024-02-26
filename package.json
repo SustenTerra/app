@@ -48,7 +48,9 @@
     "react-native-webview": "13.6.4",
     "react-native-youtube-iframe": "^2.3.0",
     "styled-components": "^5.3.3",
-    "expo-speech": "~11.7.0"
+    "expo-speech": "~11.7.0",
+    "expo-network": "~5.8.0",
+    "@react-native-async-storage/async-storage": "1.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
