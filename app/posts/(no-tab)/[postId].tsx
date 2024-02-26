@@ -24,6 +24,7 @@ import {
   HeaderSafeAreaView,
 } from '@/components/pages/posts/styles';
 import { useActionSheet } from '@/hooks/actionSheet';
+import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -37,6 +38,7 @@ export default function ShowPost() {
   const [post, setPost] = useState<PostView | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const auth = useAuth();
   const router = useRouter();
   const theme = useTheme();
 
@@ -49,6 +51,17 @@ export default function ShowPost() {
         if (post) {
           router.push(`/posts?userId=${post.user_id}`);
         }
+      },
+    ],
+  });
+
+  const shouldLoginActionSheet = useActionSheet({
+    title: 'Você precisa estar logado',
+    message: 'Para entrar em contato, você precisa estar logado',
+    actions: ['Fazer login'],
+    actionsCallbacks: [
+      () => {
+        router.push('/login');
       },
     ],
   });
@@ -73,6 +86,17 @@ export default function ShowPost() {
     } catch (error) {
       setLoading(false);
       showErrors(error);
+    }
+  };
+
+  const enterOnContact = () => {
+    if (!auth.loading && !auth.user) {
+      shouldLoginActionSheet.show();
+      return;
+    }
+
+    if (post) {
+      Linking.openURL(`https://wa.me/${post.user.phone}`);
     }
   };
 
@@ -159,11 +183,7 @@ export default function ShowPost() {
       </ScrollablePage>
 
       <ContactBar>
-        <BarContent
-          onPress={() =>
-            post && Linking.openURL(`https://wa.me/${post.user.phone}`)
-          }
-        >
+        <BarContent onPress={enterOnContact}>
           <Feather name="phone-call" color={theme.colors.light} size={24} />
           <Text size="h3" color="light">
             Entrar em contato!
