@@ -38,6 +38,13 @@ export const DescriptionWrapper = styled.View`
   margin-top: ${verticalScale(10)}px;
 `;
 
+export const ChapterLabel = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: ${verticalScale(10)}px;
+  justify-content: space-between;
+`;
+
 export const HeaderWrapper = styled.View`
   align-items: center;
   flex-direction: row;

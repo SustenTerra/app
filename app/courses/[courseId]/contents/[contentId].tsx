@@ -13,6 +13,7 @@ import SpeakButton from '@/components/SpeakButton';
 import Text from '@/components/Text';
 import YTVideo from '@/components/YTVideo';
 import {
+  ChapterLabel,
   ContentBackground,
   DescriptionWrapper,
   HeaderBackground,
@@ -110,21 +111,27 @@ export default function ShowContent() {
                     {content.name}
                   </Text>
 
-                  <DescriptionWrapper>
-                    <Feather name="user" size={20} color={theme.colors.light} />
+                  <ChapterLabel>
+                    <DescriptionWrapper>
+                      <Feather
+                        name="user"
+                        size={20}
+                        color={theme.colors.light}
+                      />
 
-                    <Text
-                      color="light"
-                      style={{ marginLeft: horizontalScale(5) }}
-                    >
-                      Capítulo {content.chapter_index + 1}:{' '}
-                      {content.chapter_name}
-                    </Text>
+                      <Text
+                        color="light"
+                        style={{ marginLeft: horizontalScale(5) }}
+                      >
+                        Capítulo {content.chapter_index + 1}:{' '}
+                        {content.chapter_name}
+                      </Text>
+                    </DescriptionWrapper>
 
                     {content.description && (
                       <SpeakButton textToSpeak={content.description} />
                     )}
-                  </DescriptionWrapper>
+                  </ChapterLabel>
                 </>
               )}
             </ContentBackground>
