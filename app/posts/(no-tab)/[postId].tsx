@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import * as Network from 'expo-network';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
@@ -26,11 +27,23 @@ import {
 } from '@/components/pages/posts/styles';
 import { useActionSheet } from '@/hooks/actionSheet';
 import { useAuth } from '@/hooks/auth';
+import { PostsCacheService } from '@/services/cache/posts';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { moderateScale, verticalScale } from '@/utils/scale';
 import { centsToCurrencyString, cropLongText } from '@/utils/strings';
+
+async function fetchPostById(id: number) {
+  const cacheService = new PostsCacheService();
+  const networkState = await Network.getNetworkStateAsync();
+
+  if (networkState.isConnected) {
+    return client.posts.getPostByIdPostsPostIdGet(id);
+  }
+
+  return cacheService.getPostById(id);
+}
 
 export default function ShowPost() {
   const { postId } = useLocalSearchParams<{
@@ -78,9 +91,7 @@ export default function ShowPost() {
     }
 
     try {
-      const postResponse = await client.posts.getPostByIdPostsPostIdGet(
-        parseInt(postId, 10),
-      );
+      const postResponse = await fetchPostById(parseInt(postId, 10));
 
       setPost(postResponse);
       setLoading(false);

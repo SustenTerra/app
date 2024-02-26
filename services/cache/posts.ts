@@ -19,4 +19,10 @@ export class PostsCacheService implements CacheService<PostView[]> {
   async set(value: PostView[]): Promise<void> {
     return storage.setStorageItemAsync(STORAGE_KEY, JSON.stringify(value));
   }
+
+  async getPostById(id: number): Promise<PostView | null> {
+    const posts = (await this.get()) || [];
+
+    return posts.find((post) => post.id === id) || null;
+  }
 }
