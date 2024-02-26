@@ -32,19 +32,25 @@ import { moderateScale, verticalScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
   course: CourseListView;
-  fixedWidth?: boolean;
+  isInProgress?: boolean;
   onPress: () => void;
 }
 
 export function CourseSummary({
   course,
   onPress,
-  fixedWidth,
+  isInProgress,
 }: CourseSummaryProps) {
   const theme = useTheme();
 
+  const plural = course.chapters_count !== 1 ? 's' : '';
+
+  const lowLabel = isInProgress
+    ? `${course.chapters_count} Conteúdo${plural} assistidos`
+    : `${course.chapters_count} Capítulo${plural}`;
+
   return (
-    <CourseViewWrapper onPress={onPress} fixedWidth={fixedWidth}>
+    <CourseViewWrapper onPress={onPress} isInProgress={isInProgress}>
       <CourseViewBackground
         defaultSource={require('assets/gray.png')}
         source={{ uri: course.image_url }}
@@ -66,7 +72,7 @@ export function CourseSummary({
           </AuthorWrapper>
 
           <Text color="light" style={{ marginTop: moderateScale(10) }}>
-            {course.chapters_count} Capítulo{course.chapters_count !== 1 && 's'}
+            {lowLabel}
           </Text>
         </ContentContainer>
       </CourseViewBackground>
@@ -305,7 +311,7 @@ export function CoursesInProgress() {
                 key={course.id}
                 course={course}
                 onPress={() => router.push(`/courses/${course.id}`)}
-                fixedWidth
+                isInProgress
               />
             ))}
         </HorizontalScroller>

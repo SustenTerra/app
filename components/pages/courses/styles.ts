@@ -38,6 +38,13 @@ export const DescriptionWrapper = styled.View`
   margin-top: ${verticalScale(10)}px;
 `;
 
+export const ChapterLabel = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: ${verticalScale(10)}px;
+  justify-content: space-between;
+`;
+
 export const HeaderWrapper = styled.View`
   align-items: center;
   flex-direction: row;
@@ -63,12 +70,12 @@ export const TitleContainer = styled.View`
 `;
 
 interface CourseViewWrapperProps {
-  fixedWidth?: boolean;
+  isInProgress?: boolean;
 }
 
 export const CourseViewWrapper = styled.TouchableOpacity<CourseViewWrapperProps>`
-  width: ${({ fixedWidth }) =>
-    fixedWidth ? `${horizontalScale(300)}px` : '100%'};
+  width: ${({ isInProgress }) =>
+    isInProgress ? `${horizontalScale(300)}px` : '100%'};
   align-items: center;
   justify-content: center;
 `;

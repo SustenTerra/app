@@ -12,6 +12,7 @@ import FavoriteButton from '@/components/FavoriteButton';
 import Loading from '@/components/Loading';
 import MoreOptionsButton from '@/components/MoreOptionsButton';
 import ScrollablePage from '@/components/ScrollablePage';
+import SpeakButton from '@/components/SpeakButton';
 import Text from '@/components/Text';
 import {
   HeaderPostView,
@@ -181,6 +182,12 @@ export default function ShowPost() {
                 </View>
               </Row>
               <Text>{post.description}</Text>
+
+              <Row paddingTop={10}>
+                <SpeakButton textToSpeak={post.description} />
+
+                <Text>Ouvir descrição do anúncio</Text>
+              </Row>
             </PostInfoWrapper>
           </>
         )}
