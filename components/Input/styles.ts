@@ -1,4 +1,5 @@
-import styled from 'styled-components/native';
+import { MaskedTextInput } from 'react-native-mask-text';
+import styled, { css } from 'styled-components/native';
 
 import { webOnlyCSS } from '@/utils/platform';
 import { horizontalScale, moderateScale } from '@/utils/scale';
@@ -22,7 +23,7 @@ export const Container = styled.Pressable<ContainerProps>`
   ${(props) => props.isMultiline && 'max-height: 300px;'}
 `;
 
-export const TextInput = styled.TextInput`
+const input = css`
   border: none;
   flex: 1;
   font-size: ${moderateScale(16)}px;
@@ -31,4 +32,11 @@ export const TextInput = styled.TextInput`
   ${webOnlyCSS`
     outline-style: none;
   `}
+`;
+export const TextInput = styled.TextInput`
+  ${input}
+`;
+
+export const MaskedInput = styled(MaskedTextInput)`
+  ${input}
 `;

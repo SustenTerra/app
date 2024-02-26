@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
-import { Container, TextInput } from './styles';
+import { Container, TextInput, MaskedInput } from './styles';
 
 import { moderateScale } from '@/utils/scale';
 
@@ -31,6 +31,7 @@ interface InputProps extends TextInputProps {
   useFlex?: boolean;
   clearable?: boolean;
   style?: StyleProp<TextStyle>;
+  mask?: string;
 }
 
 function Input({
@@ -42,7 +43,8 @@ function Input({
   clearable = false,
   multiline = false,
   value,
-  onChangeText,
+  onChangeText = () => {},
+  mask,
   ...props
 }: InputProps) {
   const theme = useTheme();
@@ -64,18 +66,34 @@ function Input({
         <Feather name={iconName} size={moderateScale(20)} color={iconColor} />
       )}
 
-      <TextInput
-        ref={inputRef}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-        secureTextEntry={!showInput}
-        multiline={multiline}
-        placeholderTextColor={
-          useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
-        }
-        {...props}
-      />
+      {mask ? (
+        <MaskedInput
+          ref={inputRef}
+          placeholder={placeholder}
+          value={value}
+          mask={mask}
+          onChangeText={(_, rawText) => onChangeText(rawText)}
+          secureTextEntry={!showInput}
+          multiline={multiline}
+          placeholderTextColor={
+            useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
+          }
+          {...props}
+        />
+      ) : (
+        <TextInput
+          ref={inputRef}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={!showInput}
+          multiline={multiline}
+          placeholderTextColor={
+            useSecondaryColors ? theme.colors.secondary : theme.colors.textBody
+          }
+          {...props}
+        />
+      )}
 
       {hideText && (
         <Feather
