@@ -5,7 +5,7 @@ interface Props {
 }
 
 function MDViewer({ content }: Props) {
-  return <Markdown>{content}</Markdown>;
+  return <Markdown>{content.replace(/\\n/g, '\n')}</Markdown>;
 }
 
 export default MDViewer;

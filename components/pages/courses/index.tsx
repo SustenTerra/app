@@ -111,7 +111,10 @@ export function CourseChapterContents({
           const textWeight = content.is_available ? 'regular' : 'light';
 
           const component = (
-            <CourseContentWrapper disabled={!content.is_available}>
+            <CourseContentWrapper
+              key={content.id}
+              disabled={!content.is_available}
+            >
               <TitleWrapper>
                 <Feather
                   name="play-circle"
@@ -137,6 +140,7 @@ export function CourseChapterContents({
           if (content.is_available) {
             return (
               <Link
+                key={content.id}
                 href={`/courses/${courseId}/contents/${content.id}`}
                 asChild
               >
