@@ -85,8 +85,8 @@ function PostCard({ post, editable = false }: PostCardProps) {
         />
         <InfoContainer>
           <TextContainer>
-            <Text weight="bold">R$ {postPrice}</Text>
-            <Text>{cropLongText(post.title)}</Text>
+            <Text weight="bold">{cropLongText(post.title)}</Text>
+            <Text>R$ {postPrice}</Text>
           </TextContainer>
 
           {!editable && <FavoriteButton size={20} />}

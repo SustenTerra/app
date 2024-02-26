@@ -141,12 +141,19 @@ export default function ShowPost() {
               }
             />
             <PostInfoWrapper>
-              <Row style={{ justifyContent: 'space-between' }}>
+              <Row>
+                <Text size="h4" weight="bold">
+                  {cropLongText(post.title, 60)}
+                </Text>
+              </Row>
+              <Row
+                style={{
+                  justifyContent: 'space-between',
+                  marginBottom: verticalScale(10),
+                }}
+              >
                 <Text size="h2">{postPrice}</Text>
                 <FavoriteButton />
-              </Row>
-              <Row style={{ marginBottom: verticalScale(10) }}>
-                <Text size="h4">{cropLongText(post.title, 60)}</Text>
               </Row>
 
               <Row
