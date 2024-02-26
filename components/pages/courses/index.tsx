@@ -98,7 +98,7 @@ export function CourseChapterContents({
           color={theme.colors.secondary}
         />
 
-        <CourseChapterTitle>
+        <CourseChapterTitle size={20}>
           {chapterIndex}. {chapter.name}
         </CourseChapterTitle>
       </CourseChapterContainer>
@@ -122,7 +122,11 @@ export function CourseChapterContents({
                   color={textColor}
                 />
 
-                <CourseContentTitle weight={textWeight} color={textColor}>
+                <CourseContentTitle
+                  size={16}
+                  weight={textWeight}
+                  color={textColor}
+                >
                   {content.name}
                 </CourseContentTitle>
               </TitleWrapper>
