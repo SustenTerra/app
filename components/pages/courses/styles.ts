@@ -70,12 +70,12 @@ export const TitleContainer = styled.View`
 `;
 
 interface CourseViewWrapperProps {
-  fixedWidth?: boolean;
+  isInProgress?: boolean;
 }
 
 export const CourseViewWrapper = styled.TouchableOpacity<CourseViewWrapperProps>`
-  width: ${({ fixedWidth }) =>
-    fixedWidth ? `${horizontalScale(300)}px` : '100%'};
+  width: ${({ isInProgress }) =>
+    isInProgress ? `${horizontalScale(300)}px` : '100%'};
   align-items: center;
   justify-content: center;
 `;
