@@ -27,4 +27,6 @@ export const StyledButton = styled.TouchableOpacity<ContainerProps>`
   align-items: center;
   height: ${moderateScale(55)}px;
   gap: ${horizontalScale(6)}px;
+  border: ${(props) =>
+    props.color === 'light' ? props.theme.colors.primary : 'none'};
 `;

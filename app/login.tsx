@@ -97,7 +97,7 @@ export default function Login() {
           hideText
           onChangeText={setPassword}
         />
-        <Button disabled={loading} color="secondary" onPress={handleLogin}>
+        <Button disabled={loading} color="primary" onPress={handleLogin}>
           {!loading && (
             <>
               <Feather name="log-in" size={24} color={theme.colors.light} />

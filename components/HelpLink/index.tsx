@@ -10,13 +10,8 @@ const textMapper = {
     question: 'Ainda não tem uma conta?',
     link: (
       <Link href="/sign-up">
-        <Text size="h5">
-          Clique
-          <Text color="primary" size="h5">
-            {' '}
-            aqui{' '}
-          </Text>
-          para criar uma
+        <Text size="h5" color="primary">
+          Clique para criar uma
         </Text>
       </Link>
     ),
@@ -25,13 +20,8 @@ const textMapper = {
     question: 'Já tem uma conta?',
     link: (
       <Link href="/login">
-        <Text size="h5">
-          Clique
-          <Text color="primary" size="h5">
-            {' '}
-            aqui{' '}
-          </Text>
-          para fazer login
+        <Text size="h5" color="primary">
+          Clique para fazer login
         </Text>
       </Link>
     ),

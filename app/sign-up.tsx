@@ -128,7 +128,7 @@ export default function SignUp() {
           hideText
           onChangeText={setPasswordConfirmation}
         />
-        <Button disabled={loading} color="secondary" onPress={handleSignUp}>
+        <Button disabled={loading} color="primary" onPress={handleSignUp}>
           {!loading && (
             <>
               <Feather name="log-in" size={24} color={theme.colors.light} />

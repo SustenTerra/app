@@ -42,25 +42,25 @@ export default function Home() {
           criados de maneira ecológica, comprar tinta ou aprender a fazê-la.
         </Text>
         <Button
-          color="secondary"
+          color="primary"
           onPress={() => {
             router.push('/posts');
           }}
         >
           <Feather name="shopping-bag" size={24} color={theme.colors.light} />
           <Text color="light" size={20}>
-            Ver anúncios locais
+            Explorar anúncios
           </Text>
         </Button>
         <Button
-          color="primary"
+          color="light"
           onPress={() => {
             router.push('/courses');
           }}
         >
-          <Feather name="book-open" size={24} color={theme.colors.light} />
-          <Text color="light" size={20}>
-            Aprender mais
+          <Feather name="book-open" size={24} color={theme.colors.primary} />
+          <Text color="primary" size={20}>
+            Ver cursos
           </Text>
         </Button>
       </TextContainer>
