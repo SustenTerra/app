@@ -9,6 +9,7 @@ import BackButton from '@/components/BackButton';
 import Loading from '@/components/Loading';
 import MDViewer from '@/components/MDViewer';
 import ScrollablePage from '@/components/ScrollablePage';
+import SpeakButton from '@/components/SpeakButton';
 import Text from '@/components/Text';
 import YTVideo from '@/components/YTVideo';
 import {
@@ -119,6 +120,10 @@ export default function ShowContent() {
                       Capítulo {content.chapter_index + 1}:{' '}
                       {content.chapter_name}
                     </Text>
+
+                    {content.description && (
+                      <SpeakButton textToSpeak={content.description} />
+                    )}
                   </DescriptionWrapper>
                 </>
               )}
