@@ -16,3 +16,5 @@ export const postTypes = [
     name: 'Serviço em geral',
   },
 ];
+
+export const phoneNumberRegex = new RegExp('^[1-9]{11}$');
