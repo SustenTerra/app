@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sustenterra.app"
     },
     "web": {
       "favicon": "./assets/icon.png",
@@ -33,6 +34,14 @@
       "expo-router",
       "expo-font",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1708abaf-aae6-4fb5-9ae1-65b70cdb2f4c"
+      }
+    }
   }
 }
