@@ -47,7 +47,7 @@ export default function Profile() {
     actions: ['Sim, sair'],
     actionsCallbacks: [
       () => {
-        router.push('https://forms.gle/aSso8QEaHaqCu21G8');
+        Linking.openURL('https://forms.gle/aSso8QEaHaqCu21G8');
       },
     ],
   });
