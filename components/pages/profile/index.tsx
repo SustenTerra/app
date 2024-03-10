@@ -48,7 +48,7 @@ export function ProfileInfo({ name, email, verticalMargin }: ProfileInfoProps) {
 }
 
 export interface ProfileButtonProps {
-  icon: 'grid' | 'book' | 'edit' | 'lock' | 'log-out' | 'help-circle';
+  icon: 'grid' | 'book' | 'edit' | 'lock' | 'log-out' | 'help-circle' | 'video';
   title: string;
   description: string;
   href?: string;
