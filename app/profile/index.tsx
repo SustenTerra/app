@@ -87,7 +87,7 @@ export default function Profile() {
       icon: 'help-circle',
       title: 'Precisa de ajuda?',
       description: 'Fale com os desenvolvedores',
-      onPress: () => Linking.openURL('https://wa.me/5583935009250'),
+      onPress: () => Linking.openURL('https://forms.gle/HeaFGVSq6HjP8wmz5'),
     },
     {
       icon: 'log-out',
