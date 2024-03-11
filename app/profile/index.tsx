@@ -40,6 +40,18 @@ export default function Profile() {
     ],
   });
 
+  const actionSheetInstruct = useActionSheet({
+    title: 'Atenção!',
+    message:
+      'Você tem certeza que deseja continuar? Você será redirecionado para um formulário externo',
+    actions: ['Sim, sair'],
+    actionsCallbacks: [
+      () => {
+        Linking.openURL('https://forms.gle/aSso8QEaHaqCu21G8');
+      },
+    ],
+  });
+
   const options: ProfileButtonProps[] = [
     {
       icon: 'grid',
@@ -52,6 +64,12 @@ export default function Profile() {
       title: 'Meus cursos',
       description: 'Cursos em andamento e disponíveis',
       href: '/courses',
+    },
+    {
+      icon: 'video',
+      title: 'Torne-se instrutor(a)',
+      description: 'Compartilhe seu conhecimento',
+      onPress: actionSheetInstruct.show,
     },
     {
       icon: 'edit',
