@@ -108,7 +108,8 @@ export default function ShowPost() {
     }
 
     if (post) {
-      Linking.openURL(`https://wa.me/55${post.user.phone}`);
+      Linking.openURL(`https://wa.me/55${post.user.phone}?text=Ol%C3%A1!%20Vi%20seu%20an%C3%BAncio%20no%20SustenTerra%20e%20fiquei%20interessado%20em%20conhecer%20mais%20sobre%20sua%20obra%20${post.title}.%20Você%20poderia%20falar%20mais%20detalhes%20sobre%20ela%3F
+      `);
     }
   };
 
