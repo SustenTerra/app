@@ -14,7 +14,7 @@ async function getToken() {
 }
 
 const base_url =
-  process.env.EXPO_PUBLIC_API_URL || 'https://sustentinta.up.railway.app';
+  process.env.EXPO_PUBLIC_API_URL || 'https://sustenterra-backend.onrender.com';
 
 export const client = new AppClient({
   BASE: base_url,
