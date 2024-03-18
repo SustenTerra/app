@@ -14,7 +14,8 @@ async function getToken() {
 }
 
 const base_url =
-  process.env.EXPO_PUBLIC_API_URL || 'https://sustenterra-backend.onrender.com';
+  process.env.EXPO_PUBLIC_API_URL ||
+  'https://backend-staging-production-d239.up.railway.app';
 
 export const client = new AppClient({
   BASE: base_url,
