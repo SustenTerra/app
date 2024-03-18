@@ -21,7 +21,12 @@ type IconNameOptions =
   | 'map-pin'
   | 'tag'
   | 'info'
-  | 'edit';
+  | 'edit'
+  | 'map'
+  | 'home'
+  | 'hash'
+  | 'box'
+  | 'alert-circle';
 
 interface InputProps extends TextInputProps {
   iconName?: IconNameOptions;
