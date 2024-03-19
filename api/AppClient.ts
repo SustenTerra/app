@@ -5,6 +5,7 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
+import { AddressesService } from './services/AddressesService';
 import { ChapterContentsService } from './services/ChapterContentsService';
 import { ChatService } from './services/ChatService';
 import { CourseCategoriesService } from './services/CourseCategoriesService';
@@ -15,6 +16,7 @@ import { SessionsService } from './services/SessionsService';
 import { UsersService } from './services/UsersService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class AppClient {
+    public readonly addresses: AddressesService;
     public readonly chapterContents: ChapterContentsService;
     public readonly chat: ChatService;
     public readonly courseCategories: CourseCategoriesService;
@@ -36,6 +38,7 @@ export class AppClient {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
+        this.addresses = new AddressesService(this.request);
         this.chapterContents = new ChapterContentsService(this.request);
         this.chat = new ChatService(this.request);
         this.courseCategories = new CourseCategoriesService(this.request);

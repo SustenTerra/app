@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Body_create_post_posts_post } from '../models/Body_create_post_posts_post';
-import type { PostUpdate } from '../models/PostUpdate';
+import type { Body_update_post_posts__post_id__patch } from '../models/Body_update_post_posts__post_id__patch';
 import type { PostView } from '../models/PostView';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -35,6 +35,7 @@ export class PostsService {
      * @param searchTerm
      * @param userId
      * @param categoryName
+     * @param location
      * @returns PostView Successful Response
      * @throws ApiError
      */
@@ -42,6 +43,7 @@ export class PostsService {
         searchTerm?: (string | null),
         userId?: (number | null),
         categoryName?: (string | null),
+        location?: (string | null),
     ): CancelablePromise<Array<PostView>> {
         return this.httpRequest.request({
             method: 'GET',
@@ -50,6 +52,7 @@ export class PostsService {
                 'search_term': searchTerm,
                 'user_id': userId,
                 'category_name': categoryName,
+                'location': location,
             },
             errors: {
                 422: `Validation Error`,
@@ -80,13 +83,13 @@ export class PostsService {
     /**
      * Update Post
      * @param postId
-     * @param requestBody
+     * @param formData
      * @returns PostView Successful Response
      * @throws ApiError
      */
     public updatePostPostsPostIdPatch(
         postId: number,
-        requestBody: PostUpdate,
+        formData?: Body_update_post_posts__post_id__patch,
     ): CancelablePromise<PostView> {
         return this.httpRequest.request({
             method: 'PATCH',
@@ -94,8 +97,8 @@ export class PostsService {
             path: {
                 'post_id': postId,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 422: `Validation Error`,
             },
