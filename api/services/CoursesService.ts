@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CourseCreate } from '../models/CourseCreate';
 import type { CourseListView } from '../models/CourseListView';
 import type { CourseView } from '../models/CourseView';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -27,6 +28,26 @@ export class CoursesService {
                 'category_name': categoryName,
                 'search_term': searchTerm,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
+     * Create Course
+     * Create a course
+     * @param requestBody
+     * @returns CourseView Successful Response
+     * @throws ApiError
+     */
+    public createCourseCoursesPost(
+        requestBody: CourseCreate,
+    ): CancelablePromise<CourseView> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/courses',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 422: `Validation Error`,
             },

@@ -110,8 +110,4 @@ export class UsersService {
             },
         });
     }
-
-    public updateUserAddressUsersMeUpdateAddressPatch(
-        requestBody: UserUpdateAddress
-    )
 }
