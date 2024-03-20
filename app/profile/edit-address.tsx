@@ -26,6 +26,7 @@ export default function EditAdress() {
   const [state, setState] = useState('');
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
+  const [userHasAddress, setUserHasAddress] = useState(false);
 
   useEffect(() => {
     loadingUserAddress();
@@ -41,20 +42,33 @@ export default function EditAdress() {
     }
     setLoadingEdit(true);
     try {
-      await client.addresses.updateAddressUsersMeAddressesPatch({
-        cep,
-        city: street,
-        complement,
-        neighborhood,
-        number: neighborhood,
-        state,
-        street,
-      });
+      if (userHasAddress) {
+        await client.addresses.updateAddressUsersMeAddressesPatch({
+          cep,
+          city,
+          complement,
+          neighborhood,
+          number,
+          state,
+          street,
+        });
+      } else {
+        await client.addresses.createUserAddressUsersMeAddressesPost({
+          cep,
+          city,
+          complement,
+          neighborhood,
+          number,
+          state,
+          street,
+        });
+      }
       showMessage({
         type: 'success',
         title: 'Sucesso',
-        message: 'Senha atualizada com sucesso!',
+        message: 'Seu endereço foi atualizado com sucesso!',
       });
+      setUserHasAddress(true);
     } catch (error) {
       showErrors(error);
     } finally {
@@ -79,6 +93,7 @@ export default function EditAdress() {
         title: 'Você não tem um endereço cadastrado',
         message: 'Preencha os campos para cadastrar!',
       });
+      setUserHasAddress(false);
     } finally {
       setLoadingAddress(false);
     }
@@ -144,24 +159,25 @@ export default function EditAdress() {
               />
             </>
           )}
+          <ButtonView>
+            <Button disabled={loadingEdit} color="primary" onPress={handleEdit}>
+              {!loadingEdit && (
+                <>
+                  <Feather name="save" size={24} color={theme.colors.light} />
+                  <Text color="light" size={20}>
+                    Salvar alterações
+                  </Text>
+                </>
+              )}
+            </Button>
+          </ButtonView>
         </EditAddressContainer>
-        <Button disabled={loadingEdit} color="primary" onPress={handleEdit}>
-          {!loadingEdit && (
-            <>
-              <Feather name="save" size={24} color={theme.colors.light} />
-              <Text color="light" size={20}>
-                Salvar alterações
-              </Text>
-            </>
-          )}
-        </Button>
       </SafeView>
     </ScrollablePage>
   );
 }
-//como estilizar o botão para que fique mais abaixo
-const ButtonView = styled.Button`
-  padding-top: ${moderateScale(20)}px;
+const ButtonView = styled.View`
+  margin-top: ${moderateScale(20)}px;
 `;
 
 const SafeView = styled.SafeAreaView`
