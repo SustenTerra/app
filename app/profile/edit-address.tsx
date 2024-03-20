@@ -157,20 +157,28 @@ export default function EditAdress() {
                 mask="[00]"
                 onChangeText={setState}
               />
+              <ButtonView>
+                <Button
+                  disabled={loadingEdit}
+                  color="primary"
+                  onPress={handleEdit}
+                >
+                  {!loadingEdit && (
+                    <>
+                      <Feather
+                        name="save"
+                        size={24}
+                        color={theme.colors.light}
+                      />
+                      <Text color="light" size={20}>
+                        Salvar alterações
+                      </Text>
+                    </>
+                  )}
+                </Button>
+              </ButtonView>
             </>
           )}
-          <ButtonView>
-            <Button disabled={loadingEdit} color="primary" onPress={handleEdit}>
-              {!loadingEdit && (
-                <>
-                  <Feather name="save" size={24} color={theme.colors.light} />
-                  <Text color="light" size={20}>
-                    Salvar alterações
-                  </Text>
-                </>
-              )}
-            </Button>
-          </ButtonView>
         </EditAddressContainer>
       </SafeView>
     </ScrollablePage>

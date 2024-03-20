@@ -46,7 +46,7 @@ export const NewPostContainer = styled.SafeAreaView`
   padding: ${verticalScale(30)}px 0;
 `;
 
-export const EditAddressContainer = styled.SafeAreaView`
+export const EditAddressContainer = styled.View`
   margin: ${moderateScale(10)}px;
   gap: ${moderateScale(10)}px;
   padding: ${verticalScale(30)}px;
