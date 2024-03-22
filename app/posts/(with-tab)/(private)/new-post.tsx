@@ -3,7 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 
-import { PostCategoryView, PostView } from '@/api';
+import { PostCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -40,8 +40,21 @@ const headerInfo = {
 export default function NewPost() {
   const params = useLocalSearchParams<{ postId: string }>();
 
-  const [loadedPost, setLoadedPost] = useState<PostView | null>(null);
   const [loadingPost, setLoadingPost] = useState(!!params.postId);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState<ImageAsset | File>(null);
+  const [categories, setCategories] = useState<PostCategoryView[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined,
+  );
+  const [selectedPostType, setSelectedPostType] = useState<string | undefined>(
+    undefined,
+  );
+  const [loading, setLoading] = useState(false);
 
   const getPost = async () => {
     setLoadingPost(true);
@@ -50,7 +63,10 @@ export default function NewPost() {
         Number(params.postId),
       );
 
-      setLoadedPost(postResponse);
+      setTitle(postResponse.title);
+      setDescription(postResponse.description);
+      setLocation(postResponse.location);
+      setPrice(formatCurrencyString(String(postResponse.price)));
       setSelectedCategory(postResponse.category.id);
       setSelectedPostType(postResponse.post_type);
     } catch (error) {
@@ -66,20 +82,6 @@ export default function NewPost() {
       getPost();
     }
   }, [params.postId]);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState<ImageAsset | File>(null);
-  const [categories, setCategories] = useState<PostCategoryView[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
-    undefined,
-  );
-  const [selectedPostType, setSelectedPostType] = useState<string | undefined>(
-    undefined,
-  );
-  const [loading, setLoading] = useState(false);
 
   const updatePrice = (price: string) => {
     setPrice(formatCurrencyString(price));
@@ -278,17 +280,13 @@ export default function NewPost() {
 
         <Input
           iconName="edit"
-          placeholder={loadedPost?.title || 'Título'}
+          placeholder="Título"
           value={title}
           onChangeText={setTitle}
         />
         <Input
           iconName="tag"
-          placeholder={
-            loadedPost?.price
-              ? formatCurrencyString(String(loadedPost.price))
-              : 'Preço'
-          }
+          placeholder="Preço"
           keyboardType="numeric"
           value={price}
           onChangeText={updatePrice}
@@ -296,16 +294,13 @@ export default function NewPost() {
 
         <Input
           iconName="map-pin"
-          placeholder={loadedPost?.location || 'Localização'}
+          placeholder="Localização"
           value={location}
           onChangeText={setLocation}
         />
         <Input
           iconName="info"
-          placeholder={
-            loadedPost?.description ||
-            'Preencha a descrição, detalhes e informações sobre o anúncio'
-          }
+          placeholder="Preencha a descrição, detalhes e informações sobre o anúncio"
           multiline
           value={description}
           onChangeText={setDescription}

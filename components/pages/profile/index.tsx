@@ -22,7 +22,7 @@ interface ProfileInfoProps {
 export function ProfileInfo({ name, email, verticalMargin }: ProfileInfoProps) {
   const { user } = useAuth();
 
-  if (!user) {
+  if (!user || (!name && !email)) {
     return (
       <ProfileInfoContainer margin={verticalMargin}>
         <HorizontalLoading />
