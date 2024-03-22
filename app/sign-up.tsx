@@ -16,7 +16,6 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import theme from '@/styles/theme';
-import { phoneNumberRegex } from '@/utils/constants';
 import { verticalScale, moderateScale, height } from '@/utils/scale';
 
 export default function SignUp() {
@@ -42,15 +41,6 @@ export default function SignUp() {
         type: 'warning',
         title: 'Erro',
         message: 'Senhas não correspondem',
-      });
-      return;
-    }
-
-    if (!phoneNumberRegex.test(phone)) {
-      showMessage({
-        type: 'warning',
-        title: 'Erro',
-        message: 'Número de telefone inválido.',
       });
       return;
     }
