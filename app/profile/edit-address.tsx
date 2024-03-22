@@ -5,6 +5,7 @@ import styled, { useTheme } from 'styled-components/native';
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import ItemsPicker from '@/components/ItemsPicker';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
@@ -27,7 +28,42 @@ export default function EditAdress() {
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [userHasAddress, setUserHasAddress] = useState(false);
+  const [statesBr, SetStatesBr] = useState();
 
+  interface Estado {
+    id: number;
+    name: string;
+  }
+
+  const brazilianStates: Estado[] = [
+    { id: 0, name: 'Acre' },
+    { id: 1, name: 'Alagoas' },
+    { id: 2, name: 'Amapá' },
+    { id: 3, name: 'Amazonas' },
+    { id: 4, name: 'Bahia' },
+    { id: 5, name: 'Ceará' },
+    { id: 6, name: 'Distrito Federal' },
+    { id: 7, name: 'Espírito Santo' },
+    { id: 8, name: 'Goiás' },
+    { id: 9, name: 'Maranhão' },
+    { id: 10, name: 'Mato Grosso' },
+    { id: 11, name: 'Mato Grosso do Sul' },
+    { id: 12, name: 'Minas Gerais' },
+    { id: 13, name: 'Pará' },
+    { id: 14, name: 'Paraíba' },
+    { id: 15, name: 'Paraná' },
+    { id: 16, name: 'Pernambuco' },
+    { id: 17, name: 'Piauí' },
+    { id: 18, name: 'Rio de Janeiro' },
+    { id: 19, name: 'Rio Grande do Norte' },
+    { id: 20, name: 'Rio Grande do Sul' },
+    { id: 21, name: 'Rondônia' },
+    { id: 22, name: 'Roraima' },
+    { id: 23, name: 'Santa Catarina' },
+    { id: 24, name: 'São Paulo' },
+    { id: 25, name: 'Sergipe' },
+    { id: 26, name: 'Tocantins' },
+  ];
   useEffect(() => {
     loadingUserAddress();
   }, []);
@@ -115,9 +151,11 @@ export default function EditAdress() {
               <Input
                 iconName="map-pin"
                 placeholder="CEP"
-                mask="[00000][000]"
                 value={cep}
+                keyboardType="phone-pad"
+                inputMode="numeric"
                 onChangeText={setCep}
+                mask="99999-999"
               />
               <Input
                 iconName="home"
@@ -129,6 +167,7 @@ export default function EditAdress() {
                 iconName="hash"
                 placeholder="Número"
                 value={number}
+                inputMode="numeric"
                 onChangeText={setNumber}
               />
               <Input
@@ -150,13 +189,16 @@ export default function EditAdress() {
                 value={city}
                 onChangeText={setCity}
               />
-              <Input
-                iconName="map"
-                placeholder="Estado"
-                value={state}
-                mask="[00]"
-                onChangeText={setState}
-              />
+              {/* <ItemsPicker
+                icon="list"
+                label="Categoria"
+                options={brazilianStates.map((state) => ({
+                  label: state.name,
+                  value: state.id,
+                }))}
+                selectedOptionValue={}
+                setSelectedOptionValue={(value) => SetStatesBr()}
+              /> */}
               <ButtonView>
                 <Button
                   disabled={loadingEdit}
