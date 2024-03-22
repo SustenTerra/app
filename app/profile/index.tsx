@@ -99,7 +99,7 @@ export default function Profile() {
 
   return (
     <ScrollablePage>
-      <ProfileInfo />
+      <ProfileInfo useLoggedUser />
 
       <NewPostWrapper>
         <Link push href="/posts/new-post" asChild>

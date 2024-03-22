@@ -14,22 +14,31 @@ import { moderateScale } from '@/utils/scale';
 import { getFirstAndLastName } from '@/utils/strings';
 
 interface ProfileInfoProps {
+  useLoggedUser?: boolean;
   name?: string;
   email?: string;
   verticalMargin?: number;
 }
 
-export function ProfileInfo({ name, email, verticalMargin }: ProfileInfoProps) {
+export function ProfileInfo({
+  name,
+  email,
+  verticalMargin,
+  useLoggedUser,
+}: ProfileInfoProps) {
   const { user } = useAuth();
 
-  if (!user || (!name && !email)) {
+  const nameString = useLoggedUser ? user?.full_name : name;
+  const emailString = useLoggedUser ? user?.email : email;
+
+  if (!user && !name && !email) {
     return (
       <ProfileInfoContainer margin={verticalMargin}>
         <HorizontalLoading />
       </ProfileInfoContainer>
     );
   }
-  const userNames = getFirstAndLastName(name || user.full_name);
+  const userNames = getFirstAndLastName(nameString || '');
 
   return (
     <ProfileInfoContainer margin={verticalMargin}>
@@ -40,7 +49,7 @@ export function ProfileInfo({ name, email, verticalMargin }: ProfileInfoProps) {
           {userNames.firstName} {userNames.lastName}
         </Text>
         <Text size="h6" weight="regular" color="textBody">
-          {email || user.email}
+          {emailString || 'Email não informado'}
         </Text>
       </DataWrapper>
     </ProfileInfoContainer>
