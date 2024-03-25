@@ -57,7 +57,16 @@ export function ProfileInfo({
 }
 
 export interface ProfileButtonProps {
-  icon: 'grid' | 'book' | 'edit' | 'lock' | 'log-out' | 'help-circle' | 'video';
+  icon:
+    | 'grid'
+    | 'book'
+    | 'edit'
+    | 'lock'
+    | 'log-out'
+    | 'help-circle'
+    | 'video'
+    | 'map-pin';
+
   title: string;
   description: string;
   href?: string;

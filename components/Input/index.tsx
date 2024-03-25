@@ -23,6 +23,10 @@ type IconNameOptions =
   | 'info'
   | 'edit'
   | 'book'
+  | 'map'
+  | 'home'
+  | 'hash'
+  | 'box'
   | 'alert-circle';
 
 interface InputProps extends TextInputProps {

@@ -21,6 +21,8 @@ export default function Profile() {
   const router = useRouter();
   const theme = useTheme();
 
+  const isTeacher = auth.user?.teacher_at !== null;
+
   const actionSheet = useActionSheet({
     title: 'Atenção!',
     message: 'Você tem certeza que deseja sair da sua conta?',
@@ -61,8 +63,10 @@ export default function Profile() {
     },
     {
       icon: 'book',
-      title: 'Meus cursos',
-      description: 'Cursos em andamento e disponíveis',
+      title: isTeacher ? 'Meus cursos' : 'Assistir cursos',
+      description: isTeacher
+        ? 'Gerencie seu conteúdo'
+        : 'Cursos em andamento e disponíveis',
       href: '/courses',
     },
     {
@@ -76,6 +80,12 @@ export default function Profile() {
       title: 'Editar perfil',
       description: 'Atualize suas informações pessoais',
       href: '/profile/edit',
+    },
+    {
+      icon: 'map-pin',
+      title: 'Atualizar endereço',
+      description: 'Informe seu endereço de entrega',
+      href: '/profile/edit-address',
     },
     {
       icon: 'lock',
