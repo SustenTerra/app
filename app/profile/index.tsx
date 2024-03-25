@@ -21,6 +21,8 @@ export default function Profile() {
   const router = useRouter();
   const theme = useTheme();
 
+  const isTeacher = auth.user?.teacher_at != null;
+
   const actionSheet = useActionSheet({
     title: 'Atenção!',
     message: 'Você tem certeza que deseja sair da sua conta?',
@@ -61,7 +63,7 @@ export default function Profile() {
     },
     {
       icon: 'book',
-      title: 'Meus cursos',
+      title: isTeacher ? 'Meus cursos' : 'Assistir cursos',
       description: 'Cursos em andamento e disponíveis',
       href: '/courses',
     },
