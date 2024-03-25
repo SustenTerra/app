@@ -78,6 +78,12 @@ export default function Profile() {
       href: '/profile/edit',
     },
     {
+      icon: 'map-pin',
+      title: 'Atualizar endereço',
+      description: 'Informe seu endereço de entrega',
+      href: '/profile/edit-address',
+    },
+    {
       icon: 'lock',
       title: 'Alterar senha',
       description: 'Mude a senha da sua conta',
