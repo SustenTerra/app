@@ -12,6 +12,15 @@ import { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import UploadImage, { ImageAsset } from '@/components/UploadImage';
+import {
+  ContentBackground,
+  HeaderBackground,
+  HeaderBackgroundNewCourse,
+  HeaderWrapper,
+  NewCourseContainer,
+  TopWrapper,
+  TransparentBackground,
+} from '@/components/pages/courses/styles';
 import { NewPostContainer } from '@/components/pages/posts/styles';
 import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
@@ -113,16 +122,24 @@ export default function NewCourse() {
 
   return (
     <ScrollablePage>
-      <NewPostContainer>
-        <Background source={require('assets/courses.png')}>
-          <HeaderWrapper>
-            <BackButton />
-            <Text weight="regular" size="h1" color="light">
-              {headerInfo.new.title}
-            </Text>
-          </HeaderWrapper>
-        </Background>
+      <HeaderBackgroundNewCourse
+        defaultSource={require('assets/gray.png')}
+        source={require('assets/courses.png')}
+        resizeMode="cover"
+      >
+        <TransparentBackground>
+          <ContentBackground>
+            <HeaderWrapper>
+              <BackButton href="/" />
+              <Text weight="regular" size="h1" color="light">
+                {headerInfo.new.title}
+              </Text>
+            </HeaderWrapper>
+          </ContentBackground>
+        </TransparentBackground>
+      </HeaderBackgroundNewCourse>
 
+      <NewCourseContainer>
         <Input
           iconName="book"
           placeholder="Título"
@@ -168,23 +185,7 @@ export default function NewCourse() {
 
           {loading && <HorizontalLoading color="light" />}
         </Button>
-      </NewPostContainer>
+      </NewCourseContainer>
     </ScrollablePage>
   );
 }
-
-const Background = styled.ImageBackground`
-  width: 100%;
-  height: 122px;
-  background-color: rgba(0, 0, 0, 0.4);
-`;
-
-const HeaderWrapper = styled.View`
-  align-items: center;
-  flex-direction: row;
-  width: 350px;
-  height: 43px;
-  top: 53px;
-  left: 20px;
-  gap: 9px;
-`;

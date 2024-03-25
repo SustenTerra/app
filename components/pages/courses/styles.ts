@@ -15,6 +15,12 @@ interface TransparentProps {
   darker?: boolean;
 }
 
+export const NewCourseContainer = styled.View`
+  margin: ${moderateScale(10)}px;
+  gap: ${moderateScale(20)}px;
+  padding: ${verticalScale(30)}px 0;
+`;
+
 export const TransparentBackground = styled.SafeAreaView<TransparentProps>`
   height: 100%;
   width: 100%;
@@ -30,6 +36,11 @@ export const ContentBackground = styled.View`
 export const HeaderBackground = styled.ImageBackground`
   width: 100%;
   height: ${verticalScale(230)}px;
+`;
+
+export const HeaderBackgroundNewCourse = styled.ImageBackground`
+  width: 100%;
+  height: ${verticalScale(122)}px;
 `;
 
 export const DescriptionWrapper = styled.View`
