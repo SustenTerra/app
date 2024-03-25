@@ -56,16 +56,15 @@ export default function EditAdress() {
           street,
         });
       } else {
-        if (state)
-          await client.addresses.createUserAddressUsersMeAddressesPost({
-            cep,
-            city,
-            complement,
-            neighborhood,
-            number,
-            state,
-            street,
-          });
+        await client.addresses.createUserAddressUsersMeAddressesPost({
+          cep,
+          city,
+          complement,
+          neighborhood,
+          number,
+          state,
+          street,
+        });
       }
       showMessage({
         type: 'success',
