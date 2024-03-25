@@ -24,45 +24,44 @@ export default function EditAdress() {
   const [neighborhood, setNeighborhood] = useState('');
   const [complement, setComplement] = useState('');
   const [city, setCity] = useState('');
-  const [state, setState] = useState('');
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [userHasAddress, setUserHasAddress] = useState(false);
-  const [statesBr, SetStatesBr] = useState();
+  const [state, setState] = useState<string | undefined>(undefined);
 
-  interface Estado {
-    id: number;
+  interface StateAcronym {
+    acronym: string;
     name: string;
   }
 
-  const brazilianStates: Estado[] = [
-    { id: 0, name: 'Acre' },
-    { id: 1, name: 'Alagoas' },
-    { id: 2, name: 'Amapá' },
-    { id: 3, name: 'Amazonas' },
-    { id: 4, name: 'Bahia' },
-    { id: 5, name: 'Ceará' },
-    { id: 6, name: 'Distrito Federal' },
-    { id: 7, name: 'Espírito Santo' },
-    { id: 8, name: 'Goiás' },
-    { id: 9, name: 'Maranhão' },
-    { id: 10, name: 'Mato Grosso' },
-    { id: 11, name: 'Mato Grosso do Sul' },
-    { id: 12, name: 'Minas Gerais' },
-    { id: 13, name: 'Pará' },
-    { id: 14, name: 'Paraíba' },
-    { id: 15, name: 'Paraná' },
-    { id: 16, name: 'Pernambuco' },
-    { id: 17, name: 'Piauí' },
-    { id: 18, name: 'Rio de Janeiro' },
-    { id: 19, name: 'Rio Grande do Norte' },
-    { id: 20, name: 'Rio Grande do Sul' },
-    { id: 21, name: 'Rondônia' },
-    { id: 22, name: 'Roraima' },
-    { id: 23, name: 'Santa Catarina' },
-    { id: 24, name: 'São Paulo' },
-    { id: 25, name: 'Sergipe' },
-    { id: 26, name: 'Tocantins' },
+  const brazilianStates: StateAcronym[] = [
+    { acronym: 'AC', name: 'Acre' },
+    { acronym: 'AL', name: 'Alagoas' },
+    { acronym: 'AP', name: 'Amapá' },
+    { acronym: 'AM', name: 'Amazonas' },
+    { acronym: 'BA', name: 'Bahia' },
+    { acronym: 'CE', name: 'Ceará' },
+    { acronym: 'DF', name: 'Distrito Federal' },
+    { acronym: 'ES', name: 'Espírito Santo' },
+    { acronym: 'GO', name: 'Goiás' },
+    { acronym: 'MA', name: 'Maranhão' },
+    { acronym: 'MT', name: 'Mato Grosso' },
+    { acronym: 'MS', name: 'Mato Grosso do Sul' },
+    { acronym: 'MG', name: 'Minas Gerais' },
+    { acronym: 'PA', name: 'Pará' },
+    { acronym: 'PB', name: 'Paraíba' },
+    { acronym: 'PR', name: 'Paraná' },
+    { acronym: 'PE', name: 'Pernambuco' },
+    { acronym: 'PI', name: 'Piauí' },
+    { acronym: 'RJ', name: 'Rio de Janeiro' },
+    { acronym: 'RN', name: 'Rio Grande do Norte' },
+    { acronym: 'RS', name: 'Rio Grande do Sul' },
+    { acronym: 'RO', name: 'Rondônia' },
+    { acronym: 'RR', name: 'Roraima' },
+    { acronym: 'SC', name: 'Santa Catarina' },
+    { acronym: 'SP', name: 'São Paulo' },
+    { acronym: 'SE', name: 'Sergipe' },
+    { acronym: 'TO', name: 'Tocantins' },
   ];
   useEffect(() => {
     loadingUserAddress();
@@ -75,6 +74,7 @@ export default function EditAdress() {
         title: 'Erro',
         message: 'Preencha todos os campos!',
       });
+      return;
     }
     setLoadingEdit(true);
     try {
@@ -89,15 +89,16 @@ export default function EditAdress() {
           street,
         });
       } else {
-        await client.addresses.createUserAddressUsersMeAddressesPost({
-          cep,
-          city,
-          complement,
-          neighborhood,
-          number,
-          state,
-          street,
-        });
+        if (state)
+          await client.addresses.createUserAddressUsersMeAddressesPost({
+            cep,
+            city,
+            complement,
+            neighborhood,
+            number,
+            state,
+            street,
+          });
       }
       showMessage({
         type: 'success',
@@ -116,13 +117,16 @@ export default function EditAdress() {
     setLoadingAddress(true);
     try {
       const response = await client.addresses.getAddressUsersMeAddressesGet();
-      setCep(response.cep);
-      setStreet(response.street);
-      setNumber(response.number);
-      setNeighborhood(response.neighborhood);
-      setComplement(response.complement);
-      setCity(response.city);
-      setState(response.state);
+      if (response) {
+        setCep(response.cep);
+        setStreet(response.street);
+        setNumber(response.number);
+        setNeighborhood(response.neighborhood);
+        setComplement(response.complement);
+        setCity(response.city);
+        setState(response.state);
+        setUserHasAddress(true);
+      }
     } catch (error) {
       showMessage({
         type: 'warning',
@@ -189,16 +193,16 @@ export default function EditAdress() {
                 value={city}
                 onChangeText={setCity}
               />
-              {/* <ItemsPicker
+              <ItemsPicker
                 icon="list"
-                label="Categoria"
+                label="Selecione seu estado"
                 options={brazilianStates.map((state) => ({
                   label: state.name,
-                  value: state.id,
+                  value: state.acronym,
                 }))}
-                selectedOptionValue={}
-                setSelectedOptionValue={(value) => SetStatesBr()}
-              /> */}
+                selectedOptionValue={state}
+                setSelectedOptionValue={(value) => setState(value as string)}
+              />
               <ButtonView>
                 <Button
                   disabled={loadingEdit}
