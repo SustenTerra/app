@@ -26,6 +26,7 @@ Sustenterra APP has two main big features:
 - Clone the repository
 - Install the dependencies with `npm i`
 - Run the project with `npm start`
+- Run the tests with `npm test`
 - Connect your device or emulator
   - You can use [Expo GO app](https://expo.io/client) to run the app on your device and read the QR code
 
