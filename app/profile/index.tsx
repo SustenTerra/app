@@ -21,7 +21,7 @@ export default function Profile() {
   const router = useRouter();
   const theme = useTheme();
 
-  const isTeacher = auth.user?.teacher_at != null;
+  const isTeacher = auth.user?.teacher_at !== null;
 
   const actionSheet = useActionSheet({
     title: 'Atenção!',
@@ -64,7 +64,9 @@ export default function Profile() {
     {
       icon: 'book',
       title: isTeacher ? 'Meus cursos' : 'Assistir cursos',
-      description: 'Cursos em andamento e disponíveis',
+      description: isTeacher
+        ? 'Gerencie seu conteúdo'
+        : 'Cursos em andamento e disponíveis',
       href: '/courses',
     },
     {
