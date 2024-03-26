@@ -2,6 +2,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
+import { FlatList, Platform, ScrollView } from 'react-native';
 
 import { PostCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -20,6 +21,7 @@ import {
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
+import { brazilianStatesList } from '@/utils/brazilianStatesList';
 import { postTypes } from '@/utils/constants';
 import { formatCurrencyString } from '@/utils/strings';
 
@@ -291,13 +293,20 @@ export default function NewPost() {
           value={price}
           onChangeText={updatePrice}
         />
-
-        <Input
-          iconName="map-pin"
-          placeholder="Localização"
-          value={location}
-          onChangeText={setLocation}
+        <ItemsPicker
+          icon="list"
+          label="Localização"
+          options={[
+            { label: 'Selecione um estado', value: '' },
+            ...brazilianStatesList.map((state) => ({
+              label: state.name,
+              value: state.acronym,
+            })),
+          ]}
+          selectedOptionValue={location || ''}
+          setSelectedOptionValue={(value) => setLocation(value as string)}
         />
+
         <Input
           iconName="info"
           placeholder="Preencha a descrição, detalhes e informações sobre o anúncio"
