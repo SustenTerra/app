@@ -22,6 +22,7 @@ type IconNameOptions =
   | 'tag'
   | 'info'
   | 'edit'
+  | 'book'
   | 'map'
   | 'home'
   | 'hash'
