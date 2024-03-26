@@ -2,7 +2,6 @@ import Feather from '@expo/vector-icons/Feather';
 import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
-import { FlatList, Platform, ScrollView } from 'react-native';
 
 import { PostCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
