@@ -14,7 +14,7 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { brazilianStatesList } from '@/utils/brazilianStatesList';
-import { moderateScale } from '@/utils/scale';
+import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export default function EditAdress() {
   const theme = useTheme();
@@ -93,6 +93,7 @@ export default function EditAdress() {
         setState(response.state);
         setUserHasAddress(true);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       showMessage({
         type: 'warning',
@@ -161,7 +162,7 @@ export default function EditAdress() {
               />
               <ItemsPicker
                 icon="list"
-                label="Selecione seu estado"
+                placeholder="Selecione seu estado..."
                 options={brazilianStatesList.map((state) => ({
                   label: state.name,
                   value: state.acronym,
@@ -208,7 +209,7 @@ const SafeView = styled.SafeAreaView`
 
 const HeaderWrapper = styled.View`
   width: 100%;
-  padding: ${moderateScale(20)}px;
+  padding: ${verticalScale(20)}px ${horizontalScale(10)}px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
