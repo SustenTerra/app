@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { useTheme } from 'styled-components/native';
 
@@ -35,6 +35,7 @@ function ItemsPicker({
   setSelectedOptionValue,
 }: ItemsPickerProps) {
   const theme = useTheme();
+  const ref = useRef<RNPickerSelect>(null);
 
   useEffect(() => {
     if (selectedOptionValue === undefined && options.length > 0) {
@@ -50,7 +51,7 @@ function ItemsPicker({
         </LabelWrapper>
       )}
 
-      <StyledPicker>
+      <StyledPicker onPress={() => ref.current?.togglePicker()}>
         <Feather name={icon} size={24} color={theme.colors.dark} />
 
         {options.length === 0 && (
@@ -61,6 +62,7 @@ function ItemsPicker({
 
         {options.length > 0 && (
           <RNPickerSelect
+            ref={ref}
             style={{
               viewContainer: {
                 flex: 1,

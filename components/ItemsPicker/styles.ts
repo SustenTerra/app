@@ -6,7 +6,7 @@ export const Container = styled.View`
   width: 100%;
 `;
 
-export const StyledPicker = styled.View`
+export const StyledPicker = styled.TouchableOpacity`
   width: 100%;
   min-height: ${verticalScale(60)}px;
   border-radius: ${moderateScale(60)}px;
