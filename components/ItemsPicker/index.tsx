@@ -1,17 +1,14 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Picker } from '@react-native-picker/picker';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { useTheme } from 'styled-components/native';
 
 import { Container, LabelWrapper, StyledPicker } from './styles';
 
 import Text from '@/components/Text';
-import { useActionSheet } from '@/hooks/actionSheet';
-import { isWeb } from '@/utils/platform';
-import { horizontalScale } from '@/utils/scale';
+import { horizontalScale, moderateScale } from '@/utils/scale';
 
-type IconNames = 'list' | 'layers';
+type IconNames = 'list' | 'layers' | 'map-pin';
 
 type OptionValue = string | number;
 
@@ -22,7 +19,8 @@ interface Option {
 
 interface ItemsPickerProps {
   icon: IconNames;
-  label: string;
+  label?: string;
+  placeholder?: string;
   selectedOptionValue?: OptionValue;
   setSelectedOptionValue: (optionValue: OptionValue) => void;
   options: Option[];
@@ -31,6 +29,7 @@ interface ItemsPickerProps {
 function ItemsPicker({
   icon,
   label,
+  placeholder = 'Selecione uma opção',
   selectedOptionValue,
   options,
   setSelectedOptionValue,
@@ -43,31 +42,15 @@ function ItemsPicker({
     }
   }, [selectedOptionValue, options]);
 
-  const isIOS = Platform.OS === 'ios';
-  const shouldUseActionSheet = isIOS || isWeb;
-
-  const actionSheet = useActionSheet({
-    actions: options.map(({ label }) => label),
-    actionsCallbacks: options.map(({ value }) => () => {
-      setSelectedOptionValue(value);
-    }),
-    message: 'Selecione uma opção',
-    title: label,
-  });
-
-  const onPress = () => {
-    if (isIOS || isWeb) {
-      actionSheet.show();
-    }
-  };
-
   return (
     <Container>
-      <LabelWrapper>
-        <Text weight="bold">{label}</Text>
-      </LabelWrapper>
+      {label && (
+        <LabelWrapper>
+          <Text weight="bold">{label}</Text>
+        </LabelWrapper>
+      )}
 
-      <StyledPicker onPress={onPress} disabled={!shouldUseActionSheet}>
+      <StyledPicker>
         <Feather name={icon} size={24} color={theme.colors.dark} />
 
         {options.length === 0 && (
@@ -76,26 +59,32 @@ function ItemsPicker({
           </Text>
         )}
 
-        {!shouldUseActionSheet && options.length > 0 && (
-          <Picker
-            mode="dropdown"
-            style={{ flex: 1, borderWidth: 0 }}
-            selectedValue={selectedOptionValue || options[0].value}
+        {options.length > 0 && (
+          <RNPickerSelect
+            style={{
+              viewContainer: {
+                flex: 1,
+                justifyContent: 'center',
+                padding: moderateScale(10),
+              },
+              inputIOSContainer: {
+                flex: 1,
+              },
+              inputIOS: {
+                fontSize: moderateScale(16),
+              },
+              placeholder: {
+                color: theme.colors.dark,
+              },
+            }}
+            placeholder={{
+              label: placeholder,
+              value: '',
+            }}
+            doneText="Selecionar"
             onValueChange={(itemValue) => setSelectedOptionValue(itemValue)}
-          >
-            {options.map(({ label, value }) => (
-              <Picker.Item key={value} label={label} value={value} />
-            ))}
-          </Picker>
-        )}
-
-        {shouldUseActionSheet && (
-          <Text color="dark" style={{ marginLeft: horizontalScale(8) }}>
-            {
-              options.find((option) => option.value === selectedOptionValue)
-                ?.label
-            }
-          </Text>
+            items={options}
+          />
         )}
       </StyledPicker>
     </Container>
