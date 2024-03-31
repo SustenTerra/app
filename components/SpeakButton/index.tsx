@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components/native';
 
 import { Container } from './styles';
@@ -28,6 +28,12 @@ function SpeakButton({ color = 'primary', textToSpeak }: SpeakButtonProps) {
       setHasPlayed(true);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      voice.stop();
+    };
+  }, [textToSpeak]);
 
   return (
     <Container onPress={onPress} marginRight={10} color={color}>
