@@ -293,15 +293,12 @@ export default function NewPost() {
           onChangeText={updatePrice}
         />
         <ItemsPicker
-          icon="list"
-          label="Localização"
-          options={[
-            { label: 'Selecione um estado', value: '' },
-            ...brazilianStatesList.map((state) => ({
-              label: state.name,
-              value: state.acronym,
-            })),
-          ]}
+          icon="map-pin"
+          placeholder="Localização do anúncio..."
+          options={brazilianStatesList.map((state) => ({
+            label: state.name,
+            value: state.acronym,
+          }))}
           selectedOptionValue={location || ''}
           setSelectedOptionValue={(value) => setLocation(value as string)}
         />
@@ -316,7 +313,7 @@ export default function NewPost() {
 
         <ItemsPicker
           icon="list"
-          label="Categoria"
+          placeholder="Selecione uma categoria..."
           options={categories.map((category) => ({
             label: category.name,
             value: category.id,
@@ -329,7 +326,7 @@ export default function NewPost() {
 
         <ItemsPicker
           icon="layers"
-          label="Tipo de anúncio"
+          placeholder="Tipo de anúncio"
           options={postTypes.map((postType) => ({
             label: postType.name,
             value: postType.id,
