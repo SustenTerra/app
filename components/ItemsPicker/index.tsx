@@ -75,6 +75,16 @@ function ItemsPicker({
               inputIOS: {
                 fontSize: moderateScale(16),
               },
+              inputWeb: {
+                borderWidth: 0,
+                fontSize: moderateScale(16),
+              },
+              inputAndroid: {
+                fontSize: moderateScale(16),
+              },
+              inputAndroidContainer: {
+                flex: 1,
+              },
               placeholder: {
                 color: theme.colors.dark,
               },
