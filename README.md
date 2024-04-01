@@ -56,3 +56,15 @@ Sustenterra APP has two main big features:
     src="./.github/screenshots/courses.png" 
   />
 </div>
+
+## How to build
+
+#### Android
+
+- Run `eas build --platform android --profile production`
+- Download the APK from the link provided
+
+#### iOS
+
+- Run `eas build --platform ios --profile production`
+- Download the IPA from the link provided
