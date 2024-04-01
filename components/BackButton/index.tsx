@@ -30,6 +30,10 @@ function BackButton({
       router.back();
       return;
     }
+    if (!href) {
+      router.back();
+      return;
+    }
 
     router.replace(defaultRoute || '/');
   };
