@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CourseCreate } from '../models/CourseCreate';
+import type { Body_create_course_courses_post } from '../models/Body_create_course_courses_post';
 import type { CourseListView } from '../models/CourseListView';
 import type { CourseView } from '../models/CourseView';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -36,18 +36,18 @@ export class CoursesService {
     /**
      * Create Course
      * Create a course
-     * @param requestBody
+     * @param formData
      * @returns CourseView Successful Response
      * @throws ApiError
      */
     public createCourseCoursesPost(
-        requestBody: CourseCreate,
+        formData: Body_create_course_courses_post,
     ): CancelablePromise<CourseView> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/courses',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 422: `Validation Error`,
             },
@@ -84,6 +84,18 @@ export class CoursesService {
             errors: {
                 422: `Validation Error`,
             },
+        });
+    }
+    /**
+     * List All Teacher Courses
+     * List all of the teacher's courses
+     * @returns CourseListView Successful Response
+     * @throws ApiError
+     */
+    public listAllTeacherCoursesUsersMeCoursesGet(): CancelablePromise<Array<CourseListView>> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/me/courses',
         });
     }
 }

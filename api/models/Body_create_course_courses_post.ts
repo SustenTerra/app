@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CourseCategoryView = {
-    id: number;
+export type Body_create_course_courses_post = {
+    image: Blob;
     name: string;
-    created_at: string;
-    updated_at: string;
+    description: string;
+    course_category_id: number;
 };
 

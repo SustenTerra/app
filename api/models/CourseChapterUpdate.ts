@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { UserView } from './UserView';
-export type LoginView = {
-    token: string;
-    user: UserView;
+export type CourseChapterUpdate = {
+    /**
+     * One Chapter of the Course
+     */
+    name: string;
 };
 

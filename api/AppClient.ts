@@ -9,6 +9,7 @@ import { AddressesService } from './services/AddressesService';
 import { ChapterContentsService } from './services/ChapterContentsService';
 import { ChatService } from './services/ChatService';
 import { CourseCategoriesService } from './services/CourseCategoriesService';
+import { CourseChaptersService } from './services/CourseChaptersService';
 import { CoursesService } from './services/CoursesService';
 import { PostCategoriesService } from './services/PostCategoriesService';
 import { PostsService } from './services/PostsService';
@@ -20,6 +21,7 @@ export class AppClient {
     public readonly chapterContents: ChapterContentsService;
     public readonly chat: ChatService;
     public readonly courseCategories: CourseCategoriesService;
+    public readonly courseChapters: CourseChaptersService;
     public readonly courses: CoursesService;
     public readonly postCategories: PostCategoriesService;
     public readonly posts: PostsService;
@@ -42,6 +44,7 @@ export class AppClient {
         this.chapterContents = new ChapterContentsService(this.request);
         this.chat = new ChatService(this.request);
         this.courseCategories = new CourseCategoriesService(this.request);
+        this.courseChapters = new CourseChaptersService(this.request);
         this.courses = new CoursesService(this.request);
         this.postCategories = new PostCategoriesService(this.request);
         this.posts = new PostsService(this.request);
