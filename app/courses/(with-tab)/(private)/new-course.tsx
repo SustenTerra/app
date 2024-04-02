@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
+import FormData from 'form-data';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components/native';
 
 import { CourseCategoryView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -14,15 +14,11 @@ import Text from '@/components/Text';
 import UploadImage, { ImageAsset } from '@/components/UploadImage';
 import {
   ContentBackground,
-  HeaderBackground,
   HeaderBackgroundNewCourse,
   HeaderWrapper,
   NewCourseContainer,
-  TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
-import { NewPostContainer } from '@/components/pages/posts/styles';
-import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -35,11 +31,9 @@ const headerInfo = {
 };
 
 export default function NewCourse() {
-  const auth = useAuth();
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  // const [image, setImage] = useState<ImageAsset | File>(null);
+  const [image, setImage] = useState<ImageAsset | File>(null);
   const [categories, setCategories] = useState<CourseCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined,
@@ -61,7 +55,7 @@ export default function NewCourse() {
   }, []);
 
   const handleCreation = async () => {
-    if (!title || !description || !selectedCategory) {
+    if (!title || !description || !selectedCategory || !image) {
       showMessage({
         type: 'danger',
         title: 'Atenção!',
@@ -73,39 +67,31 @@ export default function NewCourse() {
 
     setLoading(true);
     try {
-      // let fileToUpload;
-      // if (image instanceof File) {
-      //   fileToUpload = image;
-      // } else {
-      //   fileToUpload = {
-      //     uri: image.uri,
-      //     type: image.mimeType || 'image/jpeg',
-      //     name: image.fileName || 'image.jpg',
-      //   };
-      // }
+      let fileToUpload;
+      if (image instanceof File) {
+        fileToUpload = image;
+      } else {
+        fileToUpload = {
+          uri: image.uri,
+          type: image.mimeType || 'image/jpeg',
+          name: image.fileName || 'image.jpg',
+        };
+      }
 
-      // const formData = new FormData();
-      // formData.append('title', title);
-      // formData.append('description', description);
-      // formData.append('image', fileToUpload);
-      // formData.append('category_id', selectedCategory);
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('image', fileToUpload);
+      formData.append('category_id', selectedCategory);
 
-      await client.courses.createCourseCoursesPost({
-        author_name: auth.user?.full_name || 'Anônimo',
-        course_category_id: selectedCategory,
-        description,
-        image_url: 'https://owcdn.net/img/62bbec8dc1b9f.png',
-        name: title,
+      await client.request.request({
+        url: '/courses',
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-
-      // await client.request.request({
-      //   url: '/courses',
-      //   method: 'POST',
-      //   body: formData,
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
 
       showMessage({
         type: 'success',
@@ -153,11 +139,11 @@ export default function NewCourse() {
           onChangeText={setDescription}
         />
 
-        {/* <UploadImage
+        <UploadImage
           label="Imagem do Banner"
           image={image}
           setImage={setImage}
-        /> */}
+        />
 
         <ItemsPicker
           icon="list"
