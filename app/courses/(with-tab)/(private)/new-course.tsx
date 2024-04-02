@@ -23,13 +23,6 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
-const headerInfo = {
-  new: {
-    title: 'Criar curso',
-    submit: 'Salvar informações',
-  },
-};
-
 export default function NewCourse() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -118,7 +111,7 @@ export default function NewCourse() {
             <HeaderWrapper>
               <BackButton href="/" />
               <Text weight="regular" size="h1" color="light">
-                {headerInfo.new.title}
+                Criar curso
               </Text>
             </HeaderWrapper>
           </ContentBackground>
@@ -164,7 +157,7 @@ export default function NewCourse() {
               <Feather name="plus-circle" size={20} color="white" />
 
               <Text color="light" weight="bold">
-                {headerInfo.new.submit}
+                Salvar informações
               </Text>
             </>
           )}
