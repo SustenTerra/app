@@ -79,10 +79,10 @@ export default function NewCourse() {
       }
 
       const formData = new FormData();
-      formData.append('title', title);
+      formData.append('name', title);
       formData.append('description', description);
       formData.append('image', fileToUpload);
-      formData.append('category_id', selectedCategory);
+      formData.append('course_category_id', selectedCategory);
 
       await client.request.request({
         url: '/courses',
@@ -139,15 +139,9 @@ export default function NewCourse() {
           onChangeText={setDescription}
         />
 
-        <UploadImage
-          label="Imagem do Banner"
-          image={image}
-          setImage={setImage}
-        />
-
         <ItemsPicker
           icon="list"
-          label="Categoria"
+          placeholder="Selecione uma categoria..."
           options={categories.map((category) => ({
             label: category.name,
             value: category.id,
@@ -156,6 +150,12 @@ export default function NewCourse() {
           setSelectedOptionValue={(value) =>
             setSelectedCategory(value as number)
           }
+        />
+
+        <UploadImage
+          label="Imagem do Banner"
+          image={image}
+          setImage={setImage}
         />
 
         <Button onPress={handleCreation} color="primary">
