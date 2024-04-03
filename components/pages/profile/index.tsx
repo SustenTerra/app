@@ -69,6 +69,7 @@ export interface ProfileButtonProps {
 
   title: string;
   description: string;
+  shouldHide?: boolean;
   href?: string;
   onPress?: () => void;
 }
@@ -79,7 +80,12 @@ export function ProfileButton({
   href,
   onPress,
   icon,
+  shouldHide = false,
 }: ProfileButtonProps) {
+  if (shouldHide) {
+    return <></>;
+  }
+
   const content = (
     <ProfileButtonContainer onPress={onPress}>
       <Feather name={icon} size={moderateScale(24)} />

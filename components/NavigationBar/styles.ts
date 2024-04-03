@@ -1,4 +1,3 @@
-import { Link } from 'expo-router';
 import styled from 'styled-components/native';
 
 import { moderateScale } from '@/utils/scale';

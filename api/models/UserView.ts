@@ -16,5 +16,6 @@ export type UserView = {
      */
     phone: string;
     id: number;
+    teacher_at?: (string | null);
 };
 
