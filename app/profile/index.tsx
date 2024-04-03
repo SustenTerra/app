@@ -74,6 +74,7 @@ export default function Profile() {
       title: 'Torne-se instrutor(a)',
       description: 'Compartilhe seu conhecimento',
       onPress: actionSheetInstruct.show,
+      shouldHide: isTeacher,
     },
     {
       icon: 'edit',
