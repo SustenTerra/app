@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "SustenTerra",
+    "owner": "sustenterra",
     "slug": "sustenterra",
     "scheme": "sustenterra",
     "version": "1.0.0",
