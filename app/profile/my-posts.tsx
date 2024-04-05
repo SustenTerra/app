@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useTheme } from 'styled-components/native';
 
+import BackButton from '@/components/BackButton';
 import EmptyList from '@/components/EmptyList';
 import Loading from '@/components/Loading';
 import PostCard from '@/components/PostCard';
@@ -36,6 +37,7 @@ export default function MyPosts() {
       <PostsSpacer />
 
       <PostsGridHeader>
+        <BackButton href="/profile" />
         <Text size="h5" weight="bold">
           Meus Anúncios
         </Text>
