@@ -14,10 +14,6 @@ export const TopWrapper = styled.View`
 interface TransparentProps {
   darker?: boolean;
 }
-export const TextContainer = styled.View`
-  flex: 1;
-  justifycontent: 'space-between';
-`;
 
 export const NewCourseContainer = styled.View`
   margin: ${moderateScale(10)}px;
