@@ -27,7 +27,8 @@ type IconNameOptions =
   | 'home'
   | 'hash'
   | 'box'
-  | 'alert-circle';
+  | 'alert-circle'
+  | 'camera';
 
 interface InputProps extends TextInputProps {
   iconName?: IconNameOptions;
