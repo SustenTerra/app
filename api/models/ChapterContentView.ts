@@ -4,7 +4,6 @@
 /* eslint-disable */
 export type ChapterContentView = {
     name: string;
-    index: number;
     description: string;
     video_url: string;
     id: number;
