@@ -12,6 +12,7 @@ export type CourseView = {
     description: string;
     created_at: string;
     updated_at: string;
+    published_at?: (string | null);
     course_chapters: Array<CourseChapterView>;
     course_category: CourseCategoryView;
     readonly image_url: (string | null);

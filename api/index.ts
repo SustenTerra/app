@@ -16,6 +16,8 @@ export type { AddressView } from './models/AddressView';
 export type { Body_create_course_courses_post } from './models/Body_create_course_courses_post';
 export type { Body_create_post_posts_post } from './models/Body_create_post_posts_post';
 export type { Body_update_post_posts__post_id__patch } from './models/Body_update_post_posts__post_id__patch';
+export type { ChapterContentCreate } from './models/ChapterContentCreate';
+export type { ChapterContentUpdate } from './models/ChapterContentUpdate';
 export type { ChapterContentView } from './models/ChapterContentView';
 export type { CourseCategoryView } from './models/CourseCategoryView';
 export type { CourseChapterContentView } from './models/CourseChapterContentView';

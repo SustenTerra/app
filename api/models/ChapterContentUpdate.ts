@@ -2,10 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type CourseCategoryView = {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
+export type ChapterContentUpdate = {
+    name?: (string | null);
+    description?: (string | null);
+    video_url?: (string | null);
 };
 
