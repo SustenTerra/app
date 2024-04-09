@@ -28,7 +28,6 @@ import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import theme from '@/styles/theme';
-import { moderateScale } from '@/utils/scale';
 
 export default function MyCourses() {
   const Router = useRouter();
@@ -90,7 +89,9 @@ export default function MyCourses() {
                     Meus Cursos
                   </Text>
                 </TextContainer>
-                <CircleButton>
+                <CircleButton
+                  onPress={() => router.push('/courses/new-course')}
+                >
                   <Feather name="plus" size={24} color={theme.colors.light} />
                 </CircleButton>
               </HeaderWrapper>

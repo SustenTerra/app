@@ -104,13 +104,15 @@ export const StatusView = styled.View<StatusViewProps>`
   justify-content: center;
   align-items: center;
   border-radius: ${moderateScale(25)}px;
-  margin-bottom: ${moderateScale(10)}px;
-  margin-right: ${moderateScale(20)}px;
 `;
 
 export const StatusWrapper = styled.View`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${moderateScale(15)}px;
+  width: 100%;
 `;
 
 export const ContentContainer = styled.View`

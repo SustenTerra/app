@@ -1,4 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
+import { router, useRouter } from 'expo-router';
 import React from 'react';
 import { useTheme } from 'styled-components/native';
 
@@ -13,6 +14,7 @@ import {
 
 import { CourseListView } from '@/api';
 import Text from '@/components/Text';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { moderateScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
@@ -22,12 +24,20 @@ interface CourseSummaryProps {
 
 export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
   const theme = useTheme();
-
+  const actionSheet = useActionSheet({
+    title: 'Opções',
+    message: 'Escolha uma das opções a seguir',
+    actions: ['Editar', 'Excluir'],
+    actionsCallbacks: [
+      () => router.navigate('/courses'),
+      () => router.navigate('/courses'),
+    ],
+  });
   return (
-    <MyCourseViewWrapper>
+    <MyCourseViewWrapper onPress={onPress}>
       <MyCourseViewBackground
         defaultSource={require('assets/gray.png')}
-        source={{ uri: course.image_url }}
+        source={{ uri: course.image_url || '' }}
         resizeMode="cover"
         imageStyle={{ borderRadius: moderateScale(25), width: '100%' }}
       >
@@ -49,8 +59,9 @@ export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
               </StatusView>
             )}
             <Feather
+              onPress={actionSheet.show}
               name="settings"
-              size={moderateScale(15)}
+              size={moderateScale(20)}
               color={theme.colors.light}
               style={{ marginRight: moderateScale(5) }}
             />
