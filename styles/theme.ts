@@ -7,6 +7,7 @@ export default {
     textBody: '#373737',
     dark: '#000000',
     light: '#FFFFFF',
+    statusRed: '#F27575',
     success: '#398200',
   },
 };
