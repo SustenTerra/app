@@ -98,4 +98,25 @@ export class CoursesService {
             url: '/users/me/courses',
         });
     }
+    /**
+     * Publishe Course
+     * Published course
+     * @param courseId
+     * @returns CourseView Successful Response
+     * @throws ApiError
+     */
+    public publisheCourseUsersMeCoursesCourseIdPublishedPatch(
+        courseId: number,
+    ): CancelablePromise<CourseView> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/users/me/courses/{course_id}/published',
+            path: {
+                'course_id': courseId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
 }
