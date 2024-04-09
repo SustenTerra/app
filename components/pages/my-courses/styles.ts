@@ -91,6 +91,7 @@ export const AuthorWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   margin-top: ${verticalScale(5)}px;
+  margin-bottom: ${verticalScale(15)}px;
 `;
 
 export const StatusView = styled.View<StatusViewProps>`
@@ -98,12 +99,18 @@ export const StatusView = styled.View<StatusViewProps>`
     props.color === 'light'
       ? props.theme.colors.light
       : props.theme.colors.statusRed};
-  height: ${moderateScale(20)}px;
+  height: ${moderateScale(30)}px;
   width: ${moderateScale(120)}px;
   justify-content: center;
   align-items: center;
   border-radius: ${moderateScale(25)}px;
   margin-bottom: ${moderateScale(10)}px;
+  margin-right: ${moderateScale(20)}px;
+`;
+
+export const StatusWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
 `;
 
 export const ContentContainer = styled.View`

@@ -28,6 +28,7 @@ import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import theme from '@/styles/theme';
+import { moderateScale } from '@/utils/scale';
 
 export default function MyCourses() {
   const Router = useRouter();

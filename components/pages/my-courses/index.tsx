@@ -8,6 +8,7 @@ import {
   MyCourseViewBackground,
   MyCourseViewWrapper,
   StatusView,
+  StatusWrapper,
 } from './styles';
 
 import { CourseListView } from '@/api';
@@ -31,21 +32,29 @@ export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
         imageStyle={{ borderRadius: moderateScale(25), width: '100%' }}
       >
         <ContentContainer>
-          {course.published_at && (
-            <StatusView color="light">
-              <Text size="h5" weight="bold" color="dark">
-                Publicado
-              </Text>
-            </StatusView>
-          )}
+          <StatusWrapper>
+            {course.published_at && (
+              <StatusView color="light">
+                <Text size="h5" weight="bold" color="dark">
+                  Publicado
+                </Text>
+              </StatusView>
+            )}
 
-          {!course.published_at && (
-            <StatusView color="">
-              <Text weight="light" color="light">
-                Não Publicado
-              </Text>
-            </StatusView>
-          )}
+            {!course.published_at && (
+              <StatusView color="">
+                <Text weight="light" color="light">
+                  Não Publicado
+                </Text>
+              </StatusView>
+            )}
+            <Feather
+              name="settings"
+              size={moderateScale(15)}
+              color={theme.colors.light}
+              style={{ marginRight: moderateScale(5) }}
+            />
+          </StatusWrapper>
 
           <Text size="h5" weight="bold" color="light">
             {course.name}

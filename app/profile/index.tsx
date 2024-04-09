@@ -67,7 +67,7 @@ export default function Profile() {
       description: isTeacher
         ? 'Gerencie seu conteúdo'
         : 'Cursos em andamento e disponíveis',
-      href: '/courses',
+      href: isTeacher ? '/courses/my-courses' : '/courses',
     },
     {
       icon: 'video',
