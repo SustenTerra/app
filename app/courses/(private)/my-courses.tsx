@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
@@ -24,6 +24,7 @@ import { useActionSheet } from '@/hooks/actionSheet';
 import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import theme from '@/styles/theme';
 
 export default function MyCourses() {
@@ -65,6 +66,16 @@ export default function MyCourses() {
     }
     router.navigate(`/courses/${myCourse.id}`);
   };
+
+  if (!auth.loading && !!auth.user && !auth.user?.teacher_at) {
+    showMessage({
+      type: 'danger',
+      title: 'Acesso negado',
+      message: 'Você não tem permissão para acessar essa página',
+    });
+
+    return <Redirect href="/courses" />;
+  }
 
   return (
     <ScrollablePage>

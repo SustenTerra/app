@@ -10,7 +10,7 @@ export default function TeachersCoursesLayout() {
     return <Redirect href="/login" />;
   }
 
-  if (!auth.user?.teacher_at) {
+  if (!auth.loading && !!auth.user && !auth.user?.teacher_at) {
     showMessage({
       type: 'danger',
       title: 'Acesso negado',
