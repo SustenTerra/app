@@ -156,7 +156,7 @@ export default function CoursesHome() {
           <TransparentBackground>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton />
+                <BackButton href="/" />
                 <Text weight="regular" size="h1" color="light">
                   Cursos Disponíveis
                 </Text>

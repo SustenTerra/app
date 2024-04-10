@@ -70,7 +70,7 @@ export default function ShowCourseDetails() {
           <TransparentBackground darker>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton href="/courses" />
+                <BackButton />
                 <Text weight="regular" size="h6" color="light">
                   Voltar
                 </Text>

@@ -64,7 +64,7 @@ export default function MyCourses() {
       actionSheet.show();
       return;
     }
-    router.navigate(`/courses/${myCourse.id}`);
+    router.navigate(`/courses/${myCourse.id}/details`);
   };
 
   if (!auth.loading && !!auth.user && !auth.user?.teacher_at) {
