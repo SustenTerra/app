@@ -53,7 +53,7 @@ export function CourseSummary({
     <CourseViewWrapper onPress={onPress} isInProgress={isInProgress}>
       <CourseViewBackground
         defaultSource={require('assets/gray.png')}
-        source={{ uri: course.image_url }}
+        source={{ uri: course.image_url || '' }}
         resizeMode="cover"
         imageStyle={{ borderRadius: moderateScale(25), width: '100%' }}
       >

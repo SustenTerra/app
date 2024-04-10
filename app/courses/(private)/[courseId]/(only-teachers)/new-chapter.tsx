@@ -1,6 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
-import FormData from 'form-data';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import BackButton from '@/components/BackButton';
@@ -16,9 +15,14 @@ import {
   NewCourseContainer,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
 export default function NewCourse() {
+  const router = useRouter();
+  const { courseId } = useLocalSearchParams();
+
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -35,14 +39,24 @@ export default function NewCourse() {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append('name', title);
-    showMessage({
-      type: 'success',
-      title: 'Sucesso!',
-      message: 'Conteúdo cadastrado com sucesso!',
-    });
-    router.replace('/courses/1/new-chapter');
+    try {
+      await client.courseChapters.createCourseChapterCourseChapterPost({
+        course_id: Number(courseId),
+        name: title,
+      });
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Capítulo cadastrado com sucesso!',
+      });
+
+      router.replace(`/courses/${courseId}/details`);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

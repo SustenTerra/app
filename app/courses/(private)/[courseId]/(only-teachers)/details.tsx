@@ -1,15 +1,16 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
 
 import { CourseView } from '@/api';
 import BackButton from '@/components/BackButton';
+import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import { CourseAccordion, NextContent } from '@/components/pages/courses';
+import { CourseAccordion } from '@/components/pages/courses';
 import {
   ContentBackground,
   DescriptionWrapper,
@@ -26,6 +27,7 @@ import { horizontalScale, verticalScale } from '@/utils/scale';
 export default function ShowCourseDetails() {
   const theme = useTheme();
   const auth = useAuth();
+  const router = useRouter();
   const { courseId } = useLocalSearchParams();
 
   const [course, setCourse] = useState<CourseView | null>(null);
@@ -114,7 +116,17 @@ export default function ShowCourseDetails() {
             {course.description}
           </Text>
 
-          <NextContent course={course} />
+          <Button
+            onPress={() => router.push(`/courses/${courseId}/new-chapter`)}
+            style={{ marginTop: verticalScale(20) }}
+            color="secondary"
+          >
+            <Feather name="plus" size={24} color={theme.colors.light} />
+
+            <Text color="light" size="h6">
+              Cadastrar capítulo
+            </Text>
+          </Button>
 
           <CourseAccordion course={course} />
         </ContentContainer>
