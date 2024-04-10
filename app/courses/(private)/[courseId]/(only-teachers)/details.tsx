@@ -19,6 +19,7 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
@@ -29,6 +30,25 @@ export default function ShowCourseDetails() {
   const auth = useAuth();
   const router = useRouter();
   const { courseId } = useLocalSearchParams();
+
+  const publishCourse = async () => {
+    try {
+      await client.courses.publishCourseUsersMeCoursesCourseIdPublishedPatch(
+        Number(courseId),
+      );
+      getCourse();
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
+  const publishActionSheet = useActionSheet({
+    title: 'Deseja publicar o curso?',
+    message:
+      'Ao publicar o curso, ele ficará disponível para todos os usuários.',
+    actions: ['Sim'],
+    actionsCallbacks: [publishCourse],
+  });
 
   const [course, setCourse] = useState<CourseView | null>(null);
   const [loading, setLoading] = useState(true);
@@ -115,6 +135,19 @@ export default function ShowCourseDetails() {
           <Text weight="regular" color="textBody" size="h6">
             {course.description}
           </Text>
+
+          <Button
+            onPress={publishActionSheet.show}
+            style={{ marginTop: verticalScale(20) }}
+            color="secondary"
+            outline
+          >
+            <Feather name="radio" size={24} color={theme.colors.secondary} />
+
+            <Text color="secondary" size="h6" weight="bold">
+              {course.published_at ? 'Despublicar curso' : 'Publicar curso'}
+            </Text>
+          </Button>
 
           <Button
             onPress={() => router.push(`/courses/${courseId}/new-chapter`)}

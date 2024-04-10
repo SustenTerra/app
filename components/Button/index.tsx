@@ -4,6 +4,7 @@ import { StyleProp, TextStyle, TouchableOpacityProps } from 'react-native';
 import { StyledButton, ColorOptions } from './styles';
 
 interface CustomButtonProps extends TouchableOpacityProps {
+  outline?: boolean;
   children?: ReactNode;
   color?: ColorOptions;
   style?: StyleProp<TextStyle>;
