@@ -91,7 +91,7 @@ export default function NewCourse() {
         title: 'Sucesso!',
         message: 'Curso cadastrado com sucesso!',
       });
-      router.replace('/courses');
+      router.replace('/courses/my-courses');
     } catch (err) {
       showErrors(err);
     } finally {

@@ -33,10 +33,6 @@ export default function ShowCourseDetails() {
   const [loading, setLoading] = useState(true);
 
   const publishCourse = async () => {
-    if (course?.published_at) {
-      return;
-    }
-
     try {
       await client.courses.publishCourseUsersMeCoursesCourseIdPublishedPatch(
         Number(courseId),
@@ -136,6 +132,7 @@ export default function ShowCourseDetails() {
 
           <Button
             onPress={publishActionSheet.show}
+            disabled={!!course.published_at}
             style={{ marginTop: verticalScale(20) }}
             color="secondary"
             outline
