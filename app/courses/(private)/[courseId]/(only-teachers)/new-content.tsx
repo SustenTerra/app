@@ -38,7 +38,13 @@ export default function NewCourse() {
       return;
     }
 
-    if (!videoUrl.includes('youtube.com') || !videoUrl.includes('watch?v=')) {
+    if (
+      !videoUrl.includes('youtube.com') &&
+      !videoUrl.includes('watch?v=') &&
+      !videoUrl.includes('youtu.be') &&
+      !videoUrl.includes('m.youtube.com') &&
+      !videoUrl.includes('yt.be')
+    ) {
       showMessage({
         type: 'danger',
         title: 'Atenção!',
