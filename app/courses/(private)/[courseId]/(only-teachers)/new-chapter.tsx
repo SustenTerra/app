@@ -69,7 +69,7 @@ export default function NewCourse() {
         <TransparentBackground>
           <ContentBackground>
             <HeaderWrapper>
-              <BackButton href="/" />
+              <BackButton />
               <Text weight="regular" size="h1" color="light">
                 Criar Capítulo
               </Text>
