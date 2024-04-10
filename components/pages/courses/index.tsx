@@ -24,6 +24,7 @@ import { CourseChapterView, CourseListView, CourseView } from '@/api';
 import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import Text from '@/components/Text';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -94,6 +95,13 @@ export function CourseChapterContents({
   const theme = useTheme();
   const [active, setActive] = useState(false);
 
+  const chapterOptionsAS = useActionSheet({
+    title: 'Opções do capítulo',
+    message: 'O que deseja fazer?',
+    actions: ['Editar', 'Excluir'],
+    actionsCallbacks: [() => {}, () => {}],
+  });
+
   const chapterIndex = chapter.index + 1;
   const icon = active ? 'chevron-down' : 'chevron-right';
 
@@ -126,6 +134,14 @@ export function CourseChapterContents({
               color={theme.colors.success}
             />
           )}
+
+          {isEditing && (
+            <Feather
+              name="settings"
+              size={moderateScale(20)}
+              color={theme.colors.dark}
+            />
+          )}
         </CourseContentWrapper>
       );
 
@@ -147,15 +163,26 @@ export function CourseChapterContents({
   return (
     <>
       <CourseChapterContainer onPress={() => setActive(!active)}>
-        <Feather
-          name={icon}
-          size={moderateScale(30)}
-          color={theme.colors.secondary}
-        />
+        <TitleWrapper>
+          <Feather
+            name={icon}
+            size={moderateScale(30)}
+            color={theme.colors.secondary}
+          />
 
-        <CourseChapterTitle size={20}>
-          {chapterIndex}. {chapter.name}
-        </CourseChapterTitle>
+          <CourseChapterTitle size={20}>
+            {chapterIndex}. {chapter.name}
+          </CourseChapterTitle>
+        </TitleWrapper>
+
+        {isEditing && (
+          <Feather
+            name="settings"
+            size={moderateScale(20)}
+            color={theme.colors.secondary}
+            onPress={chapterOptionsAS.show}
+          />
+        )}
       </CourseChapterContainer>
 
       {mapContents}

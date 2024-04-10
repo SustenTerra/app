@@ -118,8 +118,9 @@ export const CourseChapterContainer = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.light};
   border-radius: ${moderateScale(100)}px;
   align-items: center;
+  justify-content: space-between;
   height: ${verticalScale(50)}px;
-  padding-left: ${horizontalScale(20)}px;
+  padding: 0 ${horizontalScale(20)}px;
   margin-top: ${verticalScale(25)}px;
 
   flex-direction: row;
