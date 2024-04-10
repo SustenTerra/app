@@ -1,6 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
-import FormData from 'form-data';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
 import BackButton from '@/components/BackButton';
@@ -16,16 +15,20 @@ import {
   NewCourseContainer,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
 export default function NewCourse() {
+  const { courseId, courseChapterId } = useLocalSearchParams();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleCreation = async () => {
-    if (!title || !description || !videoUrl) {
+    if (!title || !description || !videoUrl || !courseId || !courseChapterId) {
       showMessage({
         type: 'danger',
         title: 'Atenção!',
@@ -37,26 +40,26 @@ export default function NewCourse() {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append('name', title);
-    formData.append('description', description);
-    formData.append('videoUrl', videoUrl);
+    try {
+      await client.chapterContents.createChapterContentsPost({
+        course_chapter_id: Number(courseChapterId),
+        description,
+        name: title,
+        video_url: videoUrl,
+      });
 
-    // await client.request.request({
-    //   url: '/courses',
-    //   method: 'POST',
-    //   body: formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // });
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Conteúdo cadastrado com sucesso!',
+      });
 
-    showMessage({
-      type: 'success',
-      title: 'Sucesso!',
-      message: 'Conteúdo cadastrado com sucesso!',
-    });
-    router.replace('/courses/1/contents/42');
+      router.replace(`/courses/${courseId}/details`);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
