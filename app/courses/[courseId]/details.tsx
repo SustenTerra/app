@@ -23,7 +23,7 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
-export default function ShowCourse() {
+export default function ShowCourseDetails() {
   const theme = useTheme();
   const auth = useAuth();
   const { courseId } = useLocalSearchParams();
