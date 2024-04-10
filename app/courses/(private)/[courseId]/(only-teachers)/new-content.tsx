@@ -38,6 +38,16 @@ export default function NewCourse() {
       return;
     }
 
+    if (!videoUrl.includes('youtube.com') || !videoUrl.includes('watch?v=')) {
+      showMessage({
+        type: 'danger',
+        title: 'Atenção!',
+        message: 'Insira uma URL válida do Youtube',
+      });
+
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -82,18 +92,25 @@ export default function NewCourse() {
       </HeaderBackgroundNewCourse>
 
       <NewCourseContainer>
+        <Text color="dark">
+          Faça o upload do vídeo no Youtube como "Não listado" e cole a URL
+          aqui.
+        </Text>
+
         <Input
           iconName="book"
           placeholder="Título"
           value={title}
           onChangeText={setTitle}
         />
+
         <Input
           iconName="alert-circle"
           placeholder="Descrição"
           value={description}
           onChangeText={setDescription}
         />
+
         <Input
           iconName="camera"
           placeholder="URL do vídeo no Youtube"
