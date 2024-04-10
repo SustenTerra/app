@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
@@ -18,14 +18,12 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
-import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
 export default function ShowCourse() {
   const theme = useTheme();
-  const auth = useAuth();
   const { courseId } = useLocalSearchParams();
 
   const [course, setCourse] = useState<CourseView | null>(null);
@@ -52,10 +50,6 @@ export default function ShowCourse() {
   const bannerSource = shouldShowCourse
     ? { uri: course.image_url || '' }
     : undefined;
-
-  if (!loading && !auth.user) {
-    return <Redirect href="/login" />;
-  }
 
   return (
     <ScrollablePage>

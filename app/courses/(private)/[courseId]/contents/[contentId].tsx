@@ -70,7 +70,7 @@ export default function ShowContent() {
 
   const nextContentHref = content?.next_chapter_content_id
     ? `/courses/${courseId}/contents/${content?.next_chapter_content_id}`
-    : `/courses/${courseId}`;
+    : `/courses/${courseId}/show`;
   const nextContentLabel = content?.next_chapter_content_id
     ? 'Próximo conteúdo'
     : 'Finalizar capítulo';
@@ -78,7 +78,7 @@ export default function ShowContent() {
   const backHref =
     !auth.loading && auth.user?.teacher_at
       ? `/courses/${courseId}/details`
-      : `/courses/${courseId}`;
+      : `/courses/${courseId}/show`;
 
   return (
     <ScrollablePage>

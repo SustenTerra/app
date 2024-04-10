@@ -25,7 +25,7 @@
     "@react-native-picker/picker": "^2.6.1",
     "awesome-debounce-promise": "^2.1.0",
     "axios": "^1.6.7",
-    "expo": "~50.0.14",
+    "expo": "~50.0.15",
     "expo-constants": "~15.4.5",
     "expo-font": "~11.10.3",
     "expo-image-picker": "~14.7.1",

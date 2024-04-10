@@ -405,7 +405,7 @@ export function CoursesInProgress() {
               <CourseSummary
                 key={course.id}
                 course={course}
-                onPress={() => router.push(`/courses/${course.id}`)}
+                onPress={() => router.push(`/courses/${course.id}/show`)}
                 isInProgress
               />
             ))}

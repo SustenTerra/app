@@ -68,7 +68,7 @@ export default function CoursesHome() {
       return;
     }
 
-    router.navigate(`/courses/${course.id}`);
+    router.push(`/courses/${course.id}/show`);
   };
 
   const getCategories = async () => {
