@@ -1,7 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
-import debounce from 'awesome-debounce-promise';
-import { router, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
@@ -9,8 +8,6 @@ import EmptyList from '@/components/EmptyList';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import {} from '@/components/pages/courses/styles';
-
 import { MyCourseSummary } from '@/components/pages/my-courses';
 import {
   CircleButton,
@@ -30,7 +27,6 @@ import { showErrors } from '@/services/errors';
 import theme from '@/styles/theme';
 
 export default function MyCourses() {
-  const Router = useRouter();
   const auth = useAuth();
   const [loadingCourses, setLoadingCourses] = useState(true);
   const actionSheet = useActionSheet({
@@ -56,10 +52,8 @@ export default function MyCourses() {
     }
   };
 
-  const getCoursesDebounced = useCallback(debounce(getCourses, 500), []);
-
   useEffect(() => {
-    getCoursesDebounced();
+    getCourses();
   }, []);
 
   const [viewCourses, setViewCourses] = useState<CourseListView[]>([]);
@@ -102,16 +96,6 @@ export default function MyCourses() {
 
       <Content>
         {loadingCourses && <Loading />}
-
-        {!loadingCourses &&
-          viewCourses.map((course) => (
-            <MyCourseSummaryWrapper key={course.id}>
-              <MyCourseSummary
-                course={course}
-                onPress={() => onCoursePress(course)}
-              />
-            </MyCourseSummaryWrapper>
-          ))}
 
         {!loadingCourses &&
           viewCourses.map((course) => (
