@@ -131,9 +131,14 @@ export const CourseChapterTitle = styled(Text)`
   margin-left: ${horizontalScale(10)}px;
 `;
 
-export const CourseContentWrapper = styled.TouchableOpacity`
+interface CourseContentWrapperProps {
+  isEditing?: boolean;
+}
+
+export const CourseContentWrapper = styled.TouchableOpacity<CourseContentWrapperProps>`
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.light};
+  background-color: ${({ theme, isEditing }) =>
+    isEditing ? theme.colors.primary : theme.colors.light};
   border-radius: ${moderateScale(100)}px;
   align-items: center;
   justify-content: space-between;

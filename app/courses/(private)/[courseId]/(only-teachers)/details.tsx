@@ -161,7 +161,7 @@ export default function ShowCourseDetails() {
             </Text>
           </Button>
 
-          <CourseAccordion course={course} />
+          <CourseAccordion course={course} isEditing />
         </ContentContainer>
       )}
     </ScrollablePage>
