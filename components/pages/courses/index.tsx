@@ -119,7 +119,7 @@ export function CourseChapterContents({
             </CourseContentTitle>
           </TitleWrapper>
 
-          {content.was_viewed && (
+          {!isEditing && content.was_viewed && (
             <Feather
               name="check-circle"
               size={moderateScale(20)}

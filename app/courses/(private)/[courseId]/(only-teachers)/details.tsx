@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
@@ -20,18 +20,23 @@ import {
   TransparentBackground,
 } from '@/components/pages/courses/styles';
 import { useActionSheet } from '@/hooks/actionSheet';
-import { useAuth } from '@/hooks/auth';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
 export default function ShowCourseDetails() {
   const theme = useTheme();
-  const auth = useAuth();
   const router = useRouter();
   const { courseId } = useLocalSearchParams();
 
+  const [course, setCourse] = useState<CourseView | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const publishCourse = async () => {
+    if (course?.published_at) {
+      return;
+    }
+
     try {
       await client.courses.publishCourseUsersMeCoursesCourseIdPublishedPatch(
         Number(courseId),
@@ -49,9 +54,6 @@ export default function ShowCourseDetails() {
     actions: ['Sim'],
     actionsCallbacks: [publishCourse],
   });
-
-  const [course, setCourse] = useState<CourseView | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const getCourse = async () => {
     setLoading(true);
@@ -74,10 +76,6 @@ export default function ShowCourseDetails() {
   const bannerSource = shouldShowCourse
     ? { uri: course.image_url || '' }
     : undefined;
-
-  if (!loading && !auth.user) {
-    return <Redirect href="/login" />;
-  }
 
   return (
     <ScrollablePage>
@@ -145,7 +143,7 @@ export default function ShowCourseDetails() {
             <Feather name="radio" size={24} color={theme.colors.secondary} />
 
             <Text color="secondary" size="h6" weight="bold">
-              {course.published_at ? 'Despublicar curso' : 'Publicar curso'}
+              {course.published_at ? 'Curso publicado!' : 'Publicar curso'}
             </Text>
           </Button>
 

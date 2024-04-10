@@ -92,7 +92,7 @@ export default function ShowContent() {
           <TransparentBackground darker>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton href={`/courses/${courseId}`} />
+                <BackButton defaultRoute={`/courses/${courseId}`} />
                 <Text weight="regular" size="h6" color="light">
                   Voltar
                 </Text>
