@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Link, Redirect, useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
@@ -75,9 +75,10 @@ export default function ShowContent() {
     ? 'Próximo conteúdo'
     : 'Finalizar capítulo';
 
-  if (!loading && !auth.user) {
-    return <Redirect href="/login" />;
-  }
+  const backHref =
+    !auth.loading && auth.user?.teacher_at
+      ? `/courses/${courseId}/details`
+      : `/courses/${courseId}`;
 
   return (
     <ScrollablePage>
@@ -92,7 +93,7 @@ export default function ShowContent() {
           <TransparentBackground darker>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton defaultRoute={`/courses/${courseId}`} />
+                <BackButton href={backHref} />
                 <Text weight="regular" size="h6" color="light">
                   Voltar
                 </Text>
