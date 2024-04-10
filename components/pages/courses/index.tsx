@@ -20,10 +20,16 @@ import {
   FABWrapperForWeb,
 } from './styles';
 
-import { CourseChapterView, CourseListView, CourseView } from '@/api';
+import {
+  CourseChapterContentView,
+  CourseChapterView,
+  CourseListView,
+  CourseView,
+} from '@/api';
 import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import Text from '@/components/Text';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -53,7 +59,7 @@ export function CourseSummary({
     <CourseViewWrapper onPress={onPress} isInProgress={isInProgress}>
       <CourseViewBackground
         defaultSource={require('assets/gray.png')}
-        source={{ uri: course.image_url }}
+        source={{ uri: course.image_url || '' }}
         resizeMode="cover"
         imageStyle={{ borderRadius: moderateScale(25), width: '100%' }}
       >
@@ -80,96 +86,184 @@ export function CourseSummary({
   );
 }
 
+interface CourseContentItemProps {
+  content: CourseChapterContentView;
+  courseId: number;
+  isEditing?: boolean;
+}
+
+function CourseContentItem({
+  content,
+  isEditing,
+  courseId,
+}: CourseContentItemProps) {
+  const router = useRouter();
+  const theme = useTheme();
+
+  const contentOptionsAS = useActionSheet({
+    title: 'Opções do conteúdo',
+    message: 'O que deseja fazer?',
+    actions: ['Ver como aluno', 'Editar', 'Excluir'],
+    actionsCallbacks: [
+      () => router.push(`/courses/${courseId}/contents/${content.id}`),
+      () => {},
+      () => {},
+    ],
+  });
+
+  const textColor = content.is_available
+    ? theme.colors.dark
+    : theme.colors.textBody;
+  const textWeight = content.is_available ? 'regular' : 'light';
+
+  const isContentAvailable = !isEditing && content.is_available;
+
+  const component = (
+    <CourseContentWrapper
+      key={content.id}
+      disabled={!content.is_available}
+      onPress={() => {
+        if (isEditing) {
+          contentOptionsAS.show();
+        }
+      }}
+    >
+      <TitleWrapper>
+        <Feather
+          name="play-circle"
+          size={moderateScale(20)}
+          color={textColor}
+        />
+
+        <CourseContentTitle size={16} weight={textWeight} color={textColor}>
+          {content.name}
+        </CourseContentTitle>
+      </TitleWrapper>
+
+      {!isEditing && content.was_viewed && (
+        <Feather
+          name="check-circle"
+          size={moderateScale(20)}
+          color={theme.colors.success}
+        />
+      )}
+
+      {isEditing && (
+        <Feather
+          name="settings"
+          size={moderateScale(20)}
+          color={theme.colors.dark}
+        />
+      )}
+    </CourseContentWrapper>
+  );
+
+  if (isContentAvailable) {
+    return (
+      <Link
+        key={content.id}
+        href={`/courses/${courseId}/contents/${content.id}`}
+        asChild
+      >
+        {component}
+      </Link>
+    );
+  }
+
+  return component;
+}
+
 interface CourseChapterContentsProps {
   courseId: number;
   chapter: CourseChapterView;
+  isEditing?: boolean;
 }
 
 export function CourseChapterContents({
   courseId,
   chapter,
+  isEditing = false,
 }: CourseChapterContentsProps) {
   const theme = useTheme();
   const [active, setActive] = useState(false);
 
+  const chapterOptionsAS = useActionSheet({
+    title: 'Opções do capítulo',
+    message: 'O que deseja fazer?',
+    actions: ['Editar', 'Excluir'],
+    actionsCallbacks: [() => {}, () => {}],
+  });
+
   const chapterIndex = chapter.index + 1;
   const icon = active ? 'chevron-down' : 'chevron-right';
+
+  const mapContents =
+    active &&
+    chapter.chapter_contents.map((content) => (
+      <CourseContentItem
+        key={content.id}
+        content={content}
+        courseId={courseId}
+        isEditing={isEditing}
+      />
+    ));
 
   return (
     <>
       <CourseChapterContainer onPress={() => setActive(!active)}>
-        <Feather
-          name={icon}
-          size={moderateScale(30)}
-          color={theme.colors.secondary}
-        />
+        <TitleWrapper>
+          <Feather
+            name={icon}
+            size={moderateScale(30)}
+            color={theme.colors.secondary}
+          />
 
-        <CourseChapterTitle size={20}>
-          {chapterIndex}. {chapter.name}
-        </CourseChapterTitle>
+          <CourseChapterTitle size={20}>
+            {chapterIndex}. {chapter.name}
+          </CourseChapterTitle>
+        </TitleWrapper>
+
+        {isEditing && (
+          <Feather
+            name="settings"
+            size={moderateScale(20)}
+            color={theme.colors.secondary}
+            onPress={chapterOptionsAS.show}
+          />
+        )}
       </CourseChapterContainer>
 
-      {active &&
-        chapter.chapter_contents.map((content) => {
-          const textColor = content.is_available
-            ? theme.colors.dark
-            : theme.colors.textBody;
-          const textWeight = content.is_available ? 'regular' : 'light';
+      {mapContents}
 
-          const component = (
-            <CourseContentWrapper
-              key={content.id}
-              disabled={!content.is_available}
-            >
-              <TitleWrapper>
-                <Feather
-                  name="play-circle"
-                  size={moderateScale(20)}
-                  color={textColor}
-                />
+      {active && isEditing && (
+        <Link
+          href={`/courses/${courseId}/new-content?courseChapterId=${chapter.id}`}
+        >
+          <CourseContentWrapper isEditing>
+            <TitleWrapper>
+              <Feather
+                name="plus-circle"
+                size={moderateScale(20)}
+                color={theme.colors.light}
+              />
 
-                <CourseContentTitle
-                  size={16}
-                  weight={textWeight}
-                  color={textColor}
-                >
-                  {content.name}
-                </CourseContentTitle>
-              </TitleWrapper>
-
-              {content.was_viewed && (
-                <Feather
-                  name="check-circle"
-                  size={moderateScale(20)}
-                  color={theme.colors.success}
-                />
-              )}
-            </CourseContentWrapper>
-          );
-
-          if (content.is_available) {
-            return (
-              <Link
-                key={content.id}
-                href={`/courses/${courseId}/contents/${content.id}`}
-                asChild
-              >
-                {component}
-              </Link>
-            );
-          }
-
-          return component;
-        })}
+              <CourseContentTitle size={16} color={theme.colors.light}>
+                Cadastrar conteúdo
+              </CourseContentTitle>
+            </TitleWrapper>
+          </CourseContentWrapper>
+        </Link>
+      )}
     </>
   );
 }
 
 interface CourseAccordionProps {
   course: CourseView;
+  isEditing?: boolean;
 }
 
-export function CourseAccordion({ course }: CourseAccordionProps) {
+export function CourseAccordion({ course, isEditing }: CourseAccordionProps) {
   return (
     <>
       {course.course_chapters.map((chapter, index) => (
@@ -177,6 +271,7 @@ export function CourseAccordion({ course }: CourseAccordionProps) {
           key={chapter.id}
           courseId={course.id}
           chapter={chapter}
+          isEditing={isEditing}
         />
       ))}
     </>

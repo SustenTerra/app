@@ -14,6 +14,10 @@ const errorPatterns = [
     pattern: 'Given current password do not match actual user password',
     message: 'Email ou senha inválidos, verifique os dados informados.',
   },
+  {
+    pattern: 'not validate credentials',
+    message: 'Sua sessão expirou, faça login novamente.',
+  },
 ];
 
 export function showErrors(error: unknown) {

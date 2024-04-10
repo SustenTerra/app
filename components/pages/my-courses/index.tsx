@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router, useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { useTheme } from 'styled-components/native';
 
@@ -45,7 +45,7 @@ export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
           <StatusWrapper>
             {course.published_at && (
               <StatusView color="light">
-                <Text size="h5" weight="bold" color="dark">
+                <Text weight="bold" color="dark">
                   Publicado
                 </Text>
               </StatusView>

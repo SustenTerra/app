@@ -118,8 +118,9 @@ export const CourseChapterContainer = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.light};
   border-radius: ${moderateScale(100)}px;
   align-items: center;
+  justify-content: space-between;
   height: ${verticalScale(50)}px;
-  padding-left: ${horizontalScale(20)}px;
+  padding: 0 ${horizontalScale(20)}px;
   margin-top: ${verticalScale(25)}px;
 
   flex-direction: row;
@@ -131,9 +132,14 @@ export const CourseChapterTitle = styled(Text)`
   margin-left: ${horizontalScale(10)}px;
 `;
 
-export const CourseContentWrapper = styled.TouchableOpacity`
+interface CourseContentWrapperProps {
+  isEditing?: boolean;
+}
+
+export const CourseContentWrapper = styled.TouchableOpacity<CourseContentWrapperProps>`
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.light};
+  background-color: ${({ theme, isEditing }) =>
+    isEditing ? theme.colors.primary : theme.colors.light};
   border-radius: ${moderateScale(100)}px;
   align-items: center;
   justify-content: space-between;

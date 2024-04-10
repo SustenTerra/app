@@ -1,6 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
-import FormData from 'form-data';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import BackButton from '@/components/BackButton';
@@ -16,16 +15,19 @@ import {
   NewCourseContainer,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
 export default function NewCourse() {
+  const router = useRouter();
+  const { courseId } = useLocalSearchParams();
+
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleCreation = async () => {
-    if (!title || !description || !videoUrl) {
+    if (!title) {
       showMessage({
         type: 'danger',
         title: 'Atenção!',
@@ -37,26 +39,24 @@ export default function NewCourse() {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append('name', title);
-    formData.append('description', description);
-    formData.append('videoUrl', videoUrl);
+    try {
+      await client.courseChapters.createCourseChapterCourseChapterPost({
+        course_id: Number(courseId),
+        name: title,
+      });
 
-    // await client.request.request({
-    //   url: '/courses',
-    //   method: 'POST',
-    //   body: formData,
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    // });
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Capítulo cadastrado com sucesso!',
+      });
 
-    showMessage({
-      type: 'success',
-      title: 'Sucesso!',
-      message: 'Conteúdo cadastrado com sucesso!',
-    });
-    router.replace('/courses/1/contents/42');
+      router.replace(`/courses/${courseId}/details`);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,9 +69,9 @@ export default function NewCourse() {
         <TransparentBackground>
           <ContentBackground>
             <HeaderWrapper>
-              <BackButton href="/" />
+              <BackButton />
               <Text weight="regular" size="h1" color="light">
-                Criar Conteúdo
+                Criar Capítulo
               </Text>
             </HeaderWrapper>
           </ContentBackground>
@@ -84,18 +84,6 @@ export default function NewCourse() {
           placeholder="Título"
           value={title}
           onChangeText={setTitle}
-        />
-        <Input
-          iconName="alert-circle"
-          placeholder="Descrição"
-          value={description}
-          onChangeText={setDescription}
-        />
-        <Input
-          iconName="camera"
-          placeholder="URL do vídeo no Youtube"
-          value={videoUrl}
-          onChangeText={setVideoUrl}
         />
 
         <Button onPress={handleCreation} color="primary">

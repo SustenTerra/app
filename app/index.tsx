@@ -53,10 +53,11 @@ export default function Home() {
           </Text>
         </Button>
         <Button
-          color="light"
+          color="primary"
           onPress={() => {
             router.push('/courses');
           }}
+          outline
         >
           <Feather name="book-open" size={24} color={theme.colors.primary} />
           <Text color="primary" size={20}>

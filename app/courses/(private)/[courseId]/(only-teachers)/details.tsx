@@ -1,15 +1,16 @@
 import Feather from '@expo/vector-icons/Feather';
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
 
 import { CourseView } from '@/api';
 import BackButton from '@/components/BackButton';
+import Button from '@/components/Button';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import { CourseAccordion, NextContent } from '@/components/pages/courses';
+import { CourseAccordion } from '@/components/pages/courses';
 import {
   ContentBackground,
   DescriptionWrapper,
@@ -18,18 +19,37 @@ import {
   TopWrapper,
   TransparentBackground,
 } from '@/components/pages/courses/styles';
-import { useAuth } from '@/hooks/auth';
+import { useActionSheet } from '@/hooks/actionSheet';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { horizontalScale, verticalScale } from '@/utils/scale';
 
-export default function ShowCourse() {
+export default function ShowCourseDetails() {
   const theme = useTheme();
-  const auth = useAuth();
+  const router = useRouter();
   const { courseId } = useLocalSearchParams();
 
   const [course, setCourse] = useState<CourseView | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const publishCourse = async () => {
+    try {
+      await client.courses.publishCourseUsersMeCoursesCourseIdPublishedPatch(
+        Number(courseId),
+      );
+      getCourse();
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
+  const publishActionSheet = useActionSheet({
+    title: 'Deseja publicar o curso?',
+    message:
+      'Ao publicar o curso, ele ficará disponível para todos os usuários.',
+    actions: ['Sim'],
+    actionsCallbacks: [publishCourse],
+  });
 
   const getCourse = async () => {
     setLoading(true);
@@ -49,11 +69,9 @@ export default function ShowCourse() {
   }, [courseId]);
 
   const shouldShowCourse = !loading && !!course;
-  const bannerSource = shouldShowCourse ? { uri: course.image_url } : undefined;
-
-  if (!loading && !auth.user) {
-    return <Redirect href="/login" />;
-  }
+  const bannerSource = shouldShowCourse
+    ? { uri: course.image_url || '' }
+    : undefined;
 
   return (
     <ScrollablePage>
@@ -68,7 +86,7 @@ export default function ShowCourse() {
           <TransparentBackground darker>
             <ContentBackground>
               <HeaderWrapper>
-                <BackButton href="/courses" />
+                <BackButton />
                 <Text weight="regular" size="h6" color="light">
                   Voltar
                 </Text>
@@ -112,9 +130,33 @@ export default function ShowCourse() {
             {course.description}
           </Text>
 
-          <NextContent course={course} />
+          <Button
+            onPress={publishActionSheet.show}
+            disabled={!!course.published_at}
+            style={{ marginTop: verticalScale(20) }}
+            color="secondary"
+            outline
+          >
+            <Feather name="radio" size={24} color={theme.colors.secondary} />
 
-          <CourseAccordion course={course} />
+            <Text color="secondary" size="h6" weight="bold">
+              {course.published_at ? 'Curso publicado!' : 'Publicar curso'}
+            </Text>
+          </Button>
+
+          <Button
+            onPress={() => router.push(`/courses/${courseId}/new-chapter`)}
+            style={{ marginTop: verticalScale(20) }}
+            color="secondary"
+          >
+            <Feather name="plus" size={24} color={theme.colors.light} />
+
+            <Text color="light" size="h6">
+              Cadastrar capítulo
+            </Text>
+          </Button>
+
+          <CourseAccordion course={course} isEditing />
         </ContentContainer>
       )}
     </ScrollablePage>

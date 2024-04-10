@@ -91,7 +91,7 @@ export default function NewCourse() {
         title: 'Sucesso!',
         message: 'Curso cadastrado com sucesso!',
       });
-      router.replace('/courses');
+      router.replace('/courses/my-courses');
     } catch (err) {
       showErrors(err);
     } finally {
@@ -109,7 +109,7 @@ export default function NewCourse() {
         <TransparentBackground>
           <ContentBackground>
             <HeaderWrapper>
-              <BackButton href="/" />
+              <BackButton />
               <Text weight="regular" size="h1" color="light">
                 Criar curso
               </Text>
