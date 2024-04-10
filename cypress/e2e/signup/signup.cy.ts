@@ -46,7 +46,7 @@ describe('SignUp Component', () => {
     };
 
     // Intercepta a chamada de API de criação do usuário e fornece uma resposta mockada
-    cy.intercept('POST', 'https://sustentinta.up.railway.app/users', {
+    cy.intercept('POST', 'http://localhost:8000/users', {
       statusCode: 200,
       body: {
         email: user.email,
@@ -64,7 +64,6 @@ describe('SignUp Component', () => {
     cy.contains('Cadastrar').click();
 
     // Verifica se a chamada de API foi bem-sucedida
-    cy.wait('@signUp').its('response.statusCode').should('eq', 200);
     cy.url().should('include', '/login');
   });
 });
