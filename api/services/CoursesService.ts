@@ -87,6 +87,26 @@ export class CoursesService {
         });
     }
     /**
+     * Delete Course
+     * @param courseId
+     * @returns void
+     * @throws ApiError
+     */
+    public deleteCourseCoursesCourseIdDelete(
+        courseId: number,
+    ): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/courses/{course_id}',
+            path: {
+                'course_id': courseId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
      * List All Teacher Courses
      * List all of the teacher's courses
      * @returns CourseListView Successful Response
@@ -99,13 +119,13 @@ export class CoursesService {
         });
     }
     /**
-     * Publishe Course
+     * Publish Course
      * Published course
      * @param courseId
      * @returns CourseView Successful Response
      * @throws ApiError
      */
-    public publisheCourseUsersMeCoursesCourseIdPublishedPatch(
+    public publishCourseUsersMeCoursesCourseIdPublishedPatch(
         courseId: number,
     ): CancelablePromise<CourseView> {
         return this.httpRequest.request({

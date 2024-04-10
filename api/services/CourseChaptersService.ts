@@ -54,4 +54,25 @@ export class CourseChaptersService {
             },
         });
     }
+    /**
+     * Delete Chapter
+     * Delete course_chapter
+     * @param courseChapterId
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public deleteChapterCourseChapterCourseChapterIdDelete(
+        courseChapterId: number,
+    ): CancelablePromise<any> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/course_chapter/{course_chapter_id}',
+            path: {
+                'course_chapter_id': courseChapterId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
 }
