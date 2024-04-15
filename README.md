@@ -36,26 +36,9 @@ Sustenterra APP has two main big features:
 
 #### Screenshots
 
-<div style="width: 100%; display: flex; align-items: center; justify-content: center;">
-  <img 
-    style="margin-right: 10px"
-    width="200px" 
-    alt="Home" 
-    src="./.github/screenshots/home.png" 
-  />
-  <img 
-    style="margin-right: 10px"
-    width="200px" 
-    alt="Marketplace" 
-    src="./.github/screenshots/marketplace.png" 
-  />
-  <img 
-    style="margin-right: 10px"
-    width="200px" 
-    alt="Courses" 
-    src="./.github/screenshots/courses.png" 
-  />
-</div>
+![marketplace-summary](https://github.com/SustenTerra/app/assets/40612788/827edebe-1391-4da4-a869-0df05012951b)
+![courses-summary](https://github.com/SustenTerra/app/assets/40612788/9f64e9cd-d4da-42e7-b016-8ac61879fa40)
+
 
 ## How to build
 
