@@ -184,6 +184,7 @@ export function CourseChapterContents({
   chapter,
   isEditing = false,
 }: CourseChapterContentsProps) {
+  const router = useRouter();
   const theme = useTheme();
   const [active, setActive] = useState(false);
 
@@ -191,7 +192,11 @@ export function CourseChapterContents({
     title: 'Opções do capítulo',
     message: 'O que deseja fazer?',
     actions: ['Editar', 'Excluir'],
-    actionsCallbacks: [() => {}, () => {}],
+    actionsCallbacks: [
+      () =>
+        router.push(`/courses/${courseId}/new-chapter?chapterId=${chapter.id}`),
+      () => {},
+    ],
   });
 
   const chapterIndex = chapter.index + 1;
