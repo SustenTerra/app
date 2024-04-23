@@ -6,6 +6,9 @@ const dimensions = Dimensions.get('window');
 const guidelineBaseWidth = 375;
 const guidelineBaseHeight = 812;
 
+export const getWidth = (width = Dimensions.get('window').width) =>
+  isWeb && width > 500 ? 500 : width;
+
 export const width = isWeb && dimensions.width > 500 ? 500 : dimensions.width;
 export const height =
   isWeb && dimensions.height > guidelineBaseHeight

@@ -1,6 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router } from 'expo-router';
-import { Image, TouchableOpacity } from 'react-native';
+import { useLayoutEffect, useState } from 'react';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 
 import { Container, InfoContainer, TextContainer } from './styles';
 import FavoriteButton from '../FavoriteButton';
@@ -11,7 +12,12 @@ import { useActionSheet } from '@/hooks/actionSheet';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
-import { moderateScale, verticalScale, width } from '@/utils/scale';
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+  getWidth,
+} from '@/utils/scale';
 import { cropLongText } from '@/utils/strings';
 
 interface PostCardProps {
@@ -54,7 +60,15 @@ function PostCard({ post, editable = false }: PostCardProps) {
     ],
   });
 
-  const postWidth = width * 0.5 - moderateScale(17);
+  const calculatePostWidth = () => getWidth() * 0.5 - horizontalScale(17);
+
+  const [postWidth, setPostWidth] = useState(calculatePostWidth());
+
+  useLayoutEffect(() => {
+    const updateWidth = () => setPostWidth(calculatePostWidth());
+    Dimensions.addEventListener('change', updateWidth);
+  }, []);
+
   const postPrice = post.price
     ? (post.price / 100).toFixed(2).replace('.', ',')
     : '-';
