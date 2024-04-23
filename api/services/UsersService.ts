@@ -43,6 +43,7 @@ export class UsersService {
     }
     /**
      * Delete User
+     * Delete the logged in user
      * @returns any Successful Response
      * @throws ApiError
      */

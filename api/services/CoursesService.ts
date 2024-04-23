@@ -88,13 +88,14 @@ export class CoursesService {
     }
     /**
      * Delete Course
+     * Delete a course by id
      * @param courseId
-     * @returns void
+     * @returns any Successful Response
      * @throws ApiError
      */
     public deleteCourseCoursesCourseIdDelete(
         courseId: number,
-    ): CancelablePromise<void> {
+    ): CancelablePromise<any> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/courses/{course_id}',

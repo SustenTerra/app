@@ -56,7 +56,7 @@ export class CourseChaptersService {
     }
     /**
      * Delete Chapter
-     * Delete course_chapter
+     * Delete a course chapter by id
      * @param courseChapterId
      * @returns any Successful Response
      * @throws ApiError
