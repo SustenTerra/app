@@ -59,7 +59,7 @@ export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
     message: 'Escolha uma das opções a seguir',
     actions: ['Editar', 'Excluir'],
     actionsCallbacks: [
-      () => router.navigate('/courses'),
+      () => router.push(`/courses/new-course?courseId=${course.id}`),
       () => setTimeout(() => deleteActionSheet.show(), 300),
     ],
   });
