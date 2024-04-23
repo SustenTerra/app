@@ -1,3 +1,4 @@
+import Feather from '@expo/vector-icons/Feather';
 import debounce from 'awesome-debounce-promise';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
@@ -5,6 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { CourseListView } from '@/api';
 import BackButton from '@/components/BackButton';
 import Banner from '@/components/Banner';
+import Button from '@/components/Button';
 import CategoryList from '@/components/CategoryList';
 import EmptyList from '@/components/EmptyList';
 import Input from '@/components/Input';
@@ -183,13 +185,34 @@ export default function CoursesHome() {
           />
         )}
 
-        {shouldShowByDefault && !auth.loading && auth.user && (
-          <Banner
-            title="Quer tirar dúvidas com nosso assistente virtual?"
-            description="Clique aqui para bater papo"
-            href="/chat"
-          />
-        )}
+        {shouldShowByDefault &&
+          !auth.loading &&
+          auth.user &&
+          !auth.user.teacher_at && (
+            <Banner
+              title="Quer tirar dúvidas com nosso assistente virtual?"
+              description="Clique aqui para bater papo"
+              href="/chat"
+            />
+          )}
+
+        {shouldShowByDefault &&
+          !auth.loading &&
+          auth.user &&
+          auth.user.teacher_at && (
+            <TitleContainer>
+              <Button
+                color="secondary"
+                onPress={() => router.push('/courses/my-courses')}
+              >
+                <Feather name="book-open" size={24} color="white" />
+
+                <Text weight="bold" size="h6" color="white">
+                  Acessar área do professor
+                </Text>
+              </Button>
+            </TitleContainer>
+          )}
 
         {shouldShowByDefault && !auth.loading && auth.user && (
           <CoursesInProgress />

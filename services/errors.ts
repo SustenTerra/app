@@ -18,6 +18,10 @@ const errorPatterns = [
     pattern: 'not validate credentials',
     message: 'Sua sessão expirou, faça login novamente.',
   },
+  {
+    pattern: 'Method Not Allowed',
+    message: 'Não é possível realizar esta ação.',
+  },
 ];
 
 export function showErrors(error: unknown) {

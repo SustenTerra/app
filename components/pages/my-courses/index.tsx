@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTheme } from 'styled-components/native';
 
@@ -15,6 +15,9 @@ import {
 import { CourseListView } from '@/api';
 import Text from '@/components/Text';
 import { useActionSheet } from '@/hooks/actionSheet';
+import { client } from '@/services/client';
+import { showErrors } from '@/services/errors';
+import { showMessage } from '@/services/messages';
 import { moderateScale } from '@/utils/scale';
 
 interface CourseSummaryProps {
@@ -24,15 +27,43 @@ interface CourseSummaryProps {
 
 export function MyCourseSummary({ course, onPress }: CourseSummaryProps) {
   const theme = useTheme();
+  const router = useRouter();
+
+  const promptToDeleteCourse = async () => {
+    try {
+      await client.courses.deleteCourseCoursesCourseIdDelete(course.id);
+    } catch (error) {
+      showErrors(error);
+      return;
+    }
+
+    showMessage({
+      type: 'success',
+      title: 'Sucesso',
+      message: 'Curso excluído com sucesso!',
+    });
+
+    router.replace(`/courses/my-courses`);
+  };
+
+  const deleteActionSheet = useActionSheet({
+    title: 'Atenção!',
+    message:
+      'Você tem certeza que deseja excluir este curso e todo o seu conteúdo?',
+    actions: ['Sim, tenho certeza'],
+    actionsCallbacks: [promptToDeleteCourse],
+  });
+
   const actionSheet = useActionSheet({
     title: 'Opções',
     message: 'Escolha uma das opções a seguir',
     actions: ['Editar', 'Excluir'],
     actionsCallbacks: [
-      () => router.navigate('/courses'),
-      () => router.navigate('/courses'),
+      () => router.push(`/courses/new-course?courseId=${course.id}`),
+      () => setTimeout(() => deleteActionSheet.show(), 300),
     ],
   });
+
   return (
     <MyCourseViewWrapper onPress={onPress}>
       <MyCourseViewBackground

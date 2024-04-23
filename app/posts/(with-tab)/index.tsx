@@ -99,7 +99,7 @@ export default function Posts() {
   return (
     <ScrollablePage>
       <Container>
-        <Link asChild replace href="/posts">
+        <Link asChild replace href="/">
           <Header>
             <Image
               style={{ width: 50, height: 50 }}

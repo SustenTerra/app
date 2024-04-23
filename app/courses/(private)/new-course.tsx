@@ -1,5 +1,5 @@
 import Feather from '@expo/vector-icons/Feather';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import FormData from 'form-data';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +8,7 @@ import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import ItemsPicker from '@/components/ItemsPicker';
-import { HorizontalLoading } from '@/components/Loading';
+import Loading, { HorizontalLoading } from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import UploadImage, { ImageAsset } from '@/components/UploadImage';
@@ -24,6 +24,9 @@ import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
 export default function NewCourse() {
+  const params = useLocalSearchParams<{ courseId: string }>();
+
+  const [loadingCourse, setLoadingCourse] = useState(!!params.courseId);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<ImageAsset | File>(null);
@@ -32,6 +35,29 @@ export default function NewCourse() {
     undefined,
   );
   const [loading, setLoading] = useState(false);
+
+  const getCourse = async () => {
+    if (!params.courseId) {
+      return;
+    }
+
+    setLoadingCourse(true);
+    try {
+      const courseResponse =
+        await client.courses.getCourseByIdCoursesCourseIdGet(
+          Number(params.courseId),
+        );
+
+      setTitle(courseResponse.name);
+      setDescription(courseResponse.description);
+      setSelectedCategory(courseResponse.course_category.id);
+    } catch (error) {
+      showErrors(error);
+      router.replace('/courses/my-courses');
+    } finally {
+      setLoadingCourse(false);
+    }
+  };
 
   const getCategories = async () => {
     try {
@@ -45,6 +71,7 @@ export default function NewCourse() {
 
   useEffect(() => {
     getCategories();
+    getCourse();
   }, []);
 
   const handleCreation = async () => {
@@ -99,6 +126,71 @@ export default function NewCourse() {
     }
   };
 
+  const handleUpdate = async () => {
+    setLoading(true);
+    try {
+      let fileToUpload;
+      if (image) {
+        if (image instanceof File) {
+          fileToUpload = image;
+        } else {
+          fileToUpload = {
+            uri: image.uri,
+            type: image.mimeType || 'image/jpeg',
+            name: image.fileName || 'image.jpg',
+          };
+        }
+      }
+
+      const formData = new FormData();
+
+      if (title) {
+        formData.append('name', title);
+      }
+
+      if (description) {
+        formData.append('description', description);
+      }
+
+      if (fileToUpload) {
+        formData.append('image', fileToUpload);
+      }
+
+      if (selectedCategory) {
+        formData.append('course_category_id', selectedCategory);
+      }
+
+      await client.request.request({
+        url: `/courses/${params.courseId}`,
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Curso atualizado com sucesso!',
+      });
+
+      router.replace('/courses/my-courses');
+    } catch (err) {
+      showErrors(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loadingCourse) {
+    return (
+      <ScrollablePage>
+        <Loading />
+      </ScrollablePage>
+    );
+  }
+
   return (
     <ScrollablePage>
       <HeaderBackgroundNewCourse
@@ -111,7 +203,7 @@ export default function NewCourse() {
             <HeaderWrapper>
               <BackButton />
               <Text weight="regular" size="h1" color="light">
-                Criar curso
+                {params.courseId ? 'Editar' : 'Criar'} curso
               </Text>
             </HeaderWrapper>
           </ContentBackground>
@@ -151,7 +243,10 @@ export default function NewCourse() {
           setImage={setImage}
         />
 
-        <Button onPress={handleCreation} color="primary">
+        <Button
+          onPress={params.courseId ? handleUpdate : handleCreation}
+          color="primary"
+        >
           {!loading && (
             <>
               <Feather name="plus-circle" size={20} color="white" />
