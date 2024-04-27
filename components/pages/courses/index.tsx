@@ -193,7 +193,6 @@ export function CourseChapterContents({
       await client.courseChapters.deleteChapterCourseChapterCourseChapterIdDelete(
         chapter.id,
       );
-      console.log('Chapter deleted: ', chapter.id);
     } catch (error) {
       showErrors(error);
       return;
