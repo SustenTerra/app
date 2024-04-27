@@ -8,6 +8,7 @@ export type Body_update_post_posts__post_id__patch = {
     description?: (string | null);
     price?: (number | null);
     post_type?: (string | null);
+    available_quantity?: (number | null);
     location?: (string | null);
     category_id?: (number | null);
 };

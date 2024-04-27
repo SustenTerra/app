@@ -9,7 +9,8 @@ export type PostView = {
     description: string;
     post_type: string;
     location: string;
-    price: (number | null);
+    price?: (number | null);
+    available_quantity?: (number | null);
     category_id: number;
     user_id: number;
     id: number;

@@ -140,4 +140,25 @@ export class CoursesService {
             },
         });
     }
+    /**
+     * Unpublish Course
+     * UnPublish course
+     * @param courseId
+     * @returns CourseView Successful Response
+     * @throws ApiError
+     */
+    public unpublishCourseUsersMeCoursesCourseIdUnpublishedPatch(
+        courseId: number,
+    ): CancelablePromise<CourseView> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/users/me/courses/{course_id}/unpublished',
+            path: {
+                'course_id': courseId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
 }

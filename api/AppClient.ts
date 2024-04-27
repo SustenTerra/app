@@ -11,6 +11,7 @@ import { ChatService } from './services/ChatService';
 import { CourseCategoriesService } from './services/CourseCategoriesService';
 import { CourseChaptersService } from './services/CourseChaptersService';
 import { CoursesService } from './services/CoursesService';
+import { OmsService } from './services/OmsService';
 import { PostCategoriesService } from './services/PostCategoriesService';
 import { PostsService } from './services/PostsService';
 import { SessionsService } from './services/SessionsService';
@@ -23,6 +24,7 @@ export class AppClient {
     public readonly courseCategories: CourseCategoriesService;
     public readonly courseChapters: CourseChaptersService;
     public readonly courses: CoursesService;
+    public readonly oms: OmsService;
     public readonly postCategories: PostCategoriesService;
     public readonly posts: PostsService;
     public readonly sessions: SessionsService;
@@ -46,6 +48,7 @@ export class AppClient {
         this.courseCategories = new CourseCategoriesService(this.request);
         this.courseChapters = new CourseChaptersService(this.request);
         this.courses = new CoursesService(this.request);
+        this.oms = new OmsService(this.request);
         this.postCategories = new PostCategoriesService(this.request);
         this.posts = new PostsService(this.request);
         this.sessions = new SessionsService(this.request);

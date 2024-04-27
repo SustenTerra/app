@@ -10,5 +10,6 @@ export type Body_create_post_posts_post = {
     post_type: string;
     location: string;
     category_id: number;
+    available_quantity?: (number | null);
 };
 
