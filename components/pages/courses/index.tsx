@@ -188,6 +188,33 @@ export function CourseChapterContents({
   const theme = useTheme();
   const [active, setActive] = useState(false);
 
+  const promptToDeleteChapter = async () => {
+    try {
+      await client.courseChapters.deleteChapterCourseChapterCourseChapterIdDelete(
+        chapter.id,
+      );
+      console.log('Chapter deleted: ', chapter.id);
+    } catch (error) {
+      showErrors(error);
+      return;
+    }
+
+    showMessage({
+      type: 'success',
+      title: 'Sucesso',
+      message: 'Capítulo excluído com sucesso!',
+    });
+
+    router.replace(`/courses/${courseId}/details`);
+  };
+
+  const deleteChapterOptionsAS = useActionSheet({
+    title: 'Excluir capítulo',
+    message: 'Tem certeza que deseja excluir este capítulo?',
+    actions: ['Sim, tenho certeza'],
+    actionsCallbacks: [promptToDeleteChapter],
+  });
+
   const chapterOptionsAS = useActionSheet({
     title: 'Opções do capítulo',
     message: 'O que deseja fazer?',
@@ -195,7 +222,7 @@ export function CourseChapterContents({
     actionsCallbacks: [
       () =>
         router.push(`/courses/${courseId}/new-chapter?chapterId=${chapter.id}`),
-      () => {},
+      () => setTimeout(() => deleteChapterOptionsAS.show(), 300),
     ],
   });
 
