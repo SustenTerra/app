@@ -100,6 +100,32 @@ function CourseContentItem({
   const router = useRouter();
   const theme = useTheme();
 
+  const promptToDeleteContent = async () => {
+    try {
+      await client.chapterContents.deleteContentChapterContentsChapterContentIdDelete(
+        content.id,
+      );
+    } catch (error) {
+      showErrors(error);
+      return;
+    }
+
+    showMessage({
+      type: 'success',
+      title: 'Sucesso',
+      message: 'Conteúdo excluído com sucesso!',
+    });
+
+    router.replace(`/courses/${courseId}/details`);
+  };
+
+  const deleteContentOptionsAS = useActionSheet({
+    title: 'Excluir conteúdo',
+    message: 'Tem certeza que deseja excluir este conteúdo?',
+    actions: ['Sim, tenho certeza'],
+    actionsCallbacks: [promptToDeleteContent],
+  });
+
   const contentOptionsAS = useActionSheet({
     title: 'Opções do conteúdo',
     message: 'O que deseja fazer?',
@@ -107,7 +133,7 @@ function CourseContentItem({
     actionsCallbacks: [
       () => router.push(`/courses/${courseId}/contents/${content.id}`),
       () => {},
-      () => {},
+      () => setTimeout(() => deleteContentOptionsAS.show(), 300),
     ],
   });
 
