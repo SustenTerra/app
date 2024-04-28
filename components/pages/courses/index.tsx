@@ -132,7 +132,10 @@ function CourseContentItem({
     actions: ['Ver como aluno', 'Editar', 'Excluir'],
     actionsCallbacks: [
       () => router.push(`/courses/${courseId}/contents/${content.id}`),
-      () => {},
+      () =>
+        router.push(
+          `/courses/${courseId}/new-content?chapterContentId=${content.id}`,
+        ),
       () => setTimeout(() => deleteContentOptionsAS.show(), 300),
     ],
   });
