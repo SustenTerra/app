@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BackButton from '@/components/BackButton';
 import Button from '@/components/Button';
@@ -20,12 +20,67 @@ import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 
 export default function NewCourse() {
+  const params = useLocalSearchParams<{ chapterContentId: string }>();
   const { courseId, courseChapterId } = useLocalSearchParams();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const fetchChapterContent = async () => {
+    if (!params.chapterContentId) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const contentReponse =
+        await client.chapterContents.getContentByIdChapterContentsChapterContentIdGet(
+          Number(params.chapterContentId),
+        );
+
+      setTitle(contentReponse.name);
+      setDescription(contentReponse.description);
+      setVideoUrl(contentReponse.video_url);
+    } catch (error) {
+      showErrors(error);
+      router.replace(`/courses/${courseId}/details`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchChapterContent();
+  }, []);
+
+  const handleUpdate = async () => {
+    setLoading(true);
+
+    try {
+      await client.chapterContents.updateContentChapterContentsChapterContentIdPatch(
+        Number(params.chapterContentId),
+        {
+          description,
+          name: title,
+          video_url: videoUrl,
+        },
+      );
+
+      showMessage({
+        type: 'success',
+        title: 'Sucesso!',
+        message: 'Conteúdo atualizado com sucesso!',
+      });
+
+      router.replace(`/courses/${courseId}/details`);
+    } catch (error) {
+      showErrors(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreation = async () => {
     if (!title || !description || !videoUrl || !courseId || !courseChapterId) {
@@ -90,7 +145,7 @@ export default function NewCourse() {
             <HeaderWrapper>
               <BackButton />
               <Text weight="regular" size="h1" color="light">
-                Criar Conteúdo
+                {params.chapterContentId ? 'Editar' : 'Criar'} Conteúdo
               </Text>
             </HeaderWrapper>
           </ContentBackground>
@@ -124,7 +179,10 @@ export default function NewCourse() {
           onChangeText={setVideoUrl}
         />
 
-        <Button onPress={handleCreation} color="primary">
+        <Button
+          onPress={params.chapterContentId ? handleUpdate : handleCreation}
+          color="primary"
+        >
           {!loading && (
             <>
               <Feather name="save" size={20} color="white" />
