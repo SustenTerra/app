@@ -40,6 +40,7 @@ export default function EditAdress() {
   const [paymentLink, setPaymentLink] = useState('');
 
   const openPaymentLink = () => {
+    // only open on synchronous calls
     WebBrowser.openBrowserAsync(paymentLink);
     router.replace('/profile/my-orders');
   };
