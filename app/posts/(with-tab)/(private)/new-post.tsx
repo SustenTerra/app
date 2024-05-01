@@ -47,6 +47,7 @@ export default function NewPost() {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [price, setPrice] = useState('');
+  const [availableQuantity, setAvailableQuantity] = useState('');
   const [image, setImage] = useState<ImageAsset | File>(null);
   const [categories, setCategories] = useState<PostCategoryView[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
@@ -70,6 +71,10 @@ export default function NewPost() {
       setPrice(formatCurrencyString(String(postResponse.price)));
       setSelectedCategory(postResponse.category.id);
       setSelectedPostType(postResponse.post_type);
+
+      if (postResponse.post_type === 'ad') {
+        setAvailableQuantity(String(postResponse.available_quantity));
+      }
     } catch (error) {
       showErrors(error);
       router.replace('/posts');
@@ -86,6 +91,10 @@ export default function NewPost() {
 
   const updatePrice = (price: string) => {
     setPrice(formatCurrencyString(price));
+  };
+
+  const updateAvailableQuantity = (quantity: string) => {
+    setAvailableQuantity(quantity.replace(/[^0-9]/g, ''));
   };
 
   const getCategories = async () => {
@@ -110,7 +119,8 @@ export default function NewPost() {
       !price ||
       !selectedCategory ||
       !selectedPostType ||
-      !image
+      !image ||
+      (selectedPostType === 'ad' && !availableQuantity)
     ) {
       showMessage({
         type: 'danger',
@@ -144,6 +154,10 @@ export default function NewPost() {
       formData.append('price', formattedPrice);
       formData.append('post_type', selectedPostType);
       formData.append('category_id', selectedCategory);
+
+      if (selectedPostType === 'ad') {
+        formData.append('available_quantity', availableQuantity);
+      }
 
       await client.request.request({
         url: '/posts',
@@ -230,6 +244,10 @@ export default function NewPost() {
         formData.append('category_id', selectedCategory);
       }
 
+      if (selectedPostType === 'ad' && availableQuantity) {
+        formData.append('available_quantity', availableQuantity);
+      }
+
       await client.request.request({
         url: `/posts/${params.postId}`,
         method: 'PATCH',
@@ -285,6 +303,7 @@ export default function NewPost() {
           value={title}
           onChangeText={setTitle}
         />
+
         <Input
           iconName="tag"
           placeholder="Preço"
@@ -292,6 +311,7 @@ export default function NewPost() {
           value={price}
           onChangeText={updatePrice}
         />
+
         <ItemsPicker
           icon="map-pin"
           placeholder="Localização do anúncio..."
@@ -336,6 +356,16 @@ export default function NewPost() {
             setSelectedPostType(value as string)
           }
         />
+
+        {selectedPostType === 'ad' && (
+          <Input
+            iconName="tag"
+            placeholder="Quantidade disponível"
+            keyboardType="numeric"
+            value={availableQuantity}
+            onChangeText={updateAvailableQuantity}
+          />
+        )}
 
         <UploadImage
           label="Imagem do anúncio"

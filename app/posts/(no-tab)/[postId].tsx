@@ -101,6 +101,17 @@ export default function ShowPost() {
     }
   };
 
+  const handleBuy = () => {
+    if (!auth.loading && !auth.user) {
+      shouldLoginActionSheet.show();
+      return;
+    }
+
+    if (post) {
+      router.push(`/profile/edit-address?toBuy=${post.id}`);
+    }
+  };
+
   const enterOnContact = () => {
     if (!auth.loading && !auth.user) {
       shouldLoginActionSheet.show();
@@ -113,6 +124,14 @@ export default function ShowPost() {
     }
   };
 
+  const handleAction = () => {
+    if (post?.post_type === 'ad') {
+      handleBuy();
+    } else {
+      enterOnContact();
+    }
+  };
+
   useEffect(() => {
     getPost();
   }, []);
@@ -120,6 +139,16 @@ export default function ShowPost() {
   const postPrice = post?.price
     ? centsToCurrencyString(post.price)
     : 'Valor a combinar';
+
+  const actionLabel =
+    post?.post_type === 'ad' &&
+    post?.available_quantity &&
+    post?.available_quantity > 0
+      ? 'Comprar agora!'
+      : 'Entrar em contato';
+
+  const actionIcon =
+    post?.post_type === 'ad' ? 'shopping-cart' : 'message-circle';
 
   return (
     <>
@@ -208,14 +237,16 @@ export default function ShowPost() {
         <PostsSpacer multiplier={6} />
       </ScrollablePage>
 
-      <ContactBar>
-        <BarContent onPress={enterOnContact}>
-          <Feather name="phone-call" color={theme.colors.light} size={24} />
-          <Text size="h3" color="light">
-            Entrar em contato!
-          </Text>
-        </BarContent>
-      </ContactBar>
+      {post && (
+        <ContactBar>
+          <BarContent onPress={handleAction}>
+            <Feather name={actionIcon} color={theme.colors.light} size={24} />
+            <Text size="h3" color="light">
+              {actionLabel}
+            </Text>
+          </BarContent>
+        </ContactBar>
+      )}
     </>
   );
 }

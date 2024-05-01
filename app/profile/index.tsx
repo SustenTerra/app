@@ -56,6 +56,12 @@ export default function Profile() {
 
   const options: ProfileButtonProps[] = [
     {
+      icon: 'shopping-cart',
+      title: 'Meus pedidos',
+      description: 'Veja os pedidos que já realizou',
+      href: '/profile/my-orders',
+    },
+    {
       icon: 'grid',
       title: 'Meus anúncios',
       description: 'Gerencie os seus anúncios criados',
