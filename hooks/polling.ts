@@ -15,7 +15,6 @@ export function usePolling<T>(
       const response = await fn();
       setData(response);
     } catch (error) {
-      console.log(error);
       showErrors(error);
     } finally {
       setLoading(false);
