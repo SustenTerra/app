@@ -37,11 +37,18 @@ export default function EditAdress() {
   const [userHasAddress, setUserHasAddress] = useState(false);
   const [state, setState] = useState<string | undefined>(undefined);
 
+  const [paymentLink, setPaymentLink] = useState('');
+
+  const openPaymentLink = () => {
+    WebBrowser.openBrowserAsync(paymentLink);
+    router.replace('/profile/my-orders');
+  };
+
   useEffect(() => {
     loadingUserAddress();
   }, []);
 
-  const redirectToPayment = async () => {
+  const updatePaymentLink = async () => {
     if (!toBuy) {
       return;
     }
@@ -51,8 +58,7 @@ export default function EditAdress() {
         post_id: Number(toBuy),
       });
 
-      await WebBrowser.openBrowserAsync(response.url);
-      router.replace('/profile/my-orders');
+      setPaymentLink(response.url);
     } catch (error) {
       showErrors(error);
     }
@@ -98,7 +104,7 @@ export default function EditAdress() {
       setUserHasAddress(true);
 
       if (toBuy) {
-        redirectToPayment();
+        await updatePaymentLink();
       }
     } catch (error) {
       showErrors(error);
@@ -217,17 +223,19 @@ export default function EditAdress() {
                 <Button
                   disabled={loadingEdit}
                   color="primary"
-                  onPress={handleEdit}
+                  onPress={paymentLink ? openPaymentLink : handleEdit}
                 >
                   {!loadingEdit && (
                     <>
                       <Feather
-                        name="save"
+                        name={paymentLink ? 'check' : 'save'}
                         size={24}
                         color={theme.colors.light}
                       />
                       <Text color="light" size={20}>
-                        {saveButtonLabel}
+                        {paymentLink
+                          ? 'Clique novamente para confirmar'
+                          : saveButtonLabel}
                       </Text>
                     </>
                   )}
