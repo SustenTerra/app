@@ -19,6 +19,7 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { brazilianStatesList } from '@/utils/brazilianStatesList';
+import { isWeb } from '@/utils/platform';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export default function EditAdress() {
@@ -49,6 +50,12 @@ export default function EditAdress() {
       const response = await client.oms.createPaymentLinkOmsPaymentLinksPost({
         post_id: Number(toBuy),
       });
+
+      if (isWeb) {
+        window.open(response.url, '_blank');
+        return;
+      }
+
       Linking.openURL(response.url);
     } catch (error) {
       showErrors(error);

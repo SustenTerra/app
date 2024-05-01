@@ -124,8 +124,13 @@ export default function ShowPost() {
     }
   };
 
+  const canBuy =
+    post?.post_type === 'ad' &&
+    post?.available_quantity &&
+    post?.available_quantity > 0;
+
   const handleAction = () => {
-    if (post?.post_type === 'ad') {
+    if (canBuy) {
       handleBuy();
     } else {
       enterOnContact();
@@ -140,15 +145,8 @@ export default function ShowPost() {
     ? centsToCurrencyString(post.price)
     : 'Valor a combinar';
 
-  const actionLabel =
-    post?.post_type === 'ad' &&
-    post?.available_quantity &&
-    post?.available_quantity > 0
-      ? 'Comprar agora!'
-      : 'Entrar em contato';
-
-  const actionIcon =
-    post?.post_type === 'ad' ? 'shopping-cart' : 'message-circle';
+  const actionLabel = canBuy ? 'Comprar agora!' : 'Entrar em contato';
+  const actionIcon = canBuy ? 'shopping-cart' : 'message-circle';
 
   return (
     <>
