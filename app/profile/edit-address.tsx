@@ -1,5 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
+import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
 import BackButton from '@/components/BackButton';
@@ -9,7 +11,10 @@ import ItemsPicker from '@/components/ItemsPicker';
 import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
-import { EditAddressContainer } from '@/components/pages/posts/styles';
+import {
+  EditAddressContainer,
+  NewPostTitleWrapper,
+} from '@/components/pages/posts/styles';
 import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
@@ -17,6 +22,7 @@ import { brazilianStatesList } from '@/utils/brazilianStatesList';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export default function EditAdress() {
+  const { toBuy } = useLocalSearchParams();
   const theme = useTheme();
 
   const [cep, setCep] = useState('');
@@ -33,6 +39,18 @@ export default function EditAdress() {
   useEffect(() => {
     loadingUserAddress();
   }, []);
+
+  const redirectToPayment = async () => {
+    if (!toBuy) {
+      return;
+    }
+
+    const response = await client.oms.createPaymentLinkOmsPaymentLinksPost({
+      post_id: Number(toBuy),
+    });
+
+    Linking.openURL(response.url);
+  };
 
   const handleEdit = async () => {
     if (!cep || !street || !number || !city || !neighborhood || !state) {
@@ -72,6 +90,10 @@ export default function EditAdress() {
         message: 'Seu endereço foi atualizado com sucesso!',
       });
       setUserHasAddress(true);
+
+      if (toBuy) {
+        redirectToPayment();
+      }
     } catch (error) {
       showErrors(error);
     } finally {
@@ -106,15 +128,30 @@ export default function EditAdress() {
     }
   };
 
+  const saveButtonLabel = toBuy ? 'Ir para pagamento' : 'Salvar alterações';
+
   return (
     <ScrollablePage>
       <SafeView>
         <HeaderWrapper>
-          <BackButton href="/profile" />
+          <BackButton defaultRoute="/profile" />
           <Text weight="bold" size="h5">
             Atualizar Endereço
           </Text>
         </HeaderWrapper>
+
+        {!!toBuy && (
+          <NewPostTitleWrapper>
+            <Text size="h1" color="primary" weight="bold">
+              Preencha para prosseguir
+            </Text>
+            <Text color="textBody">
+              Atualize seus dados de endereço para prosseguir. Você pode entrar
+              em contato com o vendedor após a compra.
+            </Text>
+          </NewPostTitleWrapper>
+        )}
+
         <EditAddressContainer>
           {loadingAddress && <Loading />}
           {!loadingAddress && (
@@ -184,7 +221,7 @@ export default function EditAdress() {
                         color={theme.colors.light}
                       />
                       <Text color="light" size={20}>
-                        Salvar alterações
+                        {saveButtonLabel}
                       </Text>
                     </>
                   )}
@@ -197,6 +234,7 @@ export default function EditAdress() {
     </ScrollablePage>
   );
 }
+
 const ButtonView = styled.View`
   margin-top: ${moderateScale(20)}px;
 `;
