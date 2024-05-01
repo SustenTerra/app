@@ -45,11 +45,14 @@ export default function EditAdress() {
       return;
     }
 
-    const response = await client.oms.createPaymentLinkOmsPaymentLinksPost({
-      post_id: Number(toBuy),
-    });
-
-    Linking.openURL(response.url);
+    try {
+      const response = await client.oms.createPaymentLinkOmsPaymentLinksPost({
+        post_id: Number(toBuy),
+      });
+      Linking.openURL(response.url);
+    } catch (error) {
+      showErrors(error);
+    }
   };
 
   const handleEdit = async () => {

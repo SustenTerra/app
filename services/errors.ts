@@ -22,6 +22,10 @@ const errorPatterns = [
     pattern: 'Method Not Allowed',
     message: 'Não é possível realizar esta ação.',
   },
+  {
+    pattern: 'Not available for order.',
+    message: 'O produto infelizmente já se esgotou.',
+  },
 ];
 
 export function showErrors(error: unknown) {
