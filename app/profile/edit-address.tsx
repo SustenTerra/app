@@ -1,7 +1,7 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect, useState } from 'react';
-import { Linking } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 
 import BackButton from '@/components/BackButton';
@@ -19,10 +19,10 @@ import { client } from '@/services/client';
 import { showErrors } from '@/services/errors';
 import { showMessage } from '@/services/messages';
 import { brazilianStatesList } from '@/utils/brazilianStatesList';
-import { isWeb } from '@/utils/platform';
 import { horizontalScale, moderateScale, verticalScale } from '@/utils/scale';
 
 export default function EditAdress() {
+  const router = useRouter();
   const { toBuy } = useLocalSearchParams();
   const theme = useTheme();
 
@@ -51,12 +51,8 @@ export default function EditAdress() {
         post_id: Number(toBuy),
       });
 
-      if (isWeb) {
-        window.open(response.url);
-        return;
-      }
-
-      Linking.openURL(response.url);
+      await WebBrowser.openBrowserAsync(response.url);
+      router.replace('/profile/my-orders');
     } catch (error) {
       showErrors(error);
     }
