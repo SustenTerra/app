@@ -140,8 +140,6 @@ export default function EditAdress() {
     }
   };
 
-  const saveButtonLabel = toBuy ? 'Ir para pagamento' : 'Salvar alterações';
-
   return (
     <ScrollablePage>
       <SafeView>
@@ -235,9 +233,14 @@ export default function EditAdress() {
                       <Text color="light" size={20}>
                         {paymentLink
                           ? 'Clique novamente para confirmar'
-                          : saveButtonLabel}
+                          : 'Salvar alterações'}
                       </Text>
                     </>
+                  )}
+                  {loadingEdit && (
+                    <Text color="light" size={20}>
+                      Carregando...
+                    </Text>
                   )}
                 </Button>
               </ButtonView>
