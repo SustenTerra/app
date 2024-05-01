@@ -141,7 +141,11 @@ export default function ShowPost() {
     : 'Valor a combinar';
 
   const actionLabel =
-    post?.post_type === 'ad' ? 'Comprar agora!' : 'Entrar em contato';
+    post?.post_type === 'ad' &&
+    post?.available_quantity &&
+    post?.available_quantity > 0
+      ? 'Comprar agora!'
+      : 'Entrar em contato';
 
   const actionIcon =
     post?.post_type === 'ad' ? 'shopping-cart' : 'message-circle';
