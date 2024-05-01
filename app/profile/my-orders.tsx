@@ -1,5 +1,4 @@
 import Feather from '@expo/vector-icons/Feather';
-import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -11,8 +10,8 @@ import Loading from '@/components/Loading';
 import ScrollablePage from '@/components/ScrollablePage';
 import Text from '@/components/Text';
 import { PostsSpacer } from '@/components/pages/posts/styles';
+import { usePolling } from '@/hooks/polling';
 import { client } from '@/services/client';
-import { showErrors } from '@/services/errors';
 import { moderateScale, verticalScale } from '@/utils/scale';
 import { centsToCurrencyString } from '@/utils/strings';
 
@@ -59,23 +58,11 @@ function OrderSummary({ order }: OrderSummaryProps) {
 }
 
 export default function MyOrders() {
-  const [orders, setOrders] = useState<OrderView[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchOrders = async () => {
-    try {
-      const response = await client.oms.getOrdersFromUserOmsUsersMeOrdersGet();
-      setOrders(response);
-    } catch (error) {
-      showErrors(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  const { data, loading } = usePolling<OrderView[]>(
+    () => client.oms.getOrdersFromUserOmsUsersMeOrdersGet(),
+    2000,
+    [],
+  );
 
   return (
     <ScrollablePage>
@@ -91,12 +78,10 @@ export default function MyOrders() {
 
       {loading && <Loading />}
 
-      {orders.length === 0 && !loading && <EmptyList />}
+      {data?.length === 0 && !loading && <EmptyList />}
 
       <OrdersContainer>
-        {orders.map((order) => (
-          <OrderSummary key={order.id} order={order} />
-        ))}
+        {data?.map((order) => <OrderSummary key={order.id} order={order} />)}
       </OrdersContainer>
     </ScrollablePage>
   );
