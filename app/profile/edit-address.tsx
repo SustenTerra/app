@@ -52,7 +52,7 @@ export default function EditAdress() {
       });
 
       if (isWeb) {
-        window.open(response.url, '_blank');
+        window.open(response.url);
         return;
       }
 
