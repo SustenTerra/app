@@ -68,6 +68,12 @@ export default function Profile() {
       href: '/profile/my-posts',
     },
     {
+      icon: 'credit-card',
+      title: 'Minhas vendas',
+      description: 'Veja as vendas que já realizou',
+      href: '/profile/my-sells',
+    },
+    {
       icon: 'book',
       title: isTeacher ? 'Meus cursos' : 'Assistir cursos',
       description: isTeacher

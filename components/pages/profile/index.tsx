@@ -66,7 +66,8 @@ export interface ProfileButtonProps {
     | 'help-circle'
     | 'video'
     | 'map-pin'
-    | 'shopping-cart';
+    | 'shopping-cart'
+    | 'credit-card';
 
   title: string;
   description: string;
