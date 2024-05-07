@@ -143,7 +143,7 @@ export default function NewCourse() {
         <TransparentBackground>
           <ContentBackground>
             <HeaderWrapper>
-              <BackButton />
+              <BackButton defaultRoute={`/courses/${courseId}/details`} />
               <Text weight="regular" size="h1" color="light">
                 {params.chapterContentId ? 'Editar' : 'Criar'} Conteúdo
               </Text>
