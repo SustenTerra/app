@@ -44,6 +44,14 @@ export default function SignUp() {
       });
       return;
     }
+    if (phone.length !== 11) {
+      showMessage({
+        type: 'warning',
+        title: 'Erro',
+        message: 'O número de telefone deve ter 11 dígitos!',
+      });
+      return;
+    }
 
     setLoading(true);
     try {
