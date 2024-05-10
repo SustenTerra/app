@@ -26,6 +26,10 @@ const errorPatterns = [
     pattern: 'Not available for order.',
     message: 'O produto infelizmente já se esgotou.',
   },
+  {
+    pattern: "String should match pattern '[0-9]{9,15}$'",
+    message: 'Número de telefone inválido, verifique o número informado.',
+  },
 ];
 
 export function showErrors(error: unknown) {
