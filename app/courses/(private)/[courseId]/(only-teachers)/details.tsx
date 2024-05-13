@@ -43,12 +43,31 @@ export default function ShowCourseDetails() {
     }
   };
 
+  const unpublishCourse = async () => {
+    try {
+      await client.courses.unpublishCourseUsersMeCoursesCourseIdUnpublishedPatch(
+        Number(courseId),
+      );
+      getCourse();
+    } catch (error) {
+      showErrors(error);
+    }
+  };
+
   const publishActionSheet = useActionSheet({
     title: 'Deseja publicar o curso?',
     message:
       'Ao publicar o curso, ele ficará disponível para todos os usuários.',
     actions: ['Sim'],
     actionsCallbacks: [publishCourse],
+  });
+
+  const unpublishActionSheet = useActionSheet({
+    title: 'Deseja despublicar o curso?',
+    message:
+      'Ao despublicar o curso, ele não ficará mais disponível para os usuários.',
+    actions: ['Sim'],
+    actionsCallbacks: [unpublishCourse],
   });
 
   const getCourse = async () => {
@@ -129,21 +148,37 @@ export default function ShowCourseDetails() {
           <Text weight="regular" color="textBody" size="h6">
             {course.description}
           </Text>
+          {course.published_at ? (
+            <Button
+              onPress={unpublishActionSheet.show}
+              style={{ marginTop: verticalScale(20) }}
+              color="secondary"
+              outline
+            >
+              <Feather
+                name="x-circle"
+                size={24}
+                color={theme.colors.secondary}
+              />
 
-          <Button
-            onPress={publishActionSheet.show}
-            disabled={!!course.published_at}
-            style={{ marginTop: verticalScale(20) }}
-            color="secondary"
-            outline
-          >
-            <Feather name="radio" size={24} color={theme.colors.secondary} />
+              <Text color="secondary" size="h6" weight="bold">
+                Despublicar Curso
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              onPress={publishActionSheet.show}
+              style={{ marginTop: verticalScale(20) }}
+              color="secondary"
+              outline
+            >
+              <Feather name="radio" size={24} color={theme.colors.secondary} />
 
-            <Text color="secondary" size="h6" weight="bold">
-              {course.published_at ? 'Curso publicado!' : 'Publicar curso'}
-            </Text>
-          </Button>
-
+              <Text color="secondary" size="h6" weight="bold">
+                Publicar Curso
+              </Text>
+            </Button>
+          )}
           <Button
             onPress={() => router.push(`/courses/${courseId}/new-chapter`)}
             style={{ marginTop: verticalScale(20) }}
