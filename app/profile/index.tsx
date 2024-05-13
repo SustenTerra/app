@@ -41,6 +41,25 @@ export default function Profile() {
       },
     ],
   });
+  const actionSheetDelete = useActionSheet({
+    title: 'Atenção!',
+    message:
+      'Você tem certeza que deseja deletar sua conta? Voce vai perder tudo que foi criado',
+    actions: ['Sim, deletar'],
+    actionsCallbacks: [
+      () => {
+        showMessage({
+          type: 'success',
+          title: 'Uma pena perder você :(',
+          message: 'Você deletou conta!',
+        });
+
+        auth.logoutUser();
+
+        router.replace('/');
+      },
+    ],
+  });
 
   const actionSheetInstruct = useActionSheet({
     title: 'Atenção!',
@@ -111,6 +130,12 @@ export default function Profile() {
       title: 'Precisa de ajuda?',
       description: 'Fale com os desenvolvedores',
       onPress: () => Linking.openURL('https://forms.gle/HeaFGVSq6HjP8wmz5'),
+    },
+    {
+      icon: 'x-circle',
+      title: 'Deletar Conta',
+      description: 'Deletar sua conta e todas suas informações cadastradas',
+      onPress: actionSheetDelete.show,
     },
     {
       icon: 'log-out',
