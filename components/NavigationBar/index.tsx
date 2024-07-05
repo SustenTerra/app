@@ -20,11 +20,11 @@ const tabs: TabInfo[] = [
     iconName: 'shopping-bag',
     title: 'Anúncios',
   },
-  {
-    href: '/posts/#',
-    iconName: 'heart',
-    title: 'Favoritos',
-  },
+  // {
+  //   href: '/posts/#',
+  //   iconName: 'heart',
+  //   title: 'Favoritos',
+  // },
   {
     href: '/courses',
     iconName: 'book-open',

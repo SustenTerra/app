@@ -103,7 +103,7 @@ function PostCard({ post, editable = false }: PostCardProps) {
             <Text>R$ {postPrice}</Text>
           </TextContainer>
 
-          {!editable && <FavoriteButton size={20} />}
+          {/* {!editable && <FavoriteButton size={20} />} */}
 
           {editable && <Feather name="edit" size={20} />}
         </InfoContainer>
