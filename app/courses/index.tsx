@@ -196,23 +196,20 @@ export default function CoursesHome() {
             />
           )}
 
-        {shouldShowByDefault &&
-          !auth.loading &&
-          auth.user &&
-          auth.user.teacher_at && (
-            <TitleContainer>
-              <Button
-                color="secondary"
-                onPress={() => router.push('/courses/my-courses')}
-              >
-                <Feather name="book-open" size={24} color="white" />
+        {shouldShowByDefault && !auth.loading && auth.user?.teacher_at && (
+          <TitleContainer>
+            <Button
+              color="secondary"
+              // onPress={() => router.push('/courses/my-courses')}
+            >
+              <Feather name="book-open" size={24} color="white" />
 
-                <Text weight="bold" size="h6" color="white">
-                  Acessar área do professor
-                </Text>
-              </Button>
-            </TitleContainer>
-          )}
+              <Text weight="bold" size="h6" color="white">
+                Acessar área do professor
+              </Text>
+            </Button>
+          </TitleContainer>
+        )}
 
         {shouldShowByDefault && !auth.loading && auth.user && (
           <CoursesInProgress />
