@@ -200,7 +200,7 @@ export default function CoursesHome() {
           <TitleContainer>
             <Button
               color="secondary"
-              // onPress={() => router.push('/courses/my-courses')}
+              onPress={() => router.push('/courses/my-courses')}
             >
               <Feather name="book-open" size={24} color="white" />
 
