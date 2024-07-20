@@ -36,6 +36,7 @@ export default function Posts() {
     search: string;
     category: string;
     userId: string;
+    selectedState: string;
   }>();
 
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
@@ -50,6 +51,7 @@ export default function Posts() {
     params.category,
     params.search,
     params.userId,
+    params.selectedState,
   );
   const sorting = usePostSorting(viewPosts);
 
