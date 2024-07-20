@@ -140,17 +140,16 @@ function CourseContentItem({
     ],
   });
 
-  const textColor = content.is_available
+  const isContentAvailable = isEditing || content.is_available;
+  const textColor = isContentAvailable
     ? theme.colors.dark
     : theme.colors.textBody;
-  const textWeight = content.is_available ? 'regular' : 'light';
-
-  const isContentAvailable = !isEditing && content.is_available;
+  const textWeight = isContentAvailable ? 'regular' : 'light';
 
   const component = (
     <CourseContentWrapper
       key={content.id}
-      disabled={!content.is_available}
+      disabled={!!isContentAvailable}
       onPress={() => {
         if (isEditing) {
           contentOptionsAS.show();
