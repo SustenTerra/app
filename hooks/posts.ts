@@ -14,11 +14,17 @@ interface GetPostsPayload {
   search?: string;
   category?: string;
   userId?: string;
+  selectedState?: string;
 }
 
 const cacheService = new PostsCacheService();
 
-async function listCachedPosts({ search, category, userId }: GetPostsPayload) {
+async function listCachedPosts({
+  search,
+  category,
+  userId,
+  selectedState,
+}: GetPostsPayload) {
   const posts = await cacheService.get();
 
   showMessage({
@@ -29,6 +35,10 @@ async function listCachedPosts({ search, category, userId }: GetPostsPayload) {
 
   return (
     posts?.filter((post) => {
+      if (selectedState && post.location !== selectedState) {
+        return false;
+      }
+
       if (search && !post.title.toLowerCase().includes(search.toLowerCase())) {
         return false;
       }
@@ -46,15 +56,24 @@ async function listCachedPosts({ search, category, userId }: GetPostsPayload) {
   );
 }
 
-async function fetchPosts({ search, category, userId }: GetPostsPayload) {
+async function fetchPosts({
+  search,
+  category,
+  userId,
+  selectedState,
+}: GetPostsPayload) {
   const networkState = await Network.getNetworkStateAsync();
 
   if (networkState.isConnected) {
-    const posts = await client.posts.listAllPostsPostsGet(
+    let posts = await client.posts.listAllPostsPostsGet(
       search,
       userId ? Number(userId) : undefined,
       category,
     );
+
+    if (selectedState) {
+      posts = posts.filter((post) => post.location === selectedState);
+    }
 
     await cacheService.set(posts);
 
@@ -68,17 +87,24 @@ export function usePosts(
   category: string | undefined,
   search: string | undefined,
   userId: string | undefined,
+  selectedState: string | undefined,
 ) {
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [viewPosts, setViewPosts] = useState<PostView[]>([]);
 
-  const getPosts = async ({ search, category, userId }: GetPostsPayload) => {
+  const getPosts = async ({
+    search,
+    category,
+    userId,
+    selectedState,
+  }: GetPostsPayload) => {
     try {
       setLoadingPosts(true);
       const posts = await fetchPosts({
         search,
         category,
         userId,
+        selectedState,
       });
       setViewPosts(posts);
     } catch (error) {
@@ -91,13 +117,15 @@ export function usePosts(
   const getPostsDebounced = useCallback(debounce(getPosts, 500), []);
 
   useEffect(() => {
+    console.log(selectedState);
+
     if (search) {
-      getPostsDebounced({ search });
+      getPostsDebounced({ search, selectedState });
       return;
     }
 
     if (category && category !== 'Todos') {
-      getPosts({ category });
+      getPosts({ category, selectedState });
       return;
     }
 
@@ -106,8 +134,8 @@ export function usePosts(
       return;
     }
 
-    getPostsDebounced({});
-  }, [search, category, userId]);
+    getPostsDebounced({ selectedState });
+  }, [search, category, userId, selectedState]);
 
   return {
     loadingPosts,

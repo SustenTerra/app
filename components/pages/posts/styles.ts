@@ -16,6 +16,15 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Header = styled.View`
+  width: 100%;
+  flex-direction: row;
+  gap: ${horizontalScale(5)}px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 ${horizontalScale(10)}px;
+`;
+
+export const HeaderWrapper = styled.View`
   flex-direction: row;
   gap: ${horizontalScale(5)}px;
   align-items: center;

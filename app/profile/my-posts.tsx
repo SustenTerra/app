@@ -28,6 +28,7 @@ export default function MyPosts() {
     undefined,
     undefined,
     auth.user ? String(auth.user.id) : undefined,
+    undefined,
   );
 
   const shareLink = `https://sustenterra.netlify.app/posts?userId=${auth.user?.id}`;

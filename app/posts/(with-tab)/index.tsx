@@ -12,6 +12,7 @@ import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PostCard from '@/components/PostCard';
 import ScrollablePage from '@/components/ScrollablePage';
+import StateSelector from '@/components/StateSelector';
 import Text from '@/components/Text';
 import { TitleContainer } from '@/components/pages/courses/styles';
 import {
@@ -21,6 +22,7 @@ import {
   PostsContainer,
   PostsGridHeader,
   SearchWrapper,
+  HeaderWrapper,
 } from '@/components/pages/posts/styles';
 import { ProfileInfo } from '@/components/pages/profile';
 import { usePostSorting, usePosts } from '@/hooks/posts';
@@ -36,6 +38,7 @@ export default function Posts() {
     search: string;
     category: string;
     userId: string;
+    selectedState: string;
   }>();
 
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
@@ -46,10 +49,12 @@ export default function Posts() {
   const [selectedCategory, setSelectedCategory] = useState(
     categories.indexOf(params.category || DEFAULT_CATEGORIES[0]),
   );
+
   const { loadingPosts, viewPosts } = usePosts(
     params.category,
     params.search,
     params.userId,
+    params.selectedState,
   );
   const sorting = usePostSorting(viewPosts);
 
@@ -99,17 +104,21 @@ export default function Posts() {
   return (
     <ScrollablePage>
       <Container>
-        <Link asChild replace href="/">
-          <Header>
-            <Image
-              style={{ width: 50, height: 50 }}
-              source={require('assets/adaptive-icon.png')}
-            />
-            <Text size="h1" color="primary" weight="bold">
-              SustenTerra
-            </Text>
-          </Header>
-        </Link>
+        <Header>
+          <Link asChild replace href="/">
+            <HeaderWrapper>
+              <Image
+                style={{ width: 50, height: 50 }}
+                source={require('assets/adaptive-icon.png')}
+              />
+              <Text size="h1" color="primary" weight="bold">
+                SustenTerra
+              </Text>
+            </HeaderWrapper>
+          </Link>
+
+          <StateSelector />
+        </Header>
 
         {!params.userId && (
           <SearchWrapper>
